@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<style type="text/css">
+	ul{
+　　list-style:none;
+　　counter-reset:a;
+}
+li{
+　　counter-increment: a;
+}
+li::before{
+　　content:counter(a,cjk-ideographic) ' ';
+}
+		/* ul li{
+			list-style: square;disc circle  square
+		} */
+		ol li{
+			list-style:upper-latin;/* decimal lower-roman   upper-roman  lower-latin*/
+		}
+		/* counter-reset 创建或重置计数器 */
+		h3{
+			counter-reset:mynum;
+
+		}
+		p:before{
+			content:"The "counter(mynum)":";
+			counter-increment:mynum;
+			font-weight: bold;
+
+		}
+	</style>
+</head>
+<body>
+<ul>
+　　<li>CSS</li>
+　　<li>Javascript</li>
+　　<li>HTML5</li>
+</ul>
+<!-- <ul>
+	<li>one</li>
+	<li>two</li>
+	<li>three</li>
+	<li>four</li>
+	<li>five</li>
+</ul> -->
+<ol>
+	<li>one</li>
+	<li>two</li>
+	<li>three</li>
+	<li>four</li>
+	<li>five</li>
+</ol>
+
+<h3 class="numbered">Numbered paragraphs</h3>
+<p class="numbered">Lorem ipsum</p>
+<p class="numbered">Dolor sit</p>
+<p class="numbered">Amet consectetuer</p>
+<p class="numbered">Magna aliquam</p>
+<p class="numbered">Autem veleum</p>
+</body>
+</html>

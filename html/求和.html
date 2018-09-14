@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+
+<script type="text/javascript">
+	//NaN与自身不相等
+	//arguments instanceof Array为false
+	//NaN算术运算结果为NaN
+function sum(){
+	var arr = [];
+	var sum = 0;
+	for(var i=0;i<arguments.length;i++){
+		arr.push(arguments[i])
+	}
+	arr.forEach(function(value,index,arr){
+		if(typeof value==="string"){
+				arr[index] = value-0;
+		}
+	})
+
+	arr.forEach(function(value,index,arr){
+		if(typeof value==="number"){
+			if(isNaN(value)){
+				sum+=0;
+			}else{
+				sum+=value;
+			}
+		}
+		
+	})
+	console.log("Should equal "+sum);
+}
+sum(1, 2, 3, 4, 5);
+</script>
+</body>
+</html>

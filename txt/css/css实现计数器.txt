@@ -1,0 +1,21 @@
+h3{counter-reset:name;} //设置或重置计数器
+
+p{counter-increment:name;}//给要计数的元素开启计数器
+
+p:before{"The " content:counter(name) }//用伪类将计数结果放到指定位置
+
+
+
+应用：
+
+可以实现标题
+
+可以计被选中的input框（checkout）的个数
+
+可以实现
+1. 希望吧胸外科秀我看像你
+虚拟网不辞辛苦你希望你希望
+2. 等你鄂温克九二五必须Wii
+虚拟网不希望虚拟网和修为
+这种效果
+

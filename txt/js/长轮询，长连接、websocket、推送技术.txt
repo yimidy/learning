@@ -1,0 +1,184 @@
+什么是http的长连接、短连接？
+
+HTTP协议的长连接、短连接其实就是TCP协议的长连接、短连接
+
+应用：http/1.0规定短连接
+     http/2.0规定长连接
+http请求报文首部加Connection:Keep-alive或者Connection:close
+
+TCP协议的连接通信机制：
+三次握手建立连接
+数据交互，完成读写操作
+四次挥手断开连接
+
+
+
+
+TCP的短连接：
+----------------
+http协议无状态的原因
+
+建立连接---client向server发数据，server向client回应，一次读写完成-----断开连接（双发任何一个都可以发起close操作，一般都是有client发起）
+
+优点：管理起来简单，存在的连接都是有效连接，不需要额外的控制手段
+
+应用：web网页的http服务，由于客户端太多，若是长连接会拖垮服务器
+
+
+
+
+
+TCP长连接（持久连接）：
+----------------
+建立连接---完成一次读写操作后不主动关闭连接，后续的读写操作继续使用该连接----断开连接
+
+优点：适合频繁操作的客户端，因为建立连接和断开连接也是需要消耗资源和时间的
+      方便推送数据
+
+缺点：在长连接的场景下，client一般不会主动关闭，它与server之间的连接一直存在，随着client建立的连接越来越多，server也需要保持过多连接，这回拖垮server
+
+如何避免建立连接过多：如关闭长时间没有发送请求的连接；限制每个客户端的最大可长连接数
+
+应用：数据库的连接
+      HTTP流水线技术：一次TCP通信可包含多个HTTP通信。。在一次TCP连接内，多个HTTP请求可以并行，即下一场HTTP请求在上一次HTTP请求应答之前就发起。（但请求&响应采用FIFO模式，所以这个技术对浏览器没有什么性能提升，故不太重视）
+
+保活机制：长连接需要保活机制来确保当前连接是有效的。
+	TCP协议中，有keepAlive机制，一段时间没有传输数据的情况下会发送相应leepAlive探针确定连接可用性，探测失败后重试10次，每次时间间隔75s，所有探测都失败则认为当前连接不可用，断开连接重连或者重新打开新服务器。
+	TCP的保活机制只有在链路空闲的时候才会起作用，若此时有数据发送，但物理链路已经不通了，而操作系统状态还是ESTALISHED，这是会采用TCP重传，但并不会起作用。这时保活机制就需要应用层的心跳来完成了。
+	心跳：定时向被检测系统发送心跳包，被监测系统收到心跳包进行回复，收到回复说明对方存活。
+注意：心跳谁都可以发送，但检测发送方检测心跳，如果设计为接收方检测心跳，这是不安全的。
+	第三方心跳，除了client和server外，还有一台机器，定时发送心跳去探测server的存活。这类探活方法使用在检测系统的存活与否的问题上是没有问题的，但是这类设计是无法用来检测客户端和服务端之间链路的好坏。
+
+在长连接情况下何时断开连接？
+会有一个超时时间，服务器会告诉客户端超时；若不告诉，服务器会自己发起四次挥手主动断开连接
+
+长连接下如何识别一次数据传输已完成？
+	http协议会有一个头信息Content-Length，表示信息大小，tcp数据包传输完毕并按顺序组装，根据Content-Length字段正确读一段段数据。
+	一次数据传输，可能会分成多次的tcp数据包按顺序传送，只有最后一次的数据包里含PUSH的标志，表示这一次数据缓存完成，可以推送给应用程序。
+
+区别TCP的keepalive和HTTP的Keep-Alive？
+TCP的keepalive是保活机制，keepalive表示发送的心跳包
+HTTP的Keep-Alive是长连接，Connection:Keep-alive
+
+技术实现： iframe长连接
+	function iframe_longlx(){
+
+		setInterval(function () {
+         	var url = "${pageContext.request.contextPath}/communication/user/ajax.mvc?timed=" + new Date().getTime();
+        	 var $iframe = $('<iframe id="frame" name="polling" style="display: none;" src="' + url + '"></iframe>');
+        	 $("body").append($iframe);
+                
+         	$iframe.load(function () {
+                	$("#logs").append("[data: " + $($iframe.get(0).contentDocument).find("body").text() + " ]<br/>");
+                  	$iframe.remove();
+             	});
+   	 }, 5000);
+
+	}
+	实现原理：在页面内嵌入隐藏的iframe，将它的src属性设置为要长连接的请求或采用xhr请求，服务器源源不断的将数据发回给服务器
+	优点：消息即时到达，不用发请求
+	缺点：服务器维护一个长连接会有额外开销
+
+
+推送技术：
+-----------------
+两种：一是自建IM服务；二是第三方云服务
+
+自建IM服务，有三种方案：
+
+轮询
+	技术实现：ajax轮询
+		setInterval(function(){
+				$.ajax({
+					url:'',
+					success: function(){
+
+					}
+				})
+			},3000)
+
+		iframe轮询
+		setInterval(function () {
+        		$("#logs").append("[data: " + $($("#frame").get(0).contentDocument).find("body").text() + " ]<br/>");
+        		$("#frame").attr("src","${pageContext.request.contextPath}/communication/user/ajax.mvc?timed=" + new Date().getTime			());
+        		// 延迟1秒再重新请求
+        		window.setTimeout(function () {
+                	window.frames["polling"].location.reload();
+            		}, 1000);
+    		}, 3000)
+	实现原理：客户端每隔3秒主动向服务器发送请求，服务器向客户端返回响应，断开连接，客户端处理响应数据
+	缺点：数据同步不及时；请求大多都是无用的，浪费带宽和资源；耗电大；响应不按顺序，管理难度大
+
+长轮询（comet）
+	技术实现：ajax长轮询
+		function ajax_longlx(){
+			$.ajax({
+				url : '' ,
+				success : function(){
+					ajax_longlx();
+				}
+			})
+		}
+	实现原理：客户端向服务器发起请求，服务器收到请求后hold住连接，当数据有更新时向客户端返回响应（在服务器里加死循环，监测数据变动），断开连接，客户端处理数据并再次向服务器发起再一次请求
+	优点：在无消息情况下不会频繁请求，减少资源和带宽的浪费；
+	缺点：服务器hold连接会消耗资源
+
+附加：实现comet有两种方案：长轮询和http流
+	何为http流？
+	即发起一次http请求，服务器之后周期性向浏览器推送消息	
+
+webSocket解决方案
+	实现原理：
+		由于http协议的一个缺陷：通信只能有客户端发起。
+
+		webSocket是html5出来的协议，与http协议没关系。
+		
+		 websocket的特点：服务器可以主动向客户端推送消息，客户端也可以主动向服务器推送消息。是真正的双向平等对话。
+
+		1）建立在TCP协议之上，服务器实现较容易
+		2）与HTTP协议有较好的兼容性。默认端口也是80和443，并且握手阶段采用HTTP协议，因此握手不容易屏蔽，能通过各种HTTP代理。
+		3）数据格式比较轻量级，性能开销小，通信效率高
+		4）可以发送文本，也可以发送二进制数据
+		5）没有同源限制，客户端可以与任意服务器相连
+		6）协议标识符是ws，加密的话是wss
+
+
+		请求头信息
+
+			Connection:Upgrade
+			Sec-WebSocket-Key:eDCPPyPQZq7PiwRcx8SPog==
+			Sec-WebSocket-Version:13
+			Upgrade:websocket
+		
+		响应头信息
+
+			HTTP/1.1 101 Switching Protocols
+			Connection:Upgrade
+			Sec-WebSocket-Accept:/ZVAP3n6XuqDUoDp416PYUO+ZJc=
+			Upgrade:websocket
+		
+		最后，前述握手完成后，如果握手成功，该连接就可以用作双向通信信道交WebSocket消息。到此，客户端与服务器之间不会再发生HTTP通信，一切由WebSocket 协议接管。
+		
+	技术实现：
+		var ws = new WebSocket("");
+		
+		switch(ws.readyDtate){
+			case WebSocket.CONNECTING:///break;
+			case WebSocket.OPEN:///break;
+			case WebSocket.CLOSING:///break;
+			case WebSocket.CLOSED:///break;
+		}  
+
+		ws.onopen = function(e){
+			ws.send(" message ");
+		}
+		ws.onmessage = function(e){
+			var data = e.data;
+			可能是文本、二进制（blob、arraybuffer）
+		}
+		ws.close = function(e){
+			var code = e.code;
+			var reason = e.reason;
+			var wasClean = e.wasClean;
+		}
+		ws.onerror = function(e){}				

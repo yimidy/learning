@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>index</title>
+</head>
+<style>
+    *{
+        margin: 0;
+        padding: 0;
+    }
+    div{
+        width: 100%;
+        height: 100%;
+    }
+    .one{
+        background-color: #1bbc9b;
+    }
+    .sec{
+        background-color: #4bbfc3;
+    }
+    .thr{
+        background-color: #7baabe;
+    }
+</style>
+<body>
+    <div class="full one">1</div>
+    <div class="full sec">2</div>
+    <div class="full thr">3</div>
+</body>
+<script>
+//添加滚动监听
+document.addEventListener('mousewheel',wheel,false);
+
+//判断一次滚动是是否完成
+var isComplete = true;
+//隐藏滚动条
+document.body.style.overflow='hidden';
+
+//获取滚动的元素
+var fullList = document.getElementsByClassName("full");
+
+//因为是类数组对象，不是数组对象，所以只能使用call的方式来调用
+Array.prototype.forEach.call(fullList,function(value){
+    //获取一个网页满屏的高
+    value.style.height = window.innerHeight +'px';
+})
+
+//如果窗口大小改变执行的函数
+window.onresize = function(){
+    Array.prototype.forEach.call(fullList,function(value){
+        value.style.height = window.innerHeight +'px';
+    });
+
+    //改变窗口大小后，应该仍是一个元素占满全屏
+    if(document.body.scrollTop % window.innerHeight)
+    {
+        isComplete = false;
+        //根据四舍五入判断滚动位置
+        let tmp = Math.round(document.body.scrollTop / window.innerHeight)* window.innerHeight;
+        
+        //使用运动框架
+        showAnimate(document.body,{'scrollTop':tmp},function(){
+                isComplete = true;
+        });
+    }
+};
+
+//滚动函数
+function wheel(e){
+    //等待上一个滚动完成
+    if(isComplete){
+
+        //滚动进行时
+        isComplete = false;
+
+        //判断是往上滚动还是往下滚动
+        if(e.wheelDelta < 0){
+            //要滚动到的点
+            let arrivePoint = document.body.scrollTop + window.innerHeight;
+
+            //最大的滚动点
+            let maxBottom = document.body.offsetHeight - window.innerHeight;
+            
+            //如果超出了最大的滚动点，则赋值为最大滚动点
+            arrivePoint = arrivePoint > maxBottom ? maxBottom : arrivePoint;
+
+            showAnimate(document.body,{'scrollTop':arrivePoint},function(){
+                isComplete = true;
+            });
+        }else{
+            let arrivePoint = document.body.scrollTop - window.innerHeight;
+            
+            //最小滚动点为0
+            arrivePoint = arrivePoint < 0 ? 0 :arrivePoint; 
+            showAnimate(document.body,{'scrollTop':arrivePoint},function(){
+                isComplete = true;    
+            });
+        }
+    }
+}
+/**
+*函数作用：执行动画
+*接受参数：obj（需要运动的DOM元素）
+*        json（需要改变的属性集合，json格式）
+*        fn（回调函数）
+*/
+function showAnimate(obj,json,fn){
+    clearInterval(obj.timer);
+    //表示运动是否都已经停止
+    var flag = true;
+    obj.timer=setInterval(function(){
+        //循环json
+        for(var i in json){
+             if(i == 'opacity'){
+                 //获取透明度值，round四舍五入去除小数点
+                 var icur = Math.round(parseFloat(getStyle(obj,i))*100);
+             }
+             else{
+                 //获取属性值
+                 var icur = parseInt(getStyle(obj,i))||obj[i];
+             }
+             //缓冲运动，speed随时变换
+            var speed = (json[i]-icur)/10;//千万要写在定时器里面，写在外面会有意想不到的后果
+            speed = speed > 0 ? Math.ceil(speed):Math.floor(speed);//速度向上或者下取整，防止到不了over位置
+            //如果有一个没到达终点就是false
+            if(json[i] !== icur){
+                flag = false;
+            }else{
+                flag = true;
+            }
+            if(i == 'opacity'){
+                obj.style.filter = 'alpha(opacity:'+(icur+speed)+')';//IE兼容
+                obj.style.opacity = (icur+speed)/100;
+            }else if(obj[i]||obj[i] == 0){
+                obj[i] = icur + speed;
+            }
+            else{
+                obj.style[i] = icur+speed+'px';
+            }
+            console.log(icur + ' ' + json[i]);
+        }
+        //检查是否所有的运动都已经停止
+        if(flag){
+            clearInterval(obj.timer);
+            if(fn){
+                fn();
+            }
+        }
+    },13);
+}
+/**
+*函数作用：返回样式属性值
+*接受参数：obj（需要获取属性的DOM元素）
+*           attr（需要获取的属性名称）
+*/
+function getStyle(obj,attr)
+{
+    if(obj.currentStyle)
+    {
+        return obj.currentStyle[attr];//IE兼容
+    }
+    else
+    {
+        return getComputedStyle(obj,false)[attr];
+    }
+}
+</script>
+</html>

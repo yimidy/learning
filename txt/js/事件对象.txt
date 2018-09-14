@@ -1,0 +1,37 @@
+有事件，就会生成一个事件对象Event，这个事件对象包含着与事件有关的任何信息
+
+firefox上不能获取event
+
+
+DOM上事件对象
+
+	一但事件执行完毕，该事件对象就会被销毁。
+
+	事件对象的属性和方法：
+		bubbles  表示是否冒泡
+		stopPropagetion 取消事件的进一步捕获或冒泡
+		stopImmediatePropagetion取消事件的进一步捕获或冒泡，同时阻止任何事件处理程序调用
+
+		cancelable 表示是否可以取消默认事件
+		preventDefault 表示取消事件默认行为
+		defaultPrevent 表示是否取消了默认行为
+
+		currentTarget 表示当前触发事件的对象
+		target 表示目标节点
+
+		type表示事件类型
+		eventPhase表示调用事件处理程序的阶段，1,2,3
+		detail表示事件细节
+		trusted表示由浏览器生成（true）还是有开发人员生成
+
+
+IE上事件对象
+
+	IE事件处理程序上的对象不再是节点本身，而是window对象
+	event = window.event;
+
+	cancelBubble //是否取消冒泡
+	returnValue//为false取消事件默认行为
+	srcElement //事件目标
+
+

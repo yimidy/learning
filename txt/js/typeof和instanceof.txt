@@ -1,0 +1,25 @@
+typeof
+	一元操作符，检测数据类型，有6中值
+	number
+	string
+	boolean
+	undefined	
+	function	
+	object（null，array）
+
+	因为typeof检测任何引用类型的值返回都是object，所以使用它有局限性
+	注意：safari5及之前，chrom7及之前版本浏览器对正则都会返回function；其他浏览器返回object
+
+
+
+
+instanceof
+	主要用于检测引用类型数据的具体类型（其构造函数是什么，可以是js中本地对象，也可以是自定义对象；同样可以升级到原型对象上）
+	
+	arr instance Array//检测arr是不是数组
+
+	同样ES5有一个新方法Array.isArray(arr)//返回true/false来判断
+
+	注意：函数的参数数组arguments使用该方法返回它并不是一个数组
+	      window检测结果也返回并不是对象
+	因为instance测试的是js语法中的对象（本地对象，自定义对象），并不是js中的宿主对象（DOM,BOM对象）

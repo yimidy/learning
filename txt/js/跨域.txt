@@ -1,0 +1,148 @@
+什么是跨域？
+不同协议，不同域名，不同端口号
+
+eg(href)：http://www.imooc.com:8080/list.php?courdeid=88&&chapterid=89#hash118---------------(window.location.href)
+其中，
+	protocol:http-----------协议----------------(window.location.protocol)
+	host:www.imooc.com:8080
+	hostname:www.imooc.com-----域名
+	port:8080-------------端口号
+	pathname:list.php
+	search:courdeid=88&&chapterid=89
+	hash:hash118
+
+备注：某一页面的domain默认等于location.hostname。
+
+如何获取参数字符串并将其转化为对象？
+1. NodeJs的querystring
+	需要引入模块( require('querystring'))
+	或安装模块(npm install querystring)
+	
+	querystring.parse('foo=bar&baz=qux&baz=quux')
+
+2. 自定义函数
+	var search = window.location.search;
+	function querystringObj(search){
+		var obj = {};
+		if(search.indexOf("?")!==-1){
+			search = search.substring(search.indexOf("?")+1);
+		}
+		var arr = search.split("&");
+		arr.forEach(function(val){
+			var bar= val.split("=");
+			obj[bar[0]] = bar[1];
+		})
+		return obj;
+	}
+
+
+需强调：
+	1.域名和域名对应ip，也算跨域
+	2.一级域名相同，二级不同，也算跨域
+	3.端口和协议构成的跨域，“前台”无法解决
+
+
+同域时，父页面可以对子页面进行改写,反之亦然，
+不同域时，父页面没有权限改动子页面,但可以实现页面的跳转。
+
+
+主域相同子域不同的跨域问题解决办法有哪些？
+1. cookie(设置path="/"和domain="./domain.com")
+2. iframe+document.domain
+	在页面1.0中动态嵌入隐藏页面2.0，并且在页面1.0中设置document.domain = 'domain.com'
+	在页面2.0中也设置document.domain = 'domain.com'
+		故在设置相同的domain之后，就可以进行同域的相关操作。
+		注意，document.domain的设置是有限制的，我们只能把document.domain设置成自身或更高一级的父域，且主域必须相同。
+
+
+
+
+主域不同的跨域问题解决办法有哪些？
+1. window.location.href="...#hash"(跳转页面时hash传值)
+   location.hash（在跳转之后的页面获取参数）
+2. iframe+location.hash
+	在页面1.0用iframe隐藏（display:none）嵌套页面2.0并可用hash向页面2.0传值
+	在页面2.0用location.hash可得到参数，并且此时要想向页面1.0回传值的话，设置parent.location.hash="***",（但注意，ie和chrome的安全机制规定无法修改parent.location.hash,所以需要在页面2.0中创建一个iframe引入代理页面3.0，该页面与页面2.0同域，设置iframe.src="...#back_hash")
+	在页面3.0用parent.parent.location.hash=self.location.hash
+3. html5 postMessage(CMD)
+	发送消息: 使用postmessage方法，postMessage(message, targetOrigin)；message：要发送的消息（值为字符串），targetOrigin：向谁发送（值绝对路径、""都可以、"/"同域下）
+	接受消息: 监听message事件
+	两者都是window对象的属性
+data：postMessage传递进来的值
+
+origin：发送消息的文档所在的域
+
+source：发送消息文档的window对象的代理，如果是来自同一个域，则该对象就是window，可以使用其所有方法，如果是不同的域，则window只能调用postMessage()方法返回信息
+4. 图像ping
+	在页面1.0中新建Image对象，使用onload和onerror事件加载资源
+	var img = new Image();
+	img.onload = img.onerror = function(){
+	
+	}
+	img.src = 'url';
+	常被用于跟踪用户点击页面或动态广告曝光次数
+	缺点，只能发送get请求；无法访问服务器的响应文本
+5. JSONP
+	动态创建script对象，嵌入页面中。有两部分：回调函数和数据
+	function handleReponse(res){
+		alert(res);
+	}
+	var scr = document.createElement("script");
+	scr.src = 'url?callback=handleReponse';
+	document.body.appendChild(src);
+	优点：双向传输，可以传文本；
+	缺点：只支持GET请求；不安全，因为从服务器获取来的数据不清楚；请求失败不容易知道，尽管现在script有了onerror事件，但浏览器并不支持
+6. window.name
+	在页面1.0中设置window.name,同一窗口下的任何一个页面（即跳转到其他页面下），如页面2.0也是可以获取到页面1.0下的window.name；并且任何一个页面都可以对name值进行改动，大小一般为2M
+	那么如何在不同主域中获取数据，这就要借助隐藏的iframe了，动态添加隐藏iframe，两次加载，第一次，state=0时，跳转到与页面1.0同域下，state=1时，得到想要的name值，删除iframe；在设置iframe的src为页面2.0的url；页面2.0设置想要传给页面1.0的naame数据即可
+	
+	
+
+其他：
+vue.js：
+
+this.$http.jsonp('http://www.domain2.com:8080/login', {
+    params: {},
+    jsonp: 'onBack'
+}).then((res) => {
+    console.log(res); 
+})
+
+-----------------------------------------------------------------------------
+
+单向跨域（获取数据）
+
+图像ping·
+动态创建script
+window.name
+window.location.href+hash跳转
+Flash URLLoader
+	flash有自己的一套安全策略，服务器可以通过crossdomain.xml文件来声明能被哪些域的SWF文件访问，SWF也可以通过API来确定自身能被哪些域的SWF加载。当跨域访问资源时，例如从域baidu.com请求域google.com上的数据，我们可以借助flash来发送HTTP请求。首先，修改域google.com上的crossdomain.xml(一般存放在根目录，如果没有需要手动创建) ，把baidu.com加入到白名单。其次，通过Flash URLLoader发送HTTP请求，最后，通过Flash API把响应结果传递给JavaScript。	Flash URLLoader是一种很普遍的跨域解决方案，不过需要支持iOS的话，这个方案就不可行了。
+CORS
+	cross-origin-Response-Shaing跨域资源共享，web应用在同源策略的限制下只允许同域下访问，有时是浏览器不允许发送，有时是浏览器拦截。
+	CORS机制运行web应用程序进行跨域访问控制。提供从不同域传来的沙盒脚本文件，以避开同源策略。
+	实现：格式就是正常的ajax请求（前端），设置各自允许跨域的配置（后台）
+	简单请求：自动在头信息中加Origin字段；xhr.withCredentials:true
+	非简单请求：xhr.setRequestHeader()
+		需要在服务器中增加响应头：
+			Access-Control-Allow-Origin:*（表示所有域）
+			Access-Control-Allow-Credentials:true(允许带cookie)
+			Access-Control-Allow-Method:
+			Accept-Control-Allow-Heasers:
+			Access-Control-Allow-Max-Age:			
+服务器代理
+
+
+
+
+双向跨域
+
+cookie
+JSONP
+iframe+document.domain
+iframe+location.hash（FIM）
+html5 postMessage
+Flash LocalConnection
+     页面上的双向通信也可以通过Flash来解决，Flash API中有LocalConnection这个类，该类允许两个SWF之间通过进程通信，这时SWF可以播放在独立的Flash Player或者AIR中，也可以嵌在HTML页面或者是PDF中。遵循这个通信原则，我们可以在不同域的HTML页面各自嵌套一个SWF来达到相互传递数据的目的了。SWF通过	LocalConnection交换数据是很快的，但是每次的数据量有40kb的大小限制。用这种方式来跨域通信过于复杂，而且需要了2个SWF文件，实用性不强。
+Cross Frame
+    Cross Frame是FIM的一个变种，它借助了一个空白的iframe，不会产生多余的浏览器历史记录，也不需要轮询URL的改变，在可用性和性能上都做了很大的改观。它的基本原理大致是这样的，假设在域www.a.com上有页面A.html和一个空白代理页面proxyA.html, 另一个域www.b.com上有个页面B.html和一个空白代理页面proxyB.html，A.html需要向B.html中发送消息时，页面会创建一个隐藏的iframe, iframe的src指向proxyB.html并把message作为URL frag，由于B.html和proxyB.html是同域，所以在iframe加载完成之后，B.html可以获得iframe的URL，然后解析出 message，并移除该iframe。当B.html需要向A.html发送消息时，原理一样。Cross Frame是很好的双向通信方式，而且安全高效，但是它在Opera中无法使用，不过在Opera下面我们可以使用更简单的 window.postMessage来代替。

@@ -1,0 +1,44 @@
+commonJs规范
+
+主要分为模块定义、模块引用和模块标识。
+
+一、模块定义：
+一个文件就是一个模块，用module变量代表当前模块。
+nodeJs内部提供一个module的构建函数，所有模块都是module的实例。
+function Module(id,parent){
+	this.id = id;//模块标识符，通常是带有绝对路径的模块文件名
+	this.exports = {};//初始值为空对象，表示模块对外的输出接口
+	this.parent = parent;//返回一个对象，表示谁调用了该模块
+	this.filename = null;//模块文件名，带有绝对路径
+	this.loaded = false;//返回布尔值，表示模块是否加载完毕
+	this.children = [];//返回一个数组，表示该模块要用到其他模块
+}
+module.exports = Module;
+var module = new Module(filename,parent);
+
+
+1.1 module.exports属性
+	//暴露接口
+	module.exports.funA = function(){}
+	module.exports = {funA:function(){},funB:function(){}}
+	//引用
+	var A  = require("./moduleA")
+	A.funA();
+
+1.2 exports变量
+	为了方便，用exports变量指向module.exports
+	即：exports = module.exports = {}
+	使用：exports.funA = function(){}
+	不能使用exports = function(){}//这样修改了exports的指向内存，故module.exports仍是空对象
+
+二、模块引用
+	require("HTTP")
+	require("./user/b.js")
+	require("../home/user/c.js")
+
+三、模块标识
+	模块标识就是传递给require的参数
+	以/开头标识加载一个位于绝对路径的模块文件
+	以./开头标识加载一个同级路径下文件
+	以../开头标识加载一个上级路径下文件
+	不以/,./，../开头标识加载默认提供的核心模块文件；或者是一个位于node_module目录已安装模块（全局安装或局部安装）

@@ -1,0 +1,42 @@
+预加载与懒加载正好相反
+
+懒加载是延迟加载，减轻服务器压力
+预加载是提前加载，增加了服务器的压力
+
+
+
+预加载的出现必要？
+
+我们经常会这样做，当鼠标移至某个图标上，更改图标的背景，我们一般都是切换两张形式一样，颜色不同的图片来实现，正因为是图片，如果鼠标移上采才去加载时，这时就会出现闪烁现象，而预加载正好可以解决此类问题。
+
+
+预加载方法有哪些？
+
+1. css雪碧图加载小图标
+
+2. js动态加载
+function preload(){
+	var imgsrc = ["src1","src2","src3"];
+	var img = [];
+	for(var i=0;i<imgsrc.length;i++){
+		img[i] = new Image();
+		img[i].src = imgsrc[i];
+	}
+}
+$(function(){
+	preload();//为了不影响页面加载速度，所以在页面加载完后在加载
+})
+
+3. css + js
+.preload-img{
+	background: url();
+}
+
+$(function(){
+	$(".preload").addClass("preload-img");
+})
+
+4. ajax
+$(function(){
+	$.get(url);	
+})

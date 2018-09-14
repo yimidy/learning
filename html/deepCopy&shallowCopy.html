@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+	<script type="text/javascript" src="jquery-min.js"></script>
+<script type="text/javascript">
+/*			function deepCopy(obj1,obj2){
+				obj2 = obj2 || {};
+				for(var i in obj1){
+				     
+    				if(JSON.stringify(obj1[i]) != JSON.stringify(obj2)) {            
+      					if(typeof obj1[i]==="object"){
+							obj2[i] = (obj1[i] instanceof Array)?[]:{};
+							deepCopy(obj1[i],obj2[i]);
+						}else{
+							obj2[i] = obj1[i];
+						}
+    				} 
+    					
+    				    
+					
+				}
+			}
+			
+			var obj1 = {
+				q:1,
+				w:{
+					e:2,
+					r:3
+				},
+				t:[4,5,6]
+			};
+
+			 var obj2 = Object.create(obj1);
+			//deepCopy(obj1,obj2);
+			//obj2 = JSON.parse(JSON.stringify(obj1));
+			//obj1.q=10;
+			//obj1.w.e=11;
+			//console.log(obj1);
+			console.log(obj2);*/
+
+/*var a = {
+   name : '小七哥'
+}
+var b = Object.create(
+    a,
+    {
+       age : { value : 18}    //一定要写value，不然undifined
+    }
+)
+console.log(b)*/
+
+var obj1 = {
+    a: 1,
+    b: { f: { g: 1 } },
+    c: [1, 2, 3]
+};
+var obj2 = $.extend(true, {}, obj1);
+console.log(obj2);
+console.log(obj1.b.f === obj2.b.f);
+</script>
+</body>
+</html>

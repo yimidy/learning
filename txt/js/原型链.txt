@@ -1,0 +1,15 @@
+关于原型链，先说原型，原型其实是prototype，constructor，proto的三角关系
+
+它的来源是以下两行代码：
+	function Fn(){}----------------创建构造函数
+	var f1 = new Fn();-------------声明实例对象
+
+其中，构造函数的prototype的属性指向原型对象，即Fn.property
+      原型对象有constructor的属性指回对应的构造函数
+      实例对象继承原型对象的方法，其中有constructor属性指向构造函数；它本身有_proto_的属性指向原型对象
+
+原型链的构成：
+      实例对象是一个对象，它有构造函数，原型对象是构造函数的原型
+      构造函数的原型就是一个函数（也是一个对象），它的构造函数是Function,原型对象就是Function.property
+      Function.property也是一个对象，它的构造函数是Object，原型对象是Object.property
+      Object.property的原型对象是null

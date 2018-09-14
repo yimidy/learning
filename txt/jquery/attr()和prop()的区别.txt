@@ -1,0 +1,47 @@
+jquery1.6之后出现了prop(),两者都是用来获取和设置属性值的方法。但两者也有一定的区别。
+
+1. $(element).attr("")
+   $(element).attr({"":"","":""})
+
+   $(element).prop("")
+   $(element).prop({"":"","":""})
+
+jq使用方法都是相同的，但作用的对象有所差别
+
+attr是获取和设置自定义属性值（attribute特性）
+prop是获取和设置固定属性值（property属性）
+
+2. prop设置的属性
+
+类似于对象
+var prop = {
+	name:"",
+	age:"",
+	sex:"",
+	like:[]
+}
+
+获取时也可以obj.name/obj[name]
+并且属性值类型可以任意值；而attr的只能是字符串
+
+3. 两个方法最主要的源码部分是
+
+attr是通过setAtrribute和getAttribute来设置的，使用的是DOM属性节点
+prop是通过document.getElementById(el)[name] = value来设置的，是转化为js对象的属性
+
+
+4. 结果
+
+attr有相应属性时，获取相应属性值；没有相应属性时，返回undefined
+prop有相应属性时，获取相应属性值；没有相应属性时，返回空字符串
+
+3.多选框的选中与否 
+
+$("input.checkout").attr("checked")//checked,undefined
+$("input.checkout").prop("checked")//true,false
+
+有true和flase属性值的checked、selected、disabled时使用prop
+
+
+
+

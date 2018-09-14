@@ -1,0 +1,127 @@
+父类
+function Anamil(eat){
+	this.special = "动物";
+	this.eat = function(){
+		console.log("我是"+eat+"食动物");
+	}
+}
+Anamil.prototype.say = function(){
+	console.log("lalalalalalala!!!")
+}
+
+1. 原型链继承
+function Cat(name,age){
+	this.name = name;
+	this.age = age;
+}
+Cat.prototype = new Anamil();
+Cat.prototype.constructor = Cat;
+var c1 = new Cat("大白"，3);
+
+优点：1）实例即是子类的实例也是父类的实例
+      2）实例即能继承来着父类的属性和方法，也能继承来自父类原型的方法和属性
+
+缺点：3）不能向父类传参
+      4）单继承
+      5）原型的属性和方法是所有子类实例共有的
+
+注意：
+	Cat.prototype = new Anamil();
+	Cat.prototype.constructor = Cat;
+	
+	若是没有第二句，则有
+		c1.constructor = Cat;
+		Cat.prototype.constructor  = Anamil;
+	故会造成原型链的混乱
+
+
+
+2. 构造函数继承
+function Cat(name,age,eat){
+	Anamil.call(this,eat);
+	this.name = name;
+	this.age = age;
+}
+var c1 = new Cat("大白",3,"混合");
+
+优点：1）多继承，在构造函数里可以写多个apply或call方法
+      2）可以向父类传参
+
+缺点：3）实例就只是子类的实例，不是父类的实例
+      4）子类实例只能拥有父类的属性和方法，不能有父类原型的属性和方法
+      5）每个实例都有父类属性和方法的副本
+
+3. 组合继承
+function Cat(name,age,eat){
+	Anamil.call(this,eat);
+	this.name = name;
+	this.age = age;
+}
+Cat.prototype = new Anamil();
+Cat.prototype.constructor = Cat;
+vae c1 = new Cat("大白",3,"混合");
+
+优点：1）实例即是子类的实例也是父类的实例
+      2）实例即能拥有父类的属性和方法，也能继承来自父类原型的方法和属性
+      3）多继承
+      4) 可以向父类传参
+      5）实例共享父类原型的属性和方法
+
+缺点：6）二次调用父类构造函数，生成两份实例（子类实例屏蔽掉子类原型上的实例）
+
+4. 寄生组合继承
+function Cat(name,age,eat){
+	Anamil.call(this,eat);
+	this.name = name;
+	this.age = age;
+}
+var F = function(){};
+F.prototype = Anamil.prototype;
+Cat.prototype = new F();
+Cat.prototype.constructor  = Cat;
+
+vae c1 = new Cat("大白",3,"混合");
+
+优点：同组合继承，并且弥补了它的缺点
+
+
+5. 拷贝继承
+function Cat(name,age,eat){
+	var F = new Anamil(eat);
+	for(var p in F){
+		Cat.prototype[p] = F[p];
+	}
+	this.name = name;
+	this.age = age;
+}
+var c1 = new Cat("大白"，3,"混合");
+
+优点：1）多继承
+      2）可以向父类传参
+      3）父类的属性和方法深复制在子类原型上，每个实例共有这些属性和方法
+
+缺点：4）实例就只是子类的实例，不是父类实例
+      5）只能拥有父类属性和方法，不能拥有父类原型上的属性和方法
+      6）效率低，因为深复制占用内存高
+      7）不能复制不可枚举的属性和方法
+
+
+6. 实例继承
+function Cat(name,age,eat){
+	var F = new Anamil(eat);
+	F.name = name;
+	F.age = age;
+	return F;
+}
+var c1 = new Cat("大白"，3,"混合");
+或
+var c1 = Cat("大白"，3,"混合");
+
+优点：1）调用方式不限制
+      2）可以向父类传参
+      3）能拥有父类属性和方法，也能拥有父类原型上的属性和方法
+      4）父类原型的属性和方法是所有实例共有的
+ 
+缺点：5）实例是父类实例，不是子类的实例
+      6）单继承
+      

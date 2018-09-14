@@ -1,0 +1,92 @@
+项目代码的托管平台，基于git版本控制，是所有开源项目的圣地，可以去访问自己和他人的代码，并下载，还可以推送
+
+
+git是分布式版本控制系统，项目的克隆、添加、推送等控制工具
+
+github是项目的托管平台，并且是基于git库的，可以建立自己的公开库，也可以建立私有库。
+
+
+Blame 描述了文件的每一行的最近一次修改信息，包括修改内容、作者和时间等；可用于追踪某软件新特性的添加及引起bug的提交操作；
+
+Repository 库是GitHub的最基本元素，可想象成本地的项目文件夹；
+
+Private Repository 私有库，是指只能被库的创建者或者合作开发者查看并编辑的库，需要付费使用；
+
+Branch 分支是一个库的并行版本，包含在库内，允许独立的开发而不影响现有主分支(primary or master)的运行；当在分支的修改需要发布时，就可以将分支合并(merge)至主分支(master branch)，这样利于多人的分布式开发；
+
+Pull Request 即代码合并请求，由其它开发者或用户向项目的collaborators提议的修改请求，collaborators觉得修改信息合理有效即接受，否则拒绝；
+
+Merge 将一个分支中的修改内容应用到另一个分支的操作就做合并；若两个分支内的修改内容无冲突，则可以通过合并请求(a Pull Request)或命令行(the command line)完成合并操作；
+
+Clone 克隆，是将GitHub上的库文件整个复制到本地主机上，可以实现离线修改，等上线后再同步至Github上的库即可；
+
+Commit 提交信息，或者称为修改信息，是个人提交的对文件的修改记录；
+
+Fork 对其它开发者的库的个人复制，复制的库存在你自己的账户上，你可以自行修改项目内容而不会影响原始的库，也可以将自己的修改通过合并请求(a pull request)的方式请求原始库的开发者更新你的修改；
+
+Fetch 取回，表示从在线的库上获取最新的修改信息而不需要合并代码，取回的代码可以与你本地的分支代码进行比较；
+
+Push 推送，表示将本地的修改内容推送至线上的库，这样其它的开发者就可以通过GitHub网站访问到你的修改内容了；
+
+Remote 远端版本，即类似于GitHub.com的非本地主机的项目版本，可以连接至本地克隆的版本以实现内容同步；
+
+
+User 用户，指个人注册的GitHub账户，每个用户都可以拥有多个公共库或私有库，也可被邀请加入organizations或称为collaborates；
+
+SSH Key 私钥，是GitHub用以验证你本地主机的身份的，并用此密钥加密传输GitHub网站和你本地主机的数据传输，以保证安全性；这个是需要在“Set up Git”步骤中配置的；
+
+Organizations 组织，即多个开发者组成的团体，可包含众多的库和开发团队；
+
+Collaborator 合作开发者，被库的所有者邀请共同开发某一项目，拥有对库的读写权限；
+
+Contributor 贡献者，对项目有所贡献(如提交代码，修复bug等)的开发者，但不具备合作开发者的访问权限；
+
+
+Diff 差异，指2个commit或保存的改变间的差异，可以很直观的看出一个文件自上次commit后增加或删除的内容；
+
+Open Source 开源，原指可自由使用、修改和传播的软件，现扩展为一种超越软件的合作哲学，即工件(working materials)在线可用，可被任何人复制(fork)、修改(modify)、讨论(discuss)、并提出修改意见(contribute to)；
+
+Markdown 一种轻量级的标记语言，书写简单，不同于html，无需大量的<tag>就可以实现内容的格式化；GitHub上的众多库中的帮助文档就是这种格式，如README.md；
+
+Upstream 上游，对于一个branch或者fork来说，源库的主分支即是其它修改信息的源头，被称为upstream，相对的其它branch或fork就被称为downstream了；
+
+------------------------
+
+注册github账户
+向github提交你的用户名和邮箱地址，用来标识你的commit
+	git config --global user.name "yimidy"
+	git config --global user.email "yimidy97@163.com"
+	//用户名可以随意，但邮箱必须与你注册github时用的一致
+本地保存密码，避免每次通过https去clone一个库时都需要提供用户名和密码
+	git credential-osxkeychain
+设置公钥
+
+--------------------------------
+创建库
+建立本地文件 
+	README帮助文档阅读文件touch README
+git add .添加
+git commit -m "first commit"提交
+git remote add origin http://github.com/yimidy/项目名.git
+git push origin master
+
+复制库到本地Fork
+git clone http://github.com/yimidy/项目名.git
+修改远端指向源库，而非你自己fork后的库；库被克隆后，默认会创建一个指向fork后的库的远端origin哦
+	cd myfork
+	git romate add upstream https://github.com/yimidy/myfork.git
+推送提交至自己fork后的库中
+	git fetch upstream
+	git merge upstream/master
+从源库获取更新，并合并进自己fork后的库的主分支中
+	git push origin master
+创建分支并设置为当前活动分支
+	git branch mybranch
+	git checkout mybranch
+分支切换
+	git checkout master
+合并分支并删除
+	git checkout mybranch
+	git checkout master
+	git merge mybranch
+	git branch -d mybranch

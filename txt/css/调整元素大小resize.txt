@@ -1,0 +1,14 @@
+div{
+	resize:none;//默认
+}
+
+规定是否可由用户调整元素尺寸
+
+none//不可以
+both//可调
+horizontal//可调节宽度
+vertical//可调节高度
+
+
+兼容性：
+	ie不支持，ff4+，chrrome和safair可支持

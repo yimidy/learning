@@ -1,0 +1,28 @@
+BFC
+	块级格式化上下文，会生成一个独立的 渲染区域，里面有自己的渲染规则
+
+	其规则：
+	1. 里面的盒子会在垂直方向上一个接一个的排列
+	2. 两个盒子的距离由margin决定，同一个BFC里的两个元素垂直距离会出现margin塌陷（重叠），不同margin或叠加
+	3. 单个盒子排列从父级元素的border-box开始
+	4. 不会与浮动元素重叠
+	5. 可以由浮动撑开高度
+	6. 容器里面子元素与不会影响外面元素
+
+	触发方式：
+	1. 根元素，当建立html时就已经触发了
+	2. float不为none时
+	3. display为block，table
+	4. position为absolute或fixed
+	5. overflow不为visible
+
+IFC
+	行内格式化上下文，也是一个独立渲染区域
+	
+	其规则：
+	1. 盒一个接一个从左到右排列，排不下换行
+	2. 盒之间margin，border，padding有效
+	3. vertical-align设置不同对齐方式
+	4. 行盒的高度由line-height
+	5. 行盒的宽度由内容块的宽度和float共同决定
+	6. 行内盒之间不会有空隙，也不会重叠

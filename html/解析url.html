@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+<script type="text/javascript">
+/*		window.location.href(url):http://www.baidu.con:8080/index.html?courdeid=88&chapterid=89#hash   */
+/*		window.location.protocol:http
+		window.location.host：www.baidu.com:8080
+		window.location.hostname:www.baidu.com
+		window.location.port:8080
+		window.location.pathname:index.html
+		window.location.search:courdeid=88&chapterid=89
+		window.location.hash:hash
+*/
+
+		//var search = window.location.search;
+		function querystringObj(search){
+		var obj = {};
+		if(search.indexOf("?")!==-1){
+			search = search.substring(search.indexOf("?")+1);
+		}
+		var arr = search.split("&");
+		arr.forEach(function(val){
+			var bar= val.split("=");
+			obj[bar[0]] = bar[1];
+		})
+		return obj;
+	}
+	//var s = querystringObj("courdeid=88&chapterid=89");
+
+
+/*	因为实在node.js下的方法，需引入相应模块
+var querystring = require('querystring')/npm install querystring;
+console.log(querystring.parse('foo=bar&baz=qux&baz=quux'))*/
+
+console.log(s);
+</script>
+</body>
+</html>

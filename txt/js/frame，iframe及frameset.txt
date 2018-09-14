@@ -1,0 +1,203 @@
+frameset标签：框架集，用来定义多窗口页面
+直接写在html标签中（文档中不能有同级的body标签，也不能嵌套在body标签中）
+	<html>
+		<frameset>
+			<frame/>
+			<frame/>
+		</frameset>
+	</html>
+所以主流浏览器都支持
+html5不支持
+属性：必须使用cols和rows来设置每个子集宽高，值为百分比
+导航框架：
+	<frameset cols="120,*">
+  		<frame src="/example/html/html_contents.html">
+  		<frame src="/example/html/frame_a.html" name="showframe">
+	</frameset>
+跳转到指定节点
+	<frameset cols="20%,80%">
+ 		<frame src="/example/html/frame_a.html">
+ 		<frame src="/example/html/link.html#C10">
+	</frameset>
+
+
+
+
+
+noframes标签：若浏览器不能够使用框架，用该标签来提醒
+html5不在支持
+	<frameset>
+		<noframes>
+			<frame/>
+			<frame/>
+			<body>您的浏览器无法处理框架！</body>
+		</noframes>
+	</frameset>
+
+
+
+
+frame标签：frameset框架集中的子窗口（框架）
+所有主流浏览器都支持
+html5不支持
+每个框架可以设置不同属性：
+	border，src
+	scrolling（是否出现滚动条，yes、no、auto），
+	noresize（noresize规定无法调整框架大小）
+	marginheight、marginwidth
+	name 框架的名称
+	frameborder(0,1是否显示边框)
+不能脱离frameset标签单独使用
+在html中，frame没有结束标签<frame/>
+在xhtml中，frame必须有结束标签<frame></frame>
+	经验证，frame单双标签都可以使用
+	
+
+
+
+iframe标签：规定一个内联框架，在当前html文档中嵌入另一个文档。
+html5支持，但也只支持src属性
+可以单独使用的单框架，可放在body标签中，也可不放
+当嵌在frameset标签中的iframe必须放在body标签里 
+属性：
+	width、height
+	scrolling
+	src
+	name
+	align与周围元素的对齐方式，left/right/top/bottom/middle
+	marginwidth、marginheight
+	frameborder
+	allowTransparency是否允许设置透明
+	allowfullscreen是否允许全屏
+	sandbox沙箱，将会启用一系列对行内框架中内容的额外限制
+		sandbox 属性的值既可以是一个空字符串（应用所有的限制），也可以是空格分隔的预定义值列表（将移除特定的限制）
+			""	                     应用以下所有的限制。
+			allow-same-origin	     允许 iframe 内容被视为与包含文档有相同的来源。
+			allow-top-navigation	     允许 iframe 内容从包含文档导航（加载）内容。
+			allow-forms	             允许表单提交。
+			allow-scripts                允许脚本执行。
+			allow-popups		     允许打开新窗口。
+			alllow-pointer-lock          允许锁定鼠标。
+使用iframe的优点：
+	程序调入静态页面比较方便
+	页面和程序分离
+
+使用iframe的缺点：
+	样式/脚本需要额外链入，会增加请求
+	搜索引擎的检索程序无法解读这种页面，不利于SEO，网页的排名不高
+	造成主页混乱
+	链接导航，因为iframe享有着click的最优先权，当有人在伪造的主页中进行点击的话，如果点在iframe上，则会默认是在操作iframe的页面。
+	阻塞主页面的onload事件，iframe的创建比script和css慢了1-2个数量级，window的主页面触发onload事件需要在所以iframe加载完毕后。会让用户感觉这个网页很慢。
+	连接池问题，影响页面的并行加载，并行加载，就在同一时间对同一域名下的请求。一般浏览器的并行加载数量是有限的。一般情况，iframe和主页面是在同一域名下的，所以iframe会占用可用连接，阻塞主页面资源的加载。
+	解决办法，js中在主页的onload事件中再动态给iframe添加src
+
+
+iframe的应用：
+
+	1.高度自适应
+		 function getIframeWindow(obj) {
+        		return obj.contentWindow || obj.contentDocument.parentWindow;
+   		 }		
+    		function getIframeHeight(obj){
+        		var idoc = getIframeWindow(obj).document; 
+        		if(idoc.body){
+            		return Math.max(idoc.body.scrollHeight,idoc.body.offsetHeight);   
+        		}else if(idoc.documentElement){
+            		return Math.max(idoc.documentElement.scrollHeight,idoc.documentElement.offsetHeight);   
+        		}
+   		 }
+    		function setHeight(){   
+        		var myiframe = document.getElementById("myiframe");
+        		myiframe.height = getIframeHeight(myiframe);
+   		 } 
+
+	2.实现跨域
+		同域不同域问题：
+			A:<iframe id="mainIframe" name="mainIframe" src="/main.html" frameborder="0" scrolling="auto" ></iframe>
+			B:<iframe id="mainIframe" name="mainIframe" src="http://www.baidu.com" frameborder="0" scrolling="auto" ></iframe>
+		使用A时，因为同域，父页面可以对子页面进行改写,反之亦然。
+		使用B时，不同域，父页面没有权限改动子页面,但可以实现页面的跳转（window.location.href.）
+
+		如果一个页面中引入多个iframe，要想能够操作所有iframe，必须都得设置相同domain。
+		跨域方案1：iframe+document.domain(两个页面为相同一级域名，不同二级域名)
+			动态将页面嵌入主页中，设置display为none隐藏，然后就可以父跨子，子跨父，子跨子传数据
+		跨域方案2：iframe+location.hash，不同主域时
+		跨域方案3：iframe+html5的CMD（postMessage）
+
+	3.解决ie6select这挡不住的问题
+		在ie6/7/8下引入iframe的时候，它的背景默认是白色，即使设置了style=”background-color:transparent;”也无效，
+		但是其他浏览器(firefox,chrome,opera,ie9)都正常显示，要解决这个兼容性问题，必须用到一个属性。
+			给iframe设置属性：allowTransparency=”true” //设置为true允许透明
+		注意：iframe不设置此属性时，可使用iframe解决在IE6、7环境中遮住select
+		z-index是CSS中决定网页中容器元素垂直显示顺序的属性，比如两个div，z-index值大的将遮盖小的div．而select控件由于其浏览器开发实现方法和其他标签不同，用常规方法div无法遮盖，所以得借助其他的方法．
+		z-index属性，select的要比IFrame的小,div的要比IFrame的大，这样层就可以遮住select
+		<iframe src="" scrolling="no" style="dispaly:none;width:100px;height:100px;position:absolute; z-index:5; border:0; filter:alpha(opacity='0')"></iframe> 
+
+	4.解决ajax的前进后退问题
+
+	5.异步上传（如表单提交）
+		iframe长轮询（为了兼容IE8+，iframe 实现长轮询和长连接的trick 我们还是需要涉猎滴）
+
+	6.判断页面中是否有框架
+		window.frameElement返回嵌入当前window对象的元素（object或者iframe），如果当前window对象已经是顶层窗口，则返回null
+		举列： a.html里引入框架b.html,在a页面用该属性返回null；在b页面用该属性在自身页面也返回null，在a页面则返回引用它的那个标签对象，就可以操作这个对象
+	7.操作
+		获取iframe对象
+			var iframe = document.getElementById("frame_id")//js	
+			var iframe = $("#frame_id")[0]                  //jq
+		获取iframe的window对象
+			iframe.contentWindow
+			window.frames["frameName"];
+			window.frames.frameName
+			window.frames[index]
+			self.frames["frameName"]       //主页面的window===self
+			self.frames[0]
+			frames[0]
+			frameName
+			window.parent
+			window.top
+			window.self
+		获取iframe的document对象
+			iframe.contentWindow.document
+			iframe.contentDocument
+		获取iframe的html对象
+			iframe.contentWindow.documentElement
+
+		父引用子window.frames["frameName1"];
+		子引用父window.parent
+		子引用子window.parent.frames["frameName2"]
+			函数在定义它中的定义域中执行，而不是在调用它的作用域中执行。
+		框架页面重定向<a href="frame1.location='3.html;frame2.location='4.html'" onclick="">link</a>
+
+	8.广告
+		通常广告语原文内容无关，为了不影响网页排版，通常用iframe来处理广告
+
+	9.安全问题
+		别人iframe你的网站，被钓鱼网站钓鱼，
+			解决方法一：使用window.top来放防止
+			try{
+　　				//检测是否出错，如果没有出错，则降级处理
+　　				if (top.location.hostname != window.location.hostname) { 
+　　　　					top.location.href =window.location.href;//限定你的网页不能嵌套在不同域名的网页内。
+　　				}
+			}
+			catch(e){
+　　				top.location.href = window.location.href;
+			}
+			解决方法二：在服务器上，对使用iframe的权限进行设置
+				1） X-Frame-Options是一个相应头，主要是描述服务器的网页资源的iframe权限。目前的支持度是IE8+(已经很好了啊喂)
+				有3个选项:
+					DENY：当前页面不能被嵌套iframe里，即便是在相同域名的页面中嵌套也不允许,也不允许网页中有嵌套iframe
+					SAMEORIGIN：iframe页面的地址只能为同源域名下的页面
+					ALLOW-FROM：可以在指定的origin url的iframe中加载
+				2） CSP之页面防护
+				3） sandbox
+		你iframe别人的网站
+
+	
+
+
+
+
+
+

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<style type="text/css">
+		body{
+			width: 100%;
+		}
+		div{
+			height: 100px;
+			width: 100px;
+			background-color: red;
+		}
+		p{
+			height: 20px;
+			line-height: 20px;
+		}
+		img{
+			width: 100px;
+			height: 100px;
+		}
+	</style>
+</head>
+<body>
+	
+	<div>
+		<span>我是内联元素</span>
+	</div>
+	<p>你都IE保存你懂ie多弄ie</p>
+	<img />
+
+<script type="text/javascript">
+	var arr = [];
+	function traverse(obj){
+		var par = obj.childNodes;
+		var num = obj.childNodes.length;
+		var  str = window.getComputedStyle(obj).width;
+		var Xpage = str.slice(0,str.length-2);
+		if(Xpage>=50){
+			arr.push(obj);
+			for(var i=0;i<num;i++){
+				if(String(par[i]).indexOf("Element")!=-1){
+						if(par[i].childNodes.length!=0){
+								traverse(par[i]);
+						}else{
+							var  m = window.getComputedStyle(par[i]).width;
+							var n = m.slice(0,m.length-2);
+							if(n>=50){
+								arr.push(par[i]);
+							}
+						}
+				}
+				
+			}
+		}
+	}
+	traverse(document.body)
+	console.log(arr);
+</script>
+</body>
+</html>

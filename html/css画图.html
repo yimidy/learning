@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<style type="text/css">
+.sanjiao{
+			width: 0;
+			height: 0;
+			border: 50px solid transparent;
+			border-top-color:red; 
+			position: relative;
+		}
+		#s1{
+			float: left;
+			position: relative;;
+			top: 100px;
+			z-index: -1;
+		}
+		#abso{
+	
+			background-color: red;
+			display: block;
+		}
+		#s2{
+			display: flex;
+			justify-content: center;
+			
+		}
+		.d1{
+		/* 	float: left;
+		clear: both;
+		position: relative;
+		left: 50%; */
+			
+			/* text-align: center; */
+			
+			
+			width: 500px;
+			height: 100px;
+			border: 1px solid black;
+			/* text-align: center; */
+			/* display: table-cell; */ 
+			
+
+		} 
+/* html,body{
+	height: 100%;
+} */
+		/* .d2{
+			float: left;
+			clear: both;
+			height: 50%;
+			margin-bottom:-50px;
+		} */
+		.s4{
+			width: 500px;
+			height: 100px;
+			border: 1px solid black;
+			display: flex;
+			display: -webkit-flex;
+			
+			 align-items:center;
+		}
+		.s3,.d2{
+			/* position: relative;
+			left: -50%; */
+
+			/* display: inline-block; */
+			
+			/* height: 100px; */
+			
+			/* display: inline-block;
+				vertical-align: middle;  */	
+				
+		}
+		.d2{
+			/* height: 100%; */
+		}
+
+		.radius1,.radius3{		
+		width:300px;
+		height:1px;
+		border:3px solid transparent;
+		}
+		.radius1{
+		border-bottom-color:red;
+		}
+		.radius3{
+		border-top-color:red;
+		}
+		.radius2{
+			width: 306px;
+			height: 10px;
+			background-color: red;
+		}
+	</style>
+</head>
+<body>
+ <div class="sanjiao"></div>
+<span id="s1">123</span>
+<div id="abso">display:table</div>
+
+<div id="s2">块级元素居中</div>
+	<!-- <div class="d2"></div> -->
+<div class="d1">
+	<!-- <div class="d2"></div> -->
+	<div class="s3">行内元素居中</div>
+	
+</div>
+	<div class="s4">行内元素居中</div>
+
+
+	<div class="radius1"></div>
+	<div class="radius2"></div>
+	<div class="radius3"></div>
+<script type="text/javascript">
+
+</script>
+</body>
+</html>

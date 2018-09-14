@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+<script type="text/javascript">
+/*	var funcs = []
+    for (var i = 0; i < 10; i++) {
+        funcs.push(function() { console.log(i) })
+    }
+    funcs.forEach(function(func) {
+        func()
+    })*/
+
+
+
+/*    // ES5知识，我们可以利用“立即调用函数”解决这个问题
+    var funcs = []
+    for (var i = 0; i < 10; i++) {
+        funcs.push(
+          (function(value) {
+            return function() {
+                console.log(value)
+            }
+        })(i)
+      )
+    }
+    funcs.forEach(function(func) {
+        func()
+    })*/
+
+// 再来看看es6怎么处理的
+    const funcs = []
+    for (let i = 0; i < 10; i++) {
+        funcs.push(function() {
+            console.log(i)
+        })
+    }
+    funcs.forEach(func => func())
+
+</script>
+</body>
+</html>

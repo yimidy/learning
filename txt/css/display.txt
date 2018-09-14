@@ -1,0 +1,29 @@
+display，译为显示，这里是设置该元素为什么类型的元素，以至于其在文档中有一定的显示规则。
+
+常见的属性值有哪些？
+
+1. none
+	不显示，从文档流中消失
+2. block
+	块元素，能设置宽高，独占一行
+3. inline
+	行内元素，不能设置宽高，由内容撑开，从左向右排列
+4. inline-block
+	内联块元素，能设置宽高，内联排布
+5. run-in
+	由上下文决定它是块还是行内元素
+6. list-item
+	列表显示，像li元素一样
+7. table
+	表格显示，同block，不同处是block的宽自适应为最大，而它的有包裹性，由内容撑开
+
+8.table-cell
+	表格单元格显示，同td，th一样，可以做多列布局的解决方案
+
+
+
+如何将一个行内元素设置为块元素？
+display:block;
+display:table;
+float:***;
+position:absolute/fixed;

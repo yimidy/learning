@@ -1,0 +1,49 @@
+1. webpack、grunt和gulp
+
+	webpack是模块打包器，将项目文件看做一个整体，根据一个主入口文件（只能识别js文件），递归调用所有依赖文件，有些依赖文件由loaders处理，生成一个或几个打包文件，html文件直接调用这几个打包文集即可。
+	grunt和gulp是自动化构建工具，它可以配置将scss、less等css预处理器生成的文件编译成.css后缀的文件，并设置自动编译、合并、压缩等操作。当然webpack也可以做到。
+
+	两者不同之处在于：webpack有代码分离、模块化、全局性。
+
+2. 什么是bundle，chunk、module？
+	bunle打包生成的文件
+	chunk打包生成的单一bundle文件过大，我们可以采用代码分块，按需加载，require.ensure("",callback)
+	module开发中的单个模块
+3. 什么是loader和plugin？
+	loader，加载器，用来处理不同格式的文件，来生成依赖文件（如将scss文件转化成css文件）
+	plugin，插件，作用于整个构建过程，定义webpack的打包过程方式；比如内置插件，组件分配id、压缩js代码、版本必究；非内置，将css文件从打包的js文件中分离出来与加前缀、自动生成新html，允许修改组件代码时浏览器预览自动刷新
+
+4. 如何自动生成webpack配置？
+	webpack-cli脚手架
+
+5. webpack-dev-server与http服务器的nginx呦呵区别？
+	webpack-dev-server是本地服务器，使用内存来存储webpack开发环境下的打包文件，并且可以使用模块热更新，比传统的开发更高效
+
+6. 什么是热模块更新？
+	利用插件，在组件代码更改时，浏览器自动刷新最新页面
+
+7. 什么是长缓存？在webpack中如何做到长缓存？
+	浏览器在用户访问页面的时候，为了加快加载速度，会对用户访问的静态资源进行存储，但是每一次代码升级或是更新，都需要浏览器去下载新的代码，最方便和简单的更新方式就是引入新的文件名称。在webpack中可以在output纵输出的文件指定chunkhash,并且分离经常更新的代码和框架代码。通过NameModulesPlugin或是HashedModuleIdsPlugin使再次打包文件名不变。
+
+8. 什么是Tree-shaking?CSS可以Tree-shaking吗？
+	Tree-shaking是指在打包中去除那些引入了，但是在代码中没有被用到的那些死代码。在webpack中Tree-shaking是通过uglifySPlugin来Tree-shaking
+JS。Css需要使用Purify-CSS。 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

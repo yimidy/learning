@@ -1,0 +1,5 @@
+语义化html标签
+合理的title, description, keywords;
+重要的html代码放前面
+少用iframe, 搜索引擎不会抓取iframe中的内容
+图片加上alt

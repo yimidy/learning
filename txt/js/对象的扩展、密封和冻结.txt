@@ -1,0 +1,43 @@
+扩展
+	可以设置新属性
+	Object.preventExtensions(obj)//将obj设置为不可扩展的（只对自身有效）
+	Object.isExtensible(obj)//判断obj是否是可扩展的	
+	
+
+密封
+	不能设置新属性，所有自身属性不可配置，（不能删除已有属性，以及不能修改已有属性的可枚举性、可配置性、可写性）但可以修改已有属性的值
+	Object.seal(obj)//将对象设置为密封的
+	Object.isSealed(obj)//判断对象是否是密封的
+
+	var obj = {a :1,b:2,c:3};
+    	Object.defineProperties(obj,{
+       		"a":{configurable:false},
+       		"b":{configurable:false},
+       		"c":{configurable:false}
+    	});
+	Object.preventExtensions(obj);
+
+	//等价于
+	var obj = Object.create({},{
+        	"a":{value :1,congigurable :false,enumerable :true},
+        	"b":{value :2,congigurable :false,enumerable :true},
+        	"c":{value :3,congigurable :false,enumerable :true}
+    	});
+	Object.preventExtensions(obj);
+
+
+冻结
+	不能设置新属性，不可配置，且不能修改已有属性的值
+	Object.freeze(obj)//将对象设置为冻结的
+	Object.isFrozen(obj)//判断对象是否是冻结的
+
+	var obj = Object.create({},{
+        	"a":{value :1,congigurable :false,enumerable :true,writable:true},
+        	"b":{value :2,congigurable :false,enumerable :true,writable:true},
+        	"c":{value :3,congigurable :false,enumerable :true,writable:true}
+    	});
+	Object.preventExtensions(obj);
+
+	浅冻结和深冻结
+		浅冻结：若被冻结的对象有一个属性的属性值为对象，则该对象是可扩展的，可以配置，也可以修改属性值的
+		深冻结：外部对象与内部对象一样的性质

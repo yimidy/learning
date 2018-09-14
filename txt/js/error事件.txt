@@ -1,0 +1,12 @@
+1. 没有通过try-catch处理的错误都会触发window上的error事件；
+
+2. onerror事件处理程序不会建立event对象，可以接受3个参数，错误信息，错误地址，行号；
+
+3. onerror事件只能使用DOM0级技术，其他不可以
+	window.onerror = function(message,url,line){
+
+	}
+	同样，它与其他函数一样，可以阻止该事件在window上报告错误（默认行为）
+	window.onerror = function(message,url,line){
+		return false;//因为没有event对象
+	}

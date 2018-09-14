@@ -1,0 +1,16 @@
+function Foo(name,age){
+	this.name = name;
+	this.age = age;
+}
+
+var fn = new Foo(name,age);
+
+fn--(constructor)-->Foo----(prototype)-->Foo.prototype
+Foo<---(constructor)---Foo.prototype
+fn--(constructor)---(_proto_)--->Foo.prototype
+
+1. 创建一个新对象，该新对象继承来自构造函数的原型对象
+
+2. 使用指定的参数调用构造函数，将构造函数的this绑定到新对象
+
+3. 由构造函数返回新对象

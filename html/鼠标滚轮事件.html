@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style type="text/css">
+			*{
+				margin: 0;
+				padding: 0;
+			}
+			#boxwrap{
+				position: relative;
+				width: 15px;
+				height: 500px;
+				margin: 50px auto;
+				box-sizing: border-box;
+				border: 1px solid gainsboro;
+				border-radius: 6px;
+			}
+			#box{
+				position: absolute;
+				left: 0px;
+				top: 0px;
+				width: 13px;
+				height: 30px;
+				background: gray;
+				border-radius: 6px;
+			}
+		</style>
+		<script type="text/javascript">
+			window.onload = function (){
+				var boxwrp = document.getElementById('boxwrap');
+				var box = document.getElementById('box');
+				//兼容firefox
+				if(boxwrp.addEventListener){
+					document.addEventListener("DOMMouseScroll", fn, false);
+				}
+				document.onmousewheel = fn;//兼容IE、chrome
+				
+				function fn(ev){
+					var ev = ev||event;
+					var bool = false;
+					//IE、chrome  向上：120，向下：-120
+					if(ev.wheelDelta){
+						bool= ev.wheelDelta > 0? true : false;
+					}
+					//firefox  向上：-3，向下：3
+					else{
+						bool= ev.detail < 0? true : false;
+					}
+					
+					if(bool){
+						if(box.offsetTop>=10){
+							box.style.top = box.offsetTop - 10 + "px";
+						}
+						else{
+							box.style.top = 0;
+						}
+						
+					}
+					else{
+						if(box.offsetTop<=boxwrp.offsetHeight-box.offsetHeight-10){
+							box.style.top = box.offsetTop + 10 + "px";
+						}
+						else{
+							box.style.top = boxwrp.offsetHeight - box.offsetHeight + "px";
+						}
+					}
+				}
+			}
+		</script>
+	</head>
+	<body>
+		<div id="boxwrap">
+			<div id="box"></div>
+		</div>
+	</body>
+</html>

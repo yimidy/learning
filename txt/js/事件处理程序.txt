@@ -1,0 +1,41 @@
+html事件级处理程序
+
+	<div onclick="foo()">
+
+DOM0级
+
+	obj.onclick = function(){}
+	obj.onclick = null;
+
+DOM2级
+
+	addEventListener("click",function(){},flase)
+	removeEventListener("click",function(),false)
+
+	可以添加多个处理程序,并按添加他们的顺序触发
+
+IE级事件处理程序
+	
+	attachEvent("onclick",function(){})
+	detachEvent("onclick",function(){})
+	
+	事件类型必须用on开头
+	只支持事件冒泡
+	可以添加多个事件处理程序，执行顺序按添加的相反顺序来执行
+	这里的this == window
+
+
+事件绑定：给元素绑定事件；在元素上绑定，DOM0绑定，DOM2、IE绑定
+
+事件冒泡：在子元素上绑定的事件，会冒泡到其父元素，html，document上触发
+
+事件捕获：在子元素上绑定的事件，会在子元素还没有触发之前就在document，html，其父元素上触发
+
+事件监听：DOM2级，IE级事件，监听冒泡和捕获
+
+事件委托(事件代理)：在子元素上发生的事情，委托到父元素上去触发
+
+
+
+
+

@@ -1,0 +1,28 @@
+在CSS Expression中使用JavaScript表达式。CSS属性根据JavaScript表达式的计算结果来设置。CSS Expression在其它浏览器中不起作用，因此在跨浏览器的编码中单独针对IE设置时会比较有用。从IE5开始支持CSS Expression。我们看下面的代码：background-color: expression( (new Date()()).getHours()%2 ? "#F00" : "#00F" );上面的代码是使用CSS Expression，实现隔一个小时切换一次背景颜色。
+
+CSS Expression的问题就在于它的计算频率要比想象的多出很多。不仅仅是在页面显示和缩放时，就是在页面滚动、乃至移动鼠标时都会要重新计算一次。给CSS Expression增加一个计数器可以跟踪表达式的计算频率。在页面中随便移动鼠标都可以轻松达到10000次以上的计算量。一个减少CSS Expression计算次数的方法就是使用一次性的表达式，它在第一次运行时将结果赋给指定的样式属性，并用这个属性来代替CSS Expression。如果样式属性必须在页面周期内动态地改变，使用事件句柄来代替CSS表达式是一个可行办法。如果必须使用CSS Expression，一定要记住它们要计算成千上万次并且可能会对你页面的性能产生影响。不要让您的用户感觉打开你的页面，机器会变的很慢
+
+
+
+IE css expression（表达式）
+很多时候我们需要对IE6的bug写一些hack，如max-height，absolute元素高度100%等。
+
+css里面的 expression（表达式）和js里面的差不多，如：
+
+获取当前元素的高度：
+
+.box{
+    height:expression(this.offsetHeight);
+}
+我们也可以获取到本身高度后再加减某个高度：
+
+.box{
+    height:expression(this.offsetHeight-30);
+}
+获取滚动的高度：
+
+top:expression(eval(document.documentElement.scrollTop))}
+获取父元素的高宽：
+
+width:expression(this.parentNode.offsetWidth);
+height:expression(this.parentNode.offsetHeight);

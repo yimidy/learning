@@ -1,0 +1,43 @@
+获取光标位置信息
+
+	e.screenX//相当于屏幕
+	e.screenY
+
+	e.clientX//可视区窗口
+	e.clientY
+
+	e.pageX//文档窗口
+	e.pageY
+	
+	pageX = e.pageX || (e.clientX+scroll().left)
+	pageY = e.pageY || (e.clientY+scroll().top)
+
+获取滚动距离
+	left = window.pageXOffset || document.documentElement.scrollLeft ||document.body.scrollLeft;//滚动距离
+	top  = window.pageYOffset || document.documentElement.scrollTop ||document.body.scrollTop;
+
+元素相对于离自己最近的有定位的父元素的距离（obj.offsetParent == true）
+	obj.offsetLeft//元素的左外边框到包含元素的左内边框的像素距离
+	obj.offsetTop
+
+页面元素大小
+
+	width(内容)
+	offsetWidth（内容+滚动条可见+内边距+边框）
+
+	//可见区的
+	document.documentElement.clientWidth || document.body.clientWidth
+	document.documentElement.clientHeight || document.body.clientHeight
+	
+	innerWidth和innerHeight
+
+
+
+	//被滚动条隐去的部分平铺展开后的大小
+	document.documentElement.scrollWidth || document.body.scrollWidth
+	document.documentElementscrollHeight || document.body.scrollHeight
+
+
+getBoundingClientRect()//返回一个对象，有top、bottom、left和right，是相对于视口左上角的距离值
+	
+	

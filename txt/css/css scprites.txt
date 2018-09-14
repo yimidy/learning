@@ -1,0 +1,49 @@
+css sprites
+	雪碧图，也叫css精灵，是一种网页图片处理方式。
+
+	将一个页面所涉及的所有小图标包含到一张大图中去，当访问页面时，载入的图片就不会想之前一样一幅一幅的加载。
+
+
+
+
+好处
+
+	减少http的请求，提高网页加载速度
+	单张大图比多张小图占大小要小
+
+
+使用
+
+	background:url(sprites.css) no-reoeat 0 0;
+		background-image/background-repeat/background-position
+
+     backgroup-position的语法：
+      		background-position：x, y;
+      		定义：背景图片相对容器原点的起始位置；
+    		取值：
+      			关键字：top | center | bottom | left | center | right
+    			百分比：百分数
+   			具体值：px、rem、em等确值
+    			默认值为：0% 0%（即坐标原点）
+
+			注意：background-position: a% b%;
+ 			      换算：
+ 			      x = (containerWidth - bgWidth) * a%
+			      y = (containerHeight - bgHeight) * b%
+
+
+
+雪碧图自适应
+
+	碧图一直是初始大小，无法随着自适应尺寸变化
+	设置background-size解决
+
+
+雪碧图的制作
+
+	photoshop
+	https://www.toptal.com/developers/css/sprite-generator在线制作雪碧图的网站
+	gulp.spritesmith插件可以用于雪碧图的制作
+	在webpack中自动生成雪碧图，需要使用postcss-sprits插件
+
+     

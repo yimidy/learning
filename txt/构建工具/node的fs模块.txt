@@ -1,0 +1,150 @@
+1、异步读取
+　　fs.readFile( url , code , callback);
+ 
+2、同步读取
+　　fs.readFileSync( url , code );
+ 
+3、改变文件名
+　　fs.rename(old文件名，新文件名，callback(传递一个err参数))
+ 
+4、同步改变文件名
+　　fs.renameSync(oldPath, newPath) 
+　　
+		fs.rename('hello.txt','index.txt',function(){
+     			console.log("修改成功");
+		});
+ 
+
+5、获取文件信息
+　　fs.start(path, callback) 参数使用说明如下：
+	path - 文件路径
+	callback - 回调函数，带有两个参数如：(err, stats), stats 是 fs.Stats 对象
+
+
+		console.log('是否为文件(isFile) ? ' + stats.isFile());
+		console.log('是否为目录(isDirectory) ? ' + stats.isDirectory());
+
+
+6、打开文件
+
+　　fs.open(path, flags[mode],callback)
+　　参数使用说明如下：
+　　　　path - 文件的路径。
+　　　　flags - 文件打开的行为(r+,w+,)
+　　　　callback - 回调函数，带有两个参数如：callback(err, fd)。
+ 
+
+7、写入文件
+
+　　fs.writeFile(filename, data,[options], callback)
+
+　　如果文件存在，写入的内容会覆盖旧文件内容
+　　　　参数使用说明如下：
+　　　　　　path - 文件路径。
+　　　　　　data - 要写入文件的数据，可以是 String(字符串) 或 Buffer(流) 对象。
+　　　　　　options - 该参数是一个对象，包含 {encoding, mode, flag}。默认编码为 utf8, 模式为 0666 ，flag 为 'w'
+　　　　　　callback - 回调函数，回调函数只包含错误信息参数(err)，在写入失败时返回。
+ 
+
+8、读入文件
+
+　　fs.writeFile(filename, data[, options], callback)
+
+　　　　如果文件存在，写入的内容会覆盖旧文件内容
+　　　　　　参数使用说明如下：
+　　　　　　　　path - 文件路径。
+　　　　　　　　data - 要写入文件的数据，可以是 String(字符串) 或 Buffer(流) 对象。
+　　　　　　　　options - 该参数是一个对象，包含 {encoding, mode, flag}。默认编码为 utf8, 模式为 0666 ，flag 为 'w'
+　　　　　　　　callback - 回调函数，回调函数只包含错误信息参数(err)，在写入失败时返回
+ 
+
+9、关闭文件
+
+　　fs.close(fd, callback)
+
+　　　　参数使用说明如下：
+
+　　　　　　fd - 通过 fs.open() 方法返回的文件描述符。
+
+　　　　　　callback - 回调函数，没有参数
+ 
+
+10、截取文件
+
+　　fs.ftruncate(fd, len, callback)
+
+　　　　该方法使用了文件描述符来读取文件 参数
+
+　　　　　　 fd - 通过 fs.open() 方法返回的文件描述符。
+
+　　　　　　 len - 文件内容截取的长度。 callback - 回调函数，没有参数
+ 
+
+11、删除文件
+
+　　fs.unlink(path, callback)
+
+　　　　参数
+
+　　　　　　path - 文件路径
+
+　　　　　　callback - 回调函数，无参
+ 
+
+12、创建目录
+
+　　fs.mkdir(path[, mode], callback)
+
+　　　　参数
+
+　　　　　　 path - 文件路径
+
+　　　　　　mode - 设置目录权限，默认为0777 callback - 回调函数
+
+
+13、查看目录
+
+　　fs.readdir(path, callback)
+
+　　　　参数使用说明如下：
+
+　　　　　　 path - 文件路径。
+
+　　　　　　 callback - 回调函数，回调函数带有两个参数err, files，err 为错误信息，files 为 目录下的文件数组列表
+
+ 
+
+14、删除目录
+
+ 　　fs.rmdir(path, callback)
+　　　　 参数使用说明如下：
+　　　　　　 path - 文件路径。
+　　　　　　callback - 回调函数，没有参数。
+
+ 
+
+ 15、判断文件路径是否存在
+　　fs.exists(path, callback)
+　　　　接收参数：
+　　　　　　path 欲检测的文件路径
+
+　　　　　　callback 回调
+
+
+ 
+
+16、向文件中追加写入
+
+　　fs.appendFile(name,str,encode,callback);
+
+　　　　参数
+
+　　　　　　name : 文件名
+
+　　　　　　str ： 添加的字段
+
+　　　　　　encode ： 设置编码
+
+　　　　　　callback ： 回调函数
+
+　　

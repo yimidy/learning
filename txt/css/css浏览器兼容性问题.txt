@@ -1,0 +1,165 @@
+浏览器hack:hack就是“黑客”，就是使用浏览器提供的后门，针对某一种浏览器做兼容。
+IE6留了一个后门：只要给css属性之前，加上下划线，这个属性就是IE6的专有属性。
+比如说，我们给背景颜色这个属性加上下划线，就变成了_background-color: green;
+
+
+css hack方式有哪些？
+	条件注释法
+		<!--[if IE]>所有的IE可识别<![endif]-->
+		<!--[if !IE]> 只在IE上不生效 <![endif]-->?
+		<!--[if IE 6]>只在IE6下生效<![endif]-->
+		<!--[if lt IE 7]> IE7以及IE7以下版本可识别 <![endif]-->?
+		<!--[if lte IE 7]> 小于或等于运算。如果第一个参数是小于或等于第二个参数，则返回true。 <![endif]-->
+		<!--[if gte IE 6]> 只在IE6以上版本生效<![endif]-->
+		<!--[if (gt IE 5)&(lt IE 7)]> AND运算符。如果所有的子表达式计算结果为true，返回true <![endif]-->
+		<!--[if (IE 6)|(IE 7)]> IE6或IE7有效 <![endif]-->
+	属性前缀法
+		IE css hack汇总
+			hack	示例	      IE6(S)	IE6(Q)	IE7(S)	IE7(Q)	IE8(S)	IE8(Q)	IE9(S)	IE9(Q)
+			*	*color	        Y	Y	Y	Y	N	Y	N	Y
+			+	+color	        Y	Y	Y	Y	N	Y	N	Y
+			-	-color	        Y	Y	N	N	N	N	N	N
+			_	_color	        Y	Y	N	Y	N	Y	N	Y
+			#	#color	        Y	Y	Y	Y	N	Y	N	Y
+			\0	color:red\0	N	N	N	N	Y	N	Y	N
+			\9\0	color:red\9\0	N	N	N	N	N	N	Y	N
+	选择器前缀法
+		*html *前缀只对IE6生效
+		*+html *+前缀只对IE7生效
+		@media screen\9{...}只对IE6/7生效
+		@media \0screen {body { background: red; }}只对IE8有效
+		@media \0screen\,screen\9{body { background: blue; }}只对IE6/7/8有效
+		@media screen\0 {body { background: green; }} 只对IE8/9/10有效
+		@media screen and (min-width:0\0) {body { background: gray; }} 只对IE9/10有效
+		@media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {body { background: orange; }} 只对IE10有效
+		等等
+
+
+兼容性的第一条：
+--------------------------------------------------------------------------------
+IE6不支持小于12px的盒子，任何小于12px的盒子，在IE6中看都大。即：IE 6不支持微型盒子。
+
+	解决办法:就是将盒子的字号大小，设置为小于盒子的高，比如，如果盒子的高为5px，那就把font-size设置为0px(0px < 5px)。如下：
+
+		height: 5px;
+		_font-size: 0px;
+	或设置line-height:height;
+	或设置overflow:hidden;
+
+兼容性的第二条：
+----------------------------------------------------------------------------------
+IE6不支持用overflow:hidden;来清除浮动。
+	解决办法，以毒攻毒。追加一条：
+
+		_zoom:1;
+
+
+兼容性的第三条：
+----------------------------------------------------------------------------------
+IE6双倍margin的bug
+当出现连续浮动的元素，携带与浮动方向相同的margin时，队首的元素，会双倍marign。
+
+解决方案：
+
+（1）使浮动的方向和margin的方向，相反。
+
+所以，你就会发现，我们特别喜欢，浮动的方向和margin的方向相反。并且，前端开发工程师，把这个当做习惯了。
+
+    float: left;
+    margin-right: 40px;
+（2）使用hack：（没必要，别惯着这个IE6）
+
+单独给队首的元素，写一个一半的margin：
+
+<li class="no1"></li>
+ul li.no1{
+    _margin-left:20px;
+}
+
+
+兼容性的第四条：
+----------------------------------------------------------------------------------
+IE6的3px bug
+
+当给儿子使用margin时，与父亲之间的距离会平白无故多出3px；这是因为不能用margin定了父子之间关系，代码不标准
+
+
+
+兼容性的第五条：
+----------------------------------------------------------------------------------
+IE6的浮动元素后面的斜体文字会下沉的bug
+
+
+
+兼容性的第六条：
+----------------------------------------------------------------------------------
+IE6,7设置display:inline-block的兼容性问题
+	现象：行内元素设置，可以达到目的，但并不是正真的内联块，可以设置宽高，但和标准浏览器出现样式不一样
+	      块元素设置，不能达到目的
+
+	如何将块元素设置成内联块元素？
+		1. {
+			display:inline-block;	
+		}
+		   {
+			*display:inline;
+		}
+
+		2. {
+			display:inline-block;
+			*zoom:1;
+			*display:inline;
+		}
+
+		3. {
+			display:inline-block;
+			_zoom:1;
+			_display:inline;
+		}//只有IE6下会成立
+
+
+	为什么行内元素和块元素设置的内联块元素样式和标准浏览器样式有所出入？
+		这里面提到"触发layout",在给他们设置display属性时，会"触发layout"，每一个元素都有layout。在IE6,7有一个haslayout的属性，为true时表示该元素可以触发布局，为false时不能触发布局。
+		标准浏览器布局按w3c标准规定，而IE6,7的触发布局并没有按其标准，故样式有出入。
+		在IE6标准版本之前的版本的行内元素是可以设置宽高，及行内元素就是内联块元素，这也是造成IE6标准版本之前的"尺寸bug"。
+
+	属性前"_"和"*"有什么区别？
+		前面有讲到IE6的hack可以识别加下划线的属性，而IE6,7均可以识别加*的属性；其他浏览器均不能识别。
+		
+
+常见兼容性问题：
+	
+	不同浏览器默认的margin会让padding不一样
+
+	IE下，可以使用常规方法获取自定义属性，也可以使用getAttribute();Firefox下只能使用getAttribute()的方式来获取。
+	Chrome 中文界面下默认会将小于 12px 的文本强制按照 12px 显示,可通过加入 CSS 属性 -webkit-text-size-adjust: none; 解决。
+	超链接访问过后hover样式就不出现了，被点击访问过的超链接样式不再具有hover和active了。解决方法是改变CSS属性的排列顺序:L-V-H-A ( love hate ): a:link {} a:visited {} a:hover {} a:active {}
+
+
+
+兼容性的第七条：
+----------------------------------------------------------------------------------	
+各种选择器(浏览器兼容性)
+IE6层面兼容的选择器： 标签选择器、id选择器、类选择器、后代、交集选择器、并集选择器、通配符。如下：
+	p
+	#box
+	.spec
+	div p
+	div.span
+	div,p
+	*
+IE7能够兼容的：儿子选择器、下一个兄弟选择器。如下：
+	div>p
+	h3+p
+IE8能够兼容的：
+	ul li:first-child
+	ul li:last-child
+
+
+
+
+IE8不兼容<sectio></section>
+IE8不兼容JQ 的 trim()
+OE8不兼容JSON.parse()和JSON.stringfy()
+
+

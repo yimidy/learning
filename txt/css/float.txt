@@ -1,0 +1,57 @@
+浮动：会使元素脱离当前文档流，左浮或右浮知道遇到父元素或另一个浮动元素。
+
+影响：
+使元素脱离文档流
+浮动元素成内联排布
+破坏性，父元素高度崩塌，实现文字环绕效果
+自己宽度自适应由适应到最大变为最小
+高度自适应不变，还是自适应到最小
+margin塌陷
+使inline元素块化，display:block
+
+
+
+如何清除浮动
+clear和BFC，IE8+（haslayout，IE6,7特有的）两方面
+
+1. 手动设置父级元素高度
+2. 添加一个空div设置clear:both
+3. 同2原理一样，不过是父级添加类
+	.clearfloat:after{
+		display:block;
+		content:'';
+		clear:both;
+	}
+	.clearfloat{
+		*zoom:1;
+	}
+	伪类只有IE8以上和非IE浏览器可以使用，设置zoom属性是为了兼容IE6，7的清除浮动问题
+4. overflow:hidden
+	父元素设置overflow:hidden,不能设置height，因为发现子元素浮动那么父元素高度会崩塌，不能由子元素撑开，而设置溢出隐藏就可以了 
+	.clearfloat{
+		*zoom:1;//兼容IE浏览器
+		overflow:hidden/auto;
+	}
+
+
+
+应用：
+单侧固定布局
+	width+float
+	padding-left/margin-left
+	或者
+	width:100%+float;padding-left/margin-left
+	width+float
+
+IE6中的bug
+	浮动与外边距设置方向一致时首元素出现双边距现象
+	父子之间边距设置时多3px现象
+	浮动元素后面斜体文字下沉
+	overflow不能用于清除浮动
+
+IE7中的bug
+	浮动元素和文本不在一行
+	浮动元素楼梯排布
+	浮动元素最后一个字符重复
+	浮动元素最后两个元素出现间距
+	含clear的浮动元素出现包裹不正确问题

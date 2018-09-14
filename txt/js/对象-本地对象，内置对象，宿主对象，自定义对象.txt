@@ -1,0 +1,37 @@
+本地对象
+	独立于宿主环境
+	js本地对象就是已有的引用类型的数据类型
+
+	object，function，string，regexp，undefined，null，number，date，array，boolean
+
+
+内置对象
+	独立于宿主环境，但程序执行开始就已经建立，不需要开发人员创建
+	内置对象也是本地对象
+	已有的2个内置对象：Global，Math
+
+	global，全局对象，实际中不存在，全局作用域中的变量和方法全是它的属性，由于不存在，所以访问它时就省略掉，比如parseInt()方法就可以直接使用，[[global]].parseInt()
+	不能直接访问，但可以间接访问，它还有有个属性叫window，值也为window，来代替它。故全局作用域中的this===window为true
+
+	math，是一个数学方法对象，他有
+		Math.max()/.min()/ceil()/floor()/round()/random()
+							最大，最小，向上取整，向下取整，四舍五入，随机数
+
+宿主对象
+	作用于宿主环境的对象，DOM/BOM
+
+	DOM，文档节点对象模型
+		节点的获取，创建，添加，删除，修改
+
+	BOM，浏览器对象模型，即window对象的属性和方法
+		open()/close()
+		.location/.location.herf/.location.search/.location.hash
+		框架，top/parent/self
+		浏览器尺寸
+		浏览器窗口事件onload/onready/onunload/onscroll/onresize
+		navigator.userAgent
+
+自定义对象
+	定义一个对象方法（构造函数）
+	创建它
+			

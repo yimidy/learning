@@ -1,0 +1,12 @@
+抛出错误
+
+一般用来抛出自定义错误，做出提醒
+
+	throw "这里错了！";
+
+	throw new Error("这里错了！");
+
+遇到throw后，代码执行会立即停止，知道try-catch捕捉到才会继续执行
+
+注意：IE只能自定义Error类型的错误，其他的都只会"expection throw but not caugh"(抛出异常但未捕获)
+

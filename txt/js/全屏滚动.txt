@@ -1,0 +1,54 @@
+全屏滚动，即翻页效果
+
+思路
+	隐藏滚动条
+	在页面文档上设置滚轮mousewheel事件，监测e.wheelDelta的值来判断方向，动态改变文档位置，一次上移或下移一个屏幕的距离
+	
+
+		body{
+			overflow:hidden;
+			position: relative;
+		}
+		.page{
+			width: 100%;
+			height: 100%;
+		}
+
+
+function next_page(){
+	var viewH = $(window).height();
+	var clock,page=0;
+	$("img").each(function(item,index){
+			$(index).css("height",viewH+"px");
+	})
+	function next(){
+		$(document).on("mousewheel DOMMouseEvents",function(e){
+			if(clock){
+				clearTimeout(clock);
+			}
+			clock = setTimeout(function(){
+					checkWhell(e);
+			},300)
+			})
+	}
+	function checkWhell(e){
+		var distance = (e.originalEvent.wheelDelta&&(e.originalEvent.wheelDelta>0?1:-1))||(e.detail&&(e.detail>0?-1:1));
+		if(distance<0){
+			if(page<2){
+				
+				$("body").css("top",(-viewH*++page)+"px");
+				console.log(page);
+			}
+		}else{
+			if(page>0){
+				
+				$("body").css("top",(-viewH*--page)+"px");
+				console.log(page);
+			}
+		}
+	}
+	return {
+		init:next
+	}
+}
+next_page().init();

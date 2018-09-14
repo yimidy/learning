@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title></title>
+	<style type="text/css">
+		html{
+			margin:0;
+			padding:0;
+		}
+		img{
+			width: 500px;
+			height: 300px;
+			cursor:pointer
+		} 
+		
+	</style>
+</head>
+<body>
+
+	<img class="img1" src="img/img12.jpg">
+	<img class="img2" src="img/img12.jpg">
+	<img class="img3" src="img/img12.jpg" onmousewheel="bigimg1(this)"> 
+<script type="text/javascript" src="jquery-min.js"></script>
+<script type="text/javascript">
+	function getWheelScroll(e){
+		return (e.originalEvent.wheelDelta &&(e.originalEvent.wheelDelta>0?1:-1))||(e.detail&&(e.detail>0?-1:1));
+	}
+	function bigImg(obj){
+		obj.on("mousewheel DOMMouseEvents",function(e){
+			e = e||window.event;
+			var w = $(this).width(),
+				h = $(this).height();
+			if(getWheelScroll(e)>0){
+				w += 30;
+				h += 18;
+			}else{
+			 	w -= 30;
+				h -= 18;
+				}
+			obj.css({"width":w+"px","height":h+"px"});
+		})
+	}
+	bigImg($(".img1"))
+
+
+
+	function bigimg1(obj){
+    	//obj.style.zoom等比例缩放
+    	var zoom = parseInt(obj.style.zoom)||100;
+    	zoom += event.wheelDelta / 12;
+    	if(zoom > 0 )
+        	obj.style.zoom=zoom+'%';
+	}
+
+
+
+	function bigimg2(obj){
+		obj.on("mousewheel",function(e){
+			var zoom = obj.css("zoom")*100;
+			zoom += e.originalEvent.wheelDelta/12;
+			if(zoom>0){
+				obj.css("zoom",zoom+"%");
+			}
+		})
+	}
+	bigimg2($(".img2"));
+
+
+
+</script>
+</body>
+</html>

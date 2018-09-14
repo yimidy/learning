@@ -1,0 +1,54 @@
+伪类
+	同一标签，不同状态下有不同的样式
+
+	:link------------被点击之前
+	:visited---------点击之后
+	:hover-----------鼠标移到上面
+	:active----------点击后鼠标不松
+	(上述四个不能改变顺序)
+	:focus-----------获取焦点
+	（之下都是css3伪类）
+	:first-child-----首元素
+	:last-child------尾元素
+	:only-child------唯一子元素
+	:first-of-type---首元素
+	:last-of-type----尾元素
+	:only-of-type----唯一的元素
+	:nth-child(n)----第n个子元素
+	:nth-last-child(n)---倒数第n个子元素
+	:nth-of-type(n)---第n个某个元素
+	:nth-last-of-type(n)--倒数第n个某元素
+	:root------------文档根元素
+	:empty-----------选择无任何子元素的div标签
+	:target
+	:enabled
+	:disabled
+	:checked
+	:not(seletor)
+	
+
+
+
+
+
+
+伪元素
+	针对某选择器设置特性
+
+	::first-line-----首行
+	::first-letter---首字母
+	::before---------选择器内容前
+	::after----------选择器内容后
+	::lang-----------
+	(css3以下)
+	::selection------高亮文本选择器
+
+	
+
+
+
+标准规定伪类用":",伪元素用"::"；但为了兼容低版本浏览器，两者都可以用":"
+
+伪类可以相互叠加使用，伪元素在一个选择器中只能出现一个
+
+伪类和伪元素分别于类和标签选择器优先级同级

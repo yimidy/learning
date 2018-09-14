@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+<script type="text/javascript">
+/*	console.log(a);
+	var a = "2333";
+	console.log(a);
+	let a = "3444";
+	console.log(a);*/
+
+//in操作符，判断一个对象是否可以访问一个属性
+/*	var F = function(){}
+	Object.prototype.a = function(){}
+	Function.prototype.b = function(){}
+	var f = new F();
+	console.log("b" in f);//false
+	console.log("a" in f);//true
+	console.log("b" in F);//true
+	console.log("a" in F);//true*/
+
+	/*const a = /123/gi;
+	const b = /123/gi;
+	console.log(a==b);//false
+	console.log(a===b);//false*/
+
+/*	var name = "CVTE";
+	function mark(){
+		function dis(){
+			console.log(this.name);
+			console.log(name);
+		}
+		var name = "seo";
+		return dis;
+	}
+	var my = mark();
+	my();//CVTE,seo*/
+
+/*	for(var i=1;i<4;i++){
+		setTimeout(function(){
+			console.log(i);
+		},0);
+	}
+	console.log(4)//4 4 4 4*/
+
+/*	var foo = {
+		x:1
+	};
+	function bar(){
+		console.log(this.x);
+	}
+	bar.call(foo)//1
+	bar.apply(foo)//1
+	bar.bind(foo)//kong*/
+
+/*	var bar = {
+		1:3
+	}
+	console.log(bar[1])//3
+	console.log(bar.1)//error*/
+
+/*	var obj1 = {
+		x:1
+	}
+	var obj2 = Object.create(obj1);
+	console.log(obj2.hasOwnProperty("x"));//false
+	console.log(obj1===obj2._proto_);//false
+	console.log(obj1.x===obj2.x);//true*/
+
+/*	const myEmitter = new MyEmitter();
+	let m = 0;
+	myEmitter.once("event",()=>{
+		console,log(++m);
+	});
+	myEmitter.emit("event");
+	myEmitter.emit("event");*/
+
+/*	在链式存储结构中，存储数据结构的存储空间可以不连续，各数据结点的存储顺序与数据元素之间的逻辑关系可以不一致，而数据元素之间的逻辑关系是由指针域来确定的。
+	双向链表不是非线性结构,是线性结构。*/
+</script>
+</body>
+</html>

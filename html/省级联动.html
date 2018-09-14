@@ -1,0 +1,106 @@
+<!-- <title>省市联动</title>
+ </head>
+	<script type="text/javascript">
+	var arr = ["中国","美国","日本"] ;
+		  
+		  arr["中国"] = ["北京","上海","钓鱼岛"] ;
+		  arr["美国"] = ["纽约","华盛顿","旧金山"] ;
+		  arr["日本"] = ["东京","大阪","神户"] ;
+		
+		  arr["北京"] = ["海淀","朝阳","昌平","丰台"] ;
+		  arr["上海"] = ["浦东","金山","崇明","浦西"] ;
+		  arr["钓鱼岛"] = ["钓鱼岛东","钓鱼岛南","钓鱼岛西","钓鱼岛北"] ;
+ 
+		  arr["纽约"] = ["纽约1","纽约2","纽约3","纽约4"] ;
+		  arr["华盛顿"] = ["华盛顿1","华盛顿2","华盛顿3","华盛顿4"] ;
+		  arr["旧金山"] = ["旧金山1","旧金山2","旧金山3","旧金山4"] ;
+ 
+		  arr["东京"] = ["东京1","东京2","东京3","东京4"] ;
+		  arr["大阪"] = ["大阪1","大阪2","大阪3","大阪4"] ;
+		  arr["神户"] = ["神户1","神户2","神户3","神户4"] ;
+ 
+		  function init(){
+			  //填充国家
+			  fillData(arr,"country") ;
+ 
+			   //填充省市
+			  fillData(arr[arr[0]],"province") ;
+			    //填充地区
+			  fillData(arr[arr[arr[0]][0]],"area") ;
+		  }
+ 
+		  function fillData(arr,id){
+			    //清空select选项
+			  document.getElementById(id).options.length = 0 ;
+			  //添加选项
+			  for(var i = 0 ;i<arr.length ;i++){
+				  //创建一个option对象
+				  //第一种
+				 /* var option = new Option() ;
+				  option.text = arr[i] ;
+				  option.value = arr[i] ;*/
+ 
+				  //第二种
+				  var option = new Option(arr[i],arr[i]) ;
+				  console.log(i)
+ 					console.log(option)
+				  //将option对象添加到select中
+				  document.getElementById(id).options.add(option) ;
+			  }
+		  }
+ 
+		  function changePro(coun){
+			
+			  //添加省市
+			  fillData(arr[coun],"province") ;
+ 
+			  //添加地区
+			  fillData(arr[arr[coun][0]],"area") ;
+		  }
+ 
+		  function changeArea(pro){
+			//改变地区
+			fillData(arr[pro],"area") ;
+		  }
+	//
+	</script>
+ <body onload = "init()">
+	 国家：<select id = "country" onchange = "changePro(this.value)"></select>
+	 省市：<select id = "province" onchange = "changeArea(this.value)"></select>
+	 地区：<select id = "area"></select>
+ </body>
+</html> -->
+
+
+
+<title>选择与改变事件</title>
+ </head>
+	<script type="text/javascript">
+	<!--
+		function fun(obj){
+			alert(obj.value) ;
+		}
+ 
+		function fun1(v){
+			alert(v) ;
+		}
+ 
+		function fun2(v,index){
+			alert(v + ":" + index) ;
+		}
+	//-->
+	console.log(event);
+	</script>
+ <body>
+      <input type="text" name="" onselect = "fun(this)" onchange = "fun1(this.value)" >
+	  <select onchange = "fun2(this.value,this.selectedIndex)">
+		  <option value = "china">中国</option>
+		  <option value = "america"> 美国</option>
+		  <option value = "japan">日本</option>
+	  </select>
+ </body>
+</html>
+
+
+
+

@@ -1,0 +1,120 @@
+1. 使用Object构造函数
+   var obj = new Object();
+   obj.name = "LiHua";
+   obj.say = function(){};
+
+缺点：创建多个对象时，会出现大量重复代码，冗余严重
+
+2. 对象字面量
+   var obj = {
+	name:"LiHua",
+	say:function(){}
+   }
+
+缺点：创建多个对象时，会出现大量重复代码，冗余严重
+
+3. 工厂模式
+function person(name){
+	var o = new Object();
+	o.name = name;
+	o.say = function(){};
+	return o;
+}
+var obj = person("LiHua");
+
+构造函数如果不返回对象，返回空,   默认返回 undefined
+构造函数如果返回"",              默认返回 空字符
+构造函数如果返回null,            默认返回 null
+（具体与寄生构造函数做对比）
+
+缺点：不能识别该对象的具体类型
+
+4. 构造函数
+function Person(name){
+	this.name = name;
+	this.say = function(){};
+}
+var obj = new Person("LiHua");
+
+不需要新建对象，使用this；没有return；创建实例时new
+可以识别对象的类型
+
+缺点：每个对象实例都会创建相同的方法，造成重复
+
+5. 原型
+function Person(){}
+Person.prototype.name = "";
+Person.prototype.say = function(){};
+var obj = new Person();
+obj.name = "LiHua";
+
+每个实例都共享原型的属性和方法
+
+缺点：对于创建多个对象时像每个对象的name这样的私有属性不能一起创建，必须重新给实例赋值，屏蔽掉原型的属性或方法
+
+6. 组合
+function Person(name){
+	this.name = name;
+}
+Person.prototype.say = function(){};
+var obj = new Person("LiHua");
+
+7. 动态原型
+function Person(name){
+	this.name = name;
+	if(typeof this.say !== function){
+		Person.prototype.say = function(){}
+	}
+}
+var obj = new Person("LiHua");
+
+只有对象实例的say方法不存在时，才会将它添加到原型中；一般对第一个实例初始化好了之后，创建其他对象时就不需要在添加该方法了，因为原型对象中已经有了
+
+7. 寄生构造函数
+function Person(name){
+	var o = new Object();
+	o.name = name;
+	o.say = function(){
+		console.log(this.name);
+	};
+	return o;
+}
+var obj = new Person("LiHua");
+
+返回的对象与构造函数的原型属性无任何关系
+
+与工程模式的区别在于使用了new关键字，将该函数当做构造函数使用
+
+构造函数如果不返回对象，返回null/""/空,默认也会返回一个新的对象  Person{__proto__: Object}
+通过在构造函数的末尾添加一个return语句，可以重写调用构造函数时返回的值Object{name: "LiHua",say: (),__proto__: Object}
+
+
+8. 稳妥构造函数
+function Person(name){
+	var o = new Object();
+	o.name = name;
+	o.say = function(){
+		console.log(name);
+	};
+	return o;
+}
+var obj = Person("LiHua");
+
+与寄生构造函数不同的就是：不使用new关键字和不使用this
+
+不能修改实例对象的属性值，因为此时Person其实已经不是构造函数了
+
+9. Object.create()
+
+Object.create()方法接受两个参数:Object.create(obj,propertiesObject) ;
+
+obj:一个对象，应该是新创建的对象的原型。
+propertiesObject：可选。该参数对象是一组属性与值，该对象的属性名称将是新创建的对象的属性名称，值是属性描述符（这些属性描述符的结构与Object.defineProperties()的第二个参数一样）。注意：该参数对象不能是 undefined，另外只有该对象中自身拥有的可枚举的属性才有效，也就是说该对象的原型链上属性是无效的。
+
+使用Object.create()是将对象继承到__proto__属性上(即将obj继承到新建对象的原型上)
+
+var test = Object.create({x:123,y:345});
+console.log(test);//{}
+console.log(test.x);//123
+console.log(test.__proto__.x);//3
+console.log(test.__proto__.x === test.x);//true

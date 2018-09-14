@@ -1,0 +1,104 @@
+ajax的四步：
+	1. 创建xmlhttprequest对象
+	2. 建立连接
+	3. 发送请求
+	4. 返回数据
+xhr.readyState
+0 － （未初始化）还没有调用send()方法
+1 － （载入）已调用send()方法，正在发送请求
+2 － （载入完成）send()方法执行完成，已经接收到全部响应内容
+3 － （交互）正在解析响应内容
+4 － （完成）响应内容解析完成，可以在客户端调用了
+
+特点：
+异步获取数据，局部刷新（减少了客户端和服务器之间不必要数据的传输，减少了带宽），在客户端工作，减轻服务器的压力
+
+请介绍一下XMLhttprequest对：
+Ajax的核心是JavaScript对象XmlHttpRequest。该对象在Internet Explorer 5中首次引入，它是一种支持异步请求的技术。简而言之，XmlHttpRequest使您可以使用JavaScript向服务器提出请求并处理响应，而不阻塞用户。通过XMLHttpRequest对象，Web开发人员可以在页面加载以后进行页面的局部更新。
+
+AJAX技术体系的组成部分有哪些：
+HTML，css，dom，xml，xmlHttpRequest，javascript
+
+AJAX应用和传统Web应用有什么不同：
+在传统的Javascript编程中，如果想得到服务器端数据库或文件上的信息，或者发送客户端信息到服务器，需要建立一个HTML form然后GET或者POST数据到服务器端。用户需要点击”Submit”按钮来发送或者接受数据信息，然后等待服务器响应请求，页面重新加载。
+因为服务器每次都会返回一个新的页面， 所以传统的web应用有可能很慢而且用户交互不友好。
+使用AJAX技术， 就可以使Javascript通过XMLHttpRequest对象直接与服务器进行交互。
+通过HTTP Request， 一个web页面可以发送一个请求到web服务器并且接受web服务器返回的信息(不用重新加载页面)，展示给用户的还是通一个页面，用户感觉页面刷新，也看不到到Javascript后台进行的发送请求和接受响应。
+
+Ajax 解决浏览器缓存问题？
+  1、在ajax发送请求前加上 anyAjaxObj.setRequestHeader("If-Modified-Since","0")。 
+  2、在ajax发送请求前加上 anyAjaxObj.setRequestHeader("Cache-Control","no-cache")。 
+  3、在URL后面加上一个随机数： "fresh=" + Math.random();。
+
+原生js的AJAX手撕
+
+function ajax(){
+  var ajaxData = {
+    type:arguments[0].type || "GET",
+    url:arguments[0].url || "",
+    async:arguments[0].async || "true",
+    data:arguments[0].data || null,
+    dataType:arguments[0].dataType || "text",
+    contentType:arguments[0].contentType || "application/x-www-form-urlencoded",
+    beforeSend:arguments[0].beforeSend || function(){},
+    success:arguments[0].success || function(){},
+    error:arguments[0].error || function(){}
+  }
+  ajaxData.beforeSend()
+  var xhr = createxmlHttpRequest(); 
+  xhr.responseType=ajaxData.dataType;
+  xhr.open(ajaxData.type,ajaxData.url,ajaxData.async); 
+  xhr.setRequestHeader("Content-Type",ajaxData.contentType); 
+  xhr.send(convertData(ajaxData.data)); 
+  xhr.onreadystatechange = function() { 
+    if (xhr.readyState == 4) { 
+      if(xhr.status == 200 || xhr.atatus==304){
+        ajaxData.success(xhr.response)
+      }else{
+        ajaxData.error()
+      } 
+    }
+  } 
+}
+  
+function createxmlHttpRequest() { 
+  if (window.ActiveXObject) { 
+    return new ActiveXObject("Microsoft.XMLHTTP"); 
+  } else if (window.XMLHttpRequest) { 
+    return new XMLHttpRequest(); 
+  } 
+}
+  
+function convertData(data){
+  if( typeof data === 'object' ){
+    var convertResult = "" ; 
+    for(var c in data){ 
+      convertResult+= c + "=" + data[c] + "&"; 
+    } 
+    convertResult=convertResult.substring(0,convertResult.length-1)
+    return convertResult;
+  }else{
+    return data;
+  }
+}
+
+
+
+
+使用格式
+
+ajax({ 
+  type:"POST", 
+  url:"ajax.php", 
+  dataType:"json", 
+  data:{"val1":"abc","val2":123,"val3":"456"}, 
+  beforeSend:function(){ 
+    //some js code 
+  }, 
+  success:function(msg){ 
+    console.log(msg) 
+  }, 
+  error:function(){ 
+    console.log("error") 
+  } 
+})

@@ -1,0 +1,122 @@
+为css增加了一些编译语言，最终将css作为目标文件生成。
+
+简洁，代码量少，易于管理，可读，实用性强
+--------------------------------------------------
+sass less stylus
+
+基本语句
+变量
+运算
+逻辑语句（if else，for，while，）
+函数
+嵌套
+@extend继承
+@mixin混入（宏定义）
+@import
+-------------------------------------------------
+Sass
+
+以scss为后缀的文件名
+编译 sass xxx.scss /sass xxx.scss  xxx.css
+变量$bg  #{$bg} 以离自己最近的一次定义为准
+运算 不能运算加法，其他均可以
+逻辑语句 条件语句（@if{}@else if{}@else{}）
+	 循环语句(@for $i from 1 to 10{})
+		 ($i:10 while $i>0{$i--})
+	  	 ()
+函数   @function fn($px){ @return $px/2;}
+嵌套
+继承    .ext{}               .box{@extend .ext;}
+宏定义  @mixin repeat(){}    .box{@include repeat}
+@import  @import xxx.scss / @import url(xxx.css)
+
+----------------------------------------------------
+Less
+
+以less为后缀的文件名
+编译 lessc xxx.less /lessc xxx.less  xxx.css
+变量@bg  @{bg} 以最后一次定义为准
+运算 
+逻辑语句 
+函数   内置函数
+嵌套
+继承   .ext{}       .box{&:extend(.ext);}
+宏定义 定义类，直接引用  .repeat(){}   .box{.repeat}
+@import @import xxx.less / @import url(xxx.css)/@import "xxx.css"
+---------------------------------------------------------------
+
+Stylus
+
+以styl为后缀的文件名
+编译 lessc xxx.less /lessc xxx.less  xxx.css
+变量@bg  @{bg} 以最后一次定义为准
+运算 
+逻辑语句 条件语句（@if{}@else if{}@else{}）
+	 循环语句(for $i from 1 to 10{})
+		 ($i:10 while $i>0{$i--})
+	  	 ()
+函数     fn(n) n/2    .box{font-size:fn(32px)}
+嵌套
+继承    .ext{}       .box{@extend .ext;}
+宏定义 定义类，直接引用  repeat(){}   .box{repeat}
+@import @import xxx.styl  
+
+-------------------------------------------------------------------
+
+
+
+
+编写形式
+
+//sass
+.box
+	key:value
+
+//less && sass
+.box{
+	key:value;
+}
+
+//stylus
+.box
+	key value
+
+
+嵌套
+
+.a {
+  &.b {
+    color: red;
+  }
+}
+
+注释
+	//模板注释，转换为css删除
+	/* */注释语法，保留
+
+
+全局变量与局部变量
+	写在选择器里的为局部变量
+	在任何选择器外的为全局变量
+	$bg:#f5f5f5 !global 即使写在选择器里也覆盖全局
+
+
+默认变量
+	$bg:#f5f5f5 !defalut;
+
+
+占位选择器%
+	%ir{}//占位选择器编译后不存在在css样式中
+	@extend %ir
+
+
+常用函数
+	percentage($value)：将一个不带单位的数转换成百分比值；
+	round($value)：将数值四舍五入，转换成一个最接近的整数；
+	ceil($value)：将大于自己的小数转换成下一位整数；
+	floor($value)：将一个数去除他的小数部分；
+	abs($value)：返回一个数的绝对值；
+	min($numbers…)：找出几个数值之间的最小值；
+	max($numbers…)：找出几个数值之间的最大值。
+	lighten($color,$percent)
+	darken($color,$percent)，$color颜色值，$percent百分比

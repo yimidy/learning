@@ -1,0 +1,26 @@
+jq是js的函数库
+
+jq里包括：
+	HTML元素的获取
+	HTML元素的操作
+	css的操作
+	HTML事件函数
+	js特效和动画
+	DOM的遍历和修改
+	AJAX
+
+使用本地文件
+src="jquery-min.js"
+
+使用 Google 的 CDN 
+src="http://ajax.googleapis.com/ajax/libs
+/jquery/1.4.0/jquery.min.js"
+
+使用 Microsoft 的 CDN
+src="http://ajax.microsoft.com/ajax/jquery
+/jquery-1.4.min.js"
+
+
+1. jQuery使用css选择器来选取元素？     正确
+2. jQuery适用于html和xml文档？         错误
+3. jQuery是w3c标准？                   错误

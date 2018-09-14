@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<style type="text/css">
+		*{
+			padding: 0;
+			margin: 0;
+			text-decoration: none;
+			list-style: none;
+			
+		}
+		.lazy-load{
+			width: 1100px;
+			margin:0 auto;
+		}
+		ul{
+			overflow: hidden;
+		}
+		li{
+			float: left;
+			margin-right: 50px;
+			margin-bottom: 30px；
+		}
+		.backTop{
+			padding:4px;
+			border:1px #ccc solid;
+			position: fixed;
+			bottom: 50px;
+			right: 90px;
+			z-index: 10;
+			cursor: pointer;
+			display: none;
+		}
+	</style>
+</head>
+<body>
+<div class="lazy-load">
+		<ul>
+			<li><img src="img/loading.jpg" data-src="img/img2.jpg"></li>
+			<li><img src="img/loading.jpg" data-src="img/img2.jpg"></li>
+			<li><img src="img/loading.jpg" data-src="img/img2.jpg"></li>
+			<li><img src="img/loading.jpg" data-src="img/img2.jpg"></li>
+			<li><img src="img/loading.jpg" data-src="img/img2.jpg"></li>
+			<li><img src="img/loading.jpg" data-src="img/img2.jpg"></li>
+			<li><img src="img/loading.jpg" data-src="img/img2.jpg"></li>
+			<li><img src="img/loading.jpg" data-src="img/img2.jpg"></li>
+			<li><img src="img/loading.jpg" data-src="img/img2.jpg"></li>
+			<li><img src="img/loading.jpg" data-src="img/img2.jpg"></li>
+			<li><img src="img/loading.jpg" data-src="img/img2.jpg"></li>
+			<li><img src="img/loading.jpg" data-src="img/img2.jpg"></li>
+			<li><img src="img/loading.jpg" data-src="img/img2.jpg"></li>
+			<li><img src="img/loading.jpg" data-src="img/img2.jpg"></li>
+			<li><img src="img/loading.jpg" data-src="img/img2.jpg"></li>
+			<li><img src="img/loading.jpg" data-src="img/img2.jpg"></li>
+			<li><img src="img/loading.jpg" data-src="img/img2.jpg"></li>
+			<li><img src="img/loading.jpg" data-src="img/img2.jpg"></li>
+			<li><img src="img/loading.jpg" data-src="img/img2.jpg"></li>
+			<li><img src="img/loading.jpg" data-src="img/img2.jpg"></li>
+			<li><img src="img/loading.jpg" data-src="img/img2.jpg"></li>
+			<li><img src="img/loading.jpg" data-src="img/img2.jpg"></li>
+			<li><img src="img/loading.jpg" data-src="img/img2.jpg"></li>
+			<li><img src="img/loading.jpg" data-src="img/img2.jpg"></li>
+		</ul>
+</div>
+
+<span class="backTop">回到顶部</span>
+<script type="text/javascript" src="jquery-min.js"></script>
+<script type="text/javascript">
+	$(function(){
+		//懒加载
+		function lazyload(){
+			var clock;
+			function init(){
+				$(window).on("scroll",function(){
+					if(clock){
+						clearTimeout(clock);
+					}
+					clock = setTimeout(function(){
+						checkShow();
+					},100)	
+				})
+				checkShow();
+			}
+
+			function checkShow(){
+				$("img").each(function(){
+					var $cur = $(this);
+					if($cur.attr("isLoad")){
+						return;
+					}
+					if(isvisible($cur)){
+						showImage($cur);
+					}
+				})
+			}
+
+			function isvisible(obj){
+				var scrollTop = $(window).scrollTop();
+				var viewHeight = $(window).height();
+				var offsetTop = obj.offset().top;
+				if(offsetTop < scrollTop + viewHeight){
+					return true;
+				}else{
+					return false;
+				}
+			}
+
+			function showImage(obj){
+				obj.css({"width":"300px","height":"500px"});
+				obj.attr("src",obj.attr("data-src"));
+				obj.attr("isLoad",true);
+			}
+
+			return{
+				init:init
+			} 
+		}
+
+		lazyload().init();
+
+		//无限动态加载
+		function infinity_scrollFun(){
+
+			var isLoading = false;
+			var isEnd = false;
+			var clock;
+			var viewH = window.innerHeight || document.documentElement.clientHeight ||document.body.clientHeight;
+			console.log("viewH: " +viewH);
+			function fetchData(){
+				$(window).on("scroll",function(){
+					if(clock){
+						clearTimeout(clock);
+					}
+					clock = setTimeout(function(){
+							checkScroll();
+					},200)
+					
+				})
+			}
+
+			function checkScroll(){
+				console.log(1);
+				if(!isLoading && !isEnd){
+						isLoading = true;
+						var containerH = $(".lazy-load")[0].getBoundingClientRect().bottom;
+						var distance = containerH - viewH ;
+						console.log("containerH: " +containerH);
+						console.log("distance: "+distance);
+
+						/*if(distance < 200){
+								fetch(path).then(res=>{
+										isLoading = false;
+										res.data.length === 0 && isEnd =true;
+										doSomething(res.data);
+								})
+						}*/
+					}
+			}
+
+			function doSomething(data){
+					var str = "<li><img src='img/loading.jpg' data-src=''></li>";
+					$("ul").append(str);
+			}
+
+			return {
+				init:fetchData
+			}
+		}
+
+		infinity_scrollFun().init();
+
+		//回到顶部
+		function backTop(){
+			$(".backTop").hide();
+			$(window).on("scroll",function(){
+				var pageH = $(window).height() + $(window).scrollTop();
+				console.log(pageH);
+				if(pageH > 2500){
+					$(".backTop").show();
+					$(".backTop").on("click",function(){
+						$(window).scrollTop(0);
+						$(".backTop").hide();
+					})
+				}
+			})
+		}
+
+		backTop()
+
+			
+
+			
+			
+
+			
+	})
+</script>
+</body>
+</html>

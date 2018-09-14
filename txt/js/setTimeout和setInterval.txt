@@ -1,0 +1,103 @@
+function fn(){}
+
+var timer = setTimeout(fn,millSeconds);//在millSeconds毫秒后执行一次函数fn
+clearTimeout(timer);
+
+var timer = setInterval(fn,millSeconds);//每隔millSeconds毫秒后执行函数fn
+clearInterval(timer);
+
+timer为一个计数编码的整数值，为取消定时任务而设置
+
+两者区别：
+	前者只执行一次，后者是周期内循环执行，知道清除掉该定时器
+
+使用定时器要注意的要点：
+
+ 1. 运行机制
+
+    js是单线程的，定时器并没有让它变为多线程。
+
+    浏览器的内核是多线程的，一个浏览器至少有3个常驻线程：js引擎线程、GUI渲染线程、浏览器事件触发线程。
+
+    js引擎是基于事件驱动单线程执行的，js引擎一直在等待任务队列中任务的到来，然后在js线程中运行程序。
+
+    GUI渲染负者渲染页面，重排和重绘也是由他触发；但注意，GUI渲染线程与js引擎线程是互斥的，当js引擎执行时会将GUI渲染任务挂起，放到一个队列中等线程空闲在立即被执行。
+
+    事件触发线程，当一个事件触发时，将该事件添加到队列队尾，灯js引擎空闲处理。
+
+    在规定的事件内，其他的代码段没有执行完毕，占用线程，导致定时器代码被延缓，所以，使用定时器并不能准确的控制执行代码的时间
+
+    故，在setInterval里就会出现，在到了下一次代码执行时间而上一次的事件并没有执行完毕，就会出现代码之间没有停顿；不过javascript已经解决了这个问题，仅当没有该定时器代码实例额的时候才将新的代码插入队列，这样就确保了执行代码的时间最小是规定时间间隔。
+	2个问题：
+		某些间隔可能会被跳过
+		多个定时器的代码执行之间的事件比规定的小
+
+	解决：可以使用setTimeout来解决
+		setTimeout(function(){
+			fn();
+			setTimeout(arguments.callee,times);
+		},times)
+
+		arguments.callee属性返回的是当前执行的函数，一般用于对匿名函数的重复递归调用，在ES5的严格模式中删除了
+
+
+2.   最小执行时间
+     setTimeout有一个最小执行时间，当指定的时间小于该时间时，浏览器会用最小允许的时间作为setTimeout的时间间隔，也就是说即使我们把setTimeout的毫秒数设置为0，被调用的程序也没有马上启动。
+ 
+     在苹果机上的最小时间间隔是10毫秒，在Windows系统上的最小时间间隔大约是15毫秒。Firefox中定义的最小时间间隔（DOM_MIN_TIMEOUT_VALUE）是10毫秒，HTML5定义的最小时间间隔是4毫秒。
+
+3. this指向永远是window（延迟执行函数代码段中的this）
+
+   可以使用闭包
+	name = "as";
+	obj  = {
+		name :"qw",
+		print: function(){
+			var that = this;
+			console.log(that.name);
+		}
+	}
+	setTimeout(obj.print,500)
+    事件绑定
+	name = "as";
+	obj  = {
+		name :"qw",
+		print: function(){
+			console.log(this.name);
+		}
+	}
+	setTimeout(obj.print.bind(obj),500)
+
+4.   setTimeout(fn,0)
+
+     为什么要将时间设置为0，起到作用了吗？
+	
+     因为定时器有一个最少指向时间，在html5中规定，其为4ms，故代码一开始并不会执行，它同样可是个定时器，会将任务添加到队列队尾，在同步任务执行完毕后立即执行，这时就不一定只有4ms的时间，所以，setTimeout(fn,0)起到一个改变执行顺序的作用，可以用来做事件捕获;分割耗时任务
+
+5.   传参
+
+     IE9以下版本都只有2个参数，fn和times
+     现代浏览器都可以接受4个参数，后两个作为回调函数中的参数传入
+	setTimeout(fn(a,b){},500,1,2)//a=1,b=2
+6.  应用
+
+    防抖动：在连续触发某一事时，如果频繁的执行对浏览器性能不是很友好，所以规定在一定时间间隔内没有触发该事件就会执行，若触发了就会重新计时
+	function debounce(fn,delay){
+		var timer = null;
+		return function(){
+			var con = this;
+			var arg = arguments;
+			clearTimeout(timer);
+			timer = setTimeout(function(){
+				fn.apply(this,arg);
+			},delay);
+		} 
+	} 
+    不要设置过多的定时器，，这回消耗CPU，影响浏览器性能。
+
+	
+    
+
+
+	
+

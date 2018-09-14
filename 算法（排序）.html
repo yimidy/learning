@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+<script type="text/javascript" >
+	var _arr = [13,6,3,31,9,27,5,11];
+
+//直接插入排序
+//法一
+/*var newArr = [];
+function sort(arr){
+	var k = arr.splice(0,1)[0];
+	if(newArr.length==0){
+		newArr.push(k);
+	}else{
+		for(var i=0;i<newArr.length;i++){
+			if(k<newArr[i]){
+				newArr.splice(i,0,k);
+				break;
+			}
+		}
+		if(i==newArr.length){newArr.push(k)}
+	}
+	console.log("newArr"+" "+newArr);
+	if(arr.length>0){
+		sort(arr);
+	}
+}
+sort(_arr);*/
+//法二
+/*(function sort(arr){
+	for(var i=0;i<arr.length;i++){
+		for(var j=0;j<i;j++){
+			if(arr[j]>arr[i]){
+				var t = arr[i];
+				arr[i] = arr[j];
+				arr[j] = t; 
+			}
+		}
+	}
+})(_arr)
+console.log(_arr)*/
+
+
+
+
+//直接选择排序
+/*var newArr = [];
+var min,n;
+(function sort(arr){
+	min = arr[0];
+	n=0;
+	for(var i=0;i<arr.length;i++){
+		if(arr[i]<min){
+			min = arr[i];
+			n = i;
+		}
+	}
+	newArr.push(min);
+	arr.splice(n,1);
+	if(arr.length!=0){
+		sort(arr);
+	}
+})(_arr)
+console.log(newArr)*/
+
+/*function sort(arr){
+	if(arr.length<=1){return arr;}
+	var min = 0;
+	for(var i=0;i<arr.length;i++){
+		if(arr[i]<arr[min]){
+				var t = arr[i];
+				arr[i] = arr[min];
+				arr[min] = t; 
+		}
+	}
+
+	return arr.splice(0,1).concat(sort(arr))
+}
+console.log(sort(_arr))*/
+
+/*function sort(arr){
+	for(var i=0;i<arr.length;i++){
+		for(var j=i+1;j<arr.length;j++){
+				if(arr[i]>arr[j]){
+				var t = arr[i];
+				arr[i] = arr[j];
+				arr[j] = t; 
+				}
+		}
+		console.log(arr)
+	}
+	console.log(arr)
+}
+sort(_arr);*/
+
+
+//冒泡排序
+/*console.log(_arr);
+(function sort(){
+	for(var i=0;i<_arr.length;i++){
+		for(var j=0;j<_arr.length;j++){
+			if(_arr[j]>_arr[j+1]){
+				var t = _arr[j];
+				_arr[j] = _arr[j+1];
+				_arr[j+1] = t;
+			}
+		}
+		console.log(_arr);
+	}
+	console.log(_arr);
+})()*/
+
+
+
+//堆排序(小根堆)
+/*(function sort(){
+var end = _arr.length;
+var par,tag,t;
+while(end>1){
+	while(1){
+		par = Math.floor(end/2-1);
+		tag = 0;
+		while(par>-1){
+			if(_arr[2*par+1]>_arr[par]){
+				t = _arr[par];
+				_arr[par] = _arr[2*par+1];
+				_arr[2*par+1] = t;
+				tag = 1;
+			}
+			if((2*par+2)<end&&_arr[2*par+2]>_arr[par]){
+				t = _arr[par];
+				_arr[par] = _arr[2*par+2];
+				_arr[2*par+2] = t;
+				tag = 1;
+			}
+			par--;
+		}
+		if(!tag)  break;
+	}
+	t = _arr[0];
+	_arr[0] = _arr[end-1];
+	_arr[end-1] = t;
+	end--;
+}
+console.log(_arr)
+})()*/
+
+
+//快速排序
+/*function sort(arr){
+	if(arr.length<=1){return arr;}
+	var k = arr.splice(0,1)[0];
+	var left = [];
+	var right = [];
+	for(var i=0;i<arr.length;i++){
+		if(arr[i]<=k){
+			left.push(arr[i]);
+		}else{
+			right.push(arr[i]);
+		}
+	}
+	return sort(left).concat([k],sort(right));
+}
+console.log(sort(_arr));*/
+
+
+//归并排序
+
+function mergeSort(arr){
+	if(arr.length<2){
+		return arr;
+	}
+	var mid = Math.floor(arr.length/2);
+	var left = arr.slice(0,mid);
+	var right = arr.slice(mid);
+	return merge(mergeSort(left),mergeSort(right));
+}
+function merge(left,right){
+	var result = [];
+	while(left.length>0&&right.length>0){
+		if(left[0]<right[0]){
+			result.push(left.shift())
+		}else{
+			result.push(right.shift())
+		}
+	}
+	
+	while(left.length){
+		result.push(left.shift())
+	}
+	while(right.length){
+		result.push(right.shift())
+	}pppppp
+	return result;
+}
+console.log(mergeSort(_arr))
+
+
+
+
+
+
+</script>
+</body>
+</html>

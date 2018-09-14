@@ -1,0 +1,54 @@
+数组方法：
+	push()//向后添加，返回数组长度，改变原数组
+	pop()//删除最后一个，返回删除的元素，改变原数组
+	unshift()//向前添加，返回数组长度，改变原数组
+	shift()//删除第一个，返回删除的元素，改变原数组
+	
+	toString()
+	join("")//以参数为分隔符，组成一个字符串返回
+
+	valueOf()//返回数组本身
+	indexOf("a",3)//返回字符在数组中出现位置，第二个参数是起始位置，不写默认为0
+	lastIndexOf("a")
+
+	arr.concata([4,5,6])//合并数组，返回新数组，原数组不变
+
+	arr.reverse()//颠倒顺序，改变原数组
+
+	arr.slice(start,end)//截取数组的一部分，从0到2，即左闭右开，返回新数组，原数组不变
+
+	arr.splice(start,length,add)//删除一部分，返回删除的元素集，原数组改变
+
+	arr.sort(function(a,b){ return a-b;})//升序排列,改变原数组
+
+	arr.map(function(){})//依次作用于每一个元素上，生成新数组，原数组不变
+	
+	arr.forEach(function(){})//依次作用于每一个元素上，无结果
+
+	arr.filter(function(){return ;})//返回结果为true的元素组成新数组
+	arr.every()//每一项返回true，则为true
+	arr.some()//只要有意向为true，则为true
+
+
+
+字符串方法：
+	charAt(index)//返回指定位置的字符
+	indexOf()//返回指定字符的位置
+	lastIndexOf()//返回指定字符的位置,倒序查找
+	split()//以传入参数分割字符
+	slice(start,end)//截取字符串，负值时值加上原字符长度
+	substring(start，end)//截取字符串，负值时变为0
+	substr(start,length)//截取字符串	，start负值时值加上原字符长度，end负值时为0
+	
+	toLowerCase()
+	toUpperCase()
+	
+	trim()//去除开头金额结尾的空白处
+
+	length
+
+	search(reg)
+	match(reg)
+	raplace(reg)
+	
+	

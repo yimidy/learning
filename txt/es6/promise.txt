@@ -1,0 +1,100 @@
+promise--------------异步编程解决方案
+
+三种状态：
+	pending//进行中或等待中
+	resolved//已完成
+	rejected//已失败
+
+	状态的转换：单向,一但改变将不会在变化
+		pending--->resolved
+		pending--->rejected
+
+ES6之前的promise：
+	ES6中，promise成为一个原生对象，可以直接使用；但在这之前，都需要引入第三方库（如Bluebird）
+
+
+promise的基本用法：
+
+1. 声明：
+	let promise = new promise((resolve,reject)=>{
+		if(success){
+			resolve();
+		}else{
+			reject();
+		}
+	})
+
+   或  function promise(){
+		return new promise((resolve,reject){
+			if(success){
+				resolve();
+			}else{
+				reject();
+			}			
+		})
+	}
+2. promise原型上会有两个方法then()和catch()
+	promise.then(
+		()=>{},//参数1，resolve时调用
+		()=>{}//参数2，reject时调用
+	)
+	
+	promise.catch(
+		()=>{}
+	)
+	  //catch()的作用是捕获Promise的错误，与then()的rejected回调作用几乎一致。但是由于Promise的抛错具有冒泡性质，能够不断传递，这样就能够在一个catch()中统一处理这些错误。同时catch()也能够捕获then()中抛出的错误，所以建议不要使用then()的rejected回调，而是统一使用catch()来处理错误
+
+
+
+	当状态以便为resolved之后，不会在执行then()和catch()
+	then()和catch()都会返回一个新的promise对象，可以链式调用
+	
+	问题：promise实例的异步方法和then()中返回的promise有何不同？
+	
+		// p1异步方法中返回p2
+			let p1 = new Promise ( (resolve, reject) => {
+    				resolve(p2)
+			} )
+			let p2 = new Promise ( ... )
+			p1异步方法中返回p2
+
+			p1的状态取决于p2，如果p2为pending，p1将等待p2状态的改变，p2的状态一旦改变，p1将会立即执行自己对应的回调，即then()中的方法针对的依然是p1
+
+
+		// then()中返回promise
+let 
+			let p3 = new Promise ( (resolve, reject) => {
+    
+					resolve()
+
+			} )
+			
+let p4 = new Promise ( ... )
+
+			p3.then(
+    
+				() => return p4
+
+			)
+
+.then(
+					()=>{}//该then()针对的对象将是p4
+				)
+
+3. promise.resolve()/promise.reject()
+	promise.resolve() 参数为promise时，原样返回
+			  参数带then方法时，转换为promise后立即执行then()方法
+			  参数不带then方法，不是对象或无参，返回已完成resolved状态的promise
+
+	promise.reject() 返回状态为rejected的promise
+
+4. promise.all([obj1,obj2,obj3])
+	将所有对象用promise.resolve()方法转换，所有对象都为resolve则promise为resolved；只要有一个rejected则为rejected
+
+5. promise.race([obj1,obj2,obj3])
+	竞速，只要有一个为resolved或rejected，则promise转换为相应的状态
+6. promise.done()
+	类似 .then() ，可以提供resolved和rejected方法，也可以不提供任何参数，它的主要作用是在回调链的尾端捕捉前面没有被 .catch() 捕捉到的错误
+
+7. promise.finally(()=>{})
+	接受一个方法作为参数，这个方法不管promise最终的状态是怎样，都一定会被执行		

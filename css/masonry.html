@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title></title>
+	<!-- <link rel="stylesheet" type="text/css" href="masonry.css"> css布局-->
+	<!-- js布局 -->
+	<style type="text/css">
+		body,html{
+			margin:8 0;
+			padding: 0;
+			background-color: #4F000B;
+		}
+		.masonry{
+			width: 100%;
+			margin:0 auto;
+			margin-right: -5px;
+			position: relative;
+		}
+		.item{
+			width: 300px;
+			height: 100px;
+			float:left;
+			background-color:#FF7F51;
+			margin-right: 10px;
+			margin-bottom: 10px;
+		}
+		.item:after{
+			content: '◔ᴗ◔';
+		}
+		.spo{
+			height:200px;
+			background-color: #CE4257;
+		}
+		.spo:after{
+			content: 'ಠ_๏';
+		}
+		.spe{
+			height: 150px;
+			background-color: #FFC093;
+		}
+		.spe:after{
+			content: '♥◡♥';
+		}
+	</style>
+</head>
+<body>
+<div class="masonry">
+ 	<div class="item">1</div>
+	<div class="item spe">2</div>
+	<div class="item spe">3</div>
+	<div class="item spo">4</div>
+	<div class="item spo">5</div>
+	<div class="item">6</div>
+	<div class="item spe">7</div>
+	<div class="item">8</div>
+	<div class="item">9</div>
+</div> 
+<script type="text/javascript" src="masonry.js"></script>
+
+<!-- 单独的列容器 -->
+<!-- <div class="masonry">
+	<div class="column">
+		<div class="item">1</div>
+		<div class="item spe">2</div>
+	</div>
+	<div class="column">
+		<div class="item spe">3</div>
+		<div class="item spo">4</div>
+	</div>
+	<div class="column">
+		<div class="item spo">5</div>
+		<div class="item">6</div>
+	</div>
+	<div class="column">
+		<div class="item spe">7</div>
+		<div class="item">8</div>
+		<div class="item">9</div>
+	</div>
+</div> -->
+</body>
+</html>

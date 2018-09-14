@@ -1,0 +1,32 @@
+媒体布局在响应式布局有很重要的地位。
+
+移动端
+
+手机浏览器时把页面放置在一个虚拟的"窗口"(viewport)中，通常这个虚拟的窗口宽度比屏幕宽，这样就不用把每个网页挤在很小的窗口中（这样会破坏没有针对手机浏览器优化的网页布局），用户可以通过平移或缩放来显示不同网页。
+
+1.设置Meta标签
+
+<mata name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalabled=no">
+
+2. 兼容IE JS
+
+因为IE9才支持css3和html5，所以需要对IE9一下版本的浏览器进行兼容处理
+
+这里使用css hack的条件兼容处理方式
+
+<!--[if lt IE 9]>
+<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+<script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+<![endif]-->
+
+3. 设置IE渲染方式默认为最高
+
+<meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+
+chrome=1
+
+	这个是Google Chrome Frame(谷歌内嵌浏览器框架GCF)，如果有的用户电脑里面装了这个chrome的插件，就可以让电脑里面的IE不管是哪个版本的都可以使用Webkit引擎及V8引擎进行排版及运算，无比给力，不过如果用户没装这个插件，那这段代码就会
+让IE以最高的文档模式展现效果。
+	即使浏览器为双核，双核时，默认使用chrome内核。
+
+4. 编写css3媒体查询样式

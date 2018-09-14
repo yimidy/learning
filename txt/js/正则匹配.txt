@@ -1,0 +1,72 @@
+正则表达式regular expression
+
+创建正则表达式
+	var myreg = new RegExp(patternString,[Flags])
+	var myreg = /patternString/Flags
+
+	Flags：g,i,m,s
+
+
+属性
+       global,全局查找
+       ignoreCase，忽略大小写
+       multiline，多行
+       source，返回表达式文本
+       lastIndex，下一场查找的位置
+
+常用方法
+	reg.test(string)//检测字符串是否匹配某个模式
+	reg.exec(string)//
+
+	string.search(reg)
+	string.match(reg)
+	replace(reg,newString)
+	split(reg,[,howMany])//howMany指定返回数组的个数
+
+包括普通字符和元字符
+
+\f  换页符                        \r 回车符                        
+\b 匹配一个字边界（字与空格键位置）\B 非字边界匹配
+\d 匹配数字字符                   \D 匹配不是数字的字符
+\w 匹配字母，数字、下划线或汉字    \W匹配不是...的字符
+\s  空白字符                      \S非空白字符
+
+/i 忽略大小写      /g全局匹配    /m 多行匹配    /s单行匹配
+
+
+
+^开始标志      
+$ 结束标志    
+*通配符（任意次）   
++(1次或多次)   
+？（0次或1次）
+()标记一个子表达式的开始和结束位置，
+        ()可理解为分组，从左向右，以分组的左括号为标志，第一个出现的分组的组号为1，第二个为2，以此类推。后向引用用于重复搜索前面某个分组匹配的文本。	例如，\1代表分组1匹配的文本，\2表示第2个
+        小括号的另一种用途是通过语法(?#comment)来包含注释
+[0~9] 匹配数字0~9任意一个
+[^x] 匹配除了x以外的任意字符
+| 两项之间选择一个
+{} 出现次数      
+	{6} 出现6次 {6，}至少出现6次     {6，8} 出现6次到8次
+.一个元字符，匹配除了换行符以外的任意字符
+a.*b，它将会匹配最长的以a开始，以b结束的字符串。如果用它来搜索aabab的话，它会匹配整个字符串aabab。这被称为贪婪匹配。
+a.*?b匹配最短的，以a开始，以b结束的字符串。如果把它应用于aabab的话，它会匹配aab（第一到第三个字符）和ab（第四到第五个字符）。这被称为懒惰匹配。
+
+若想查找\要用\\  
+
+
+方法
+	reg.exec(string);//匹配满足条件的子字符串，一般是全局匹配中作用大，返回一个数组;没有结果返回null
+	reg.test(string);//返回true/false，该字符串是否满足该正则
+
+	string.search(reg);//返回第一个与正则匹配子串的位置，不支持全局匹配，会自动忽视；没有返回-1
+	string.match(reg);//返回数组信息，匹配成功的内容；没有为null
+	string.replace(reg,newstring/function);//返回新字符串，替换子串
+		function(){console.log(arguments)}
+			参数详解：
+				参数一：匹配到的子字符串
+				参数二...:匹配子符串里的子串“（）里的”
+				参数三:匹配到字符串在原字符串里的位置
+				参数四：原字符串
+详细见：
+https://www.cnblogs.com/deerchao/archive/2006/08/24/zhengzhe30fengzhongjiaocheng.html

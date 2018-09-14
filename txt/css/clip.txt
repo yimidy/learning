@@ -1,0 +1,19 @@
+clip
+	通过对元素的剪裁来控制元素的可见区域
+
+	语法：clip:<shape>|auto|inherit
+		<shape>剪裁的样式，现在只有rect(top,right,bottom,left)可用，值可用是px或auto，百分值不可以
+
+	注意：改属性必须和position:absolute|fixed配合使用（原因不详）
+
+
+clip-path
+	通过路径剪裁
+	circle(r at x y)
+	ellipse(rx ry at x y)
+	inset(top right bottom left)
+	polygon(x1 y1,x2 y2,x3 y3,x4 y4...)
+
+
+http://species-in-pieces.com/       30种动物
+https://www.cnblogs.com/xiaohuochai/p/7509225.html    路径剪裁的多种样式

@@ -1,0 +1,92 @@
+瀑布流布局：
+
+	多用于首页等宽不等高的图片布局，无限加载时动态显示
+
+实现方式：
+
+	1.css3的multi column
+	2.css3的flexbox
+	3.单独的列容器
+	4.graid
+	5.js
+
+1. .masonry{
+	column-count:列数;
+	column-gap:列与列间距;
+    }
+    .item{
+	break-inside:avoid;
+    }
+
+2. .masonry{
+	display:flex;
+	flex-flow:column wrap;
+	height:必须设置;
+   }
+3. .masonry{
+	display:flex;
+	flex-direction:row;
+   }
+   .column{
+	display:flex;
+	flex-direction:column;
+	width:calc(100%/列数);
+   }
+4. .masonry{
+	display:grid;
+	grid-template-columns:repeat(列数,1fr);
+	grid-auto-rows:minmax(50px,auto);
+   }
+   .item:nth-child(1){
+	grid-column:1 / 2;
+	grid-row:1;
+   }
+   ...
+   (grid-auto-flow: row dense自动填充空白格)
+5. js
+	思路：
+		1）首行正常从左到右排列
+		2）取一个数组存放每列现在占用高度
+		3）找出高度最小的列，在它下面排列下一个元素（定位position）
+
+	步骤：
+		1）取出容器内所有元素
+		2）获取一个元素的宽度
+		3）可视区宽度/单个元素宽度，向下取整，为列数
+		4）设置父元素宽度
+		5）设置一个数组存放每列占存的高度（首次获取首行几个元素占高）
+		6）从第二行开始，找出现在所占最小高度的列依次排放剩余元素
+
+代码：
+function waterFull(parent,child){
+	var container = document.getElementsByClassName(parent)[0];
+	var boxs = document.getElementsByClassName(child);
+	var box_width = boxs[0].offsetWidth;
+	var cols = Math.floor((document.documentElement.clientWidth||document.body.clientWidth)/box_width);
+	console.log(cols);
+	container.style.width = cols*(box_width+10)+"px";
+	var heightArr = [];
+	for(var i=0;i<cols;i++){
+		var box_height = boxs[i].offsetHeight;
+		heightArr.push(box_height+10);
+	}
+	for(var i=cols;i<boxs.length;i++){
+		var minColumn = minHeight(heightArr);
+		boxs[i].style.position = "absolute";
+		boxs[i].style.top = heightArr[minColumn]+"px";
+		boxs[i].style.left = (box_width+10)*minColumn+"px";
+		heightArr[minColumn] += boxs[i].offsetHeight+10;
+	}
+}
+function minHeight(arr){
+	var min = 0;
+	for(var i=1;i<arr.length;i++){
+		if(arr[i]<arr[min]){
+			min = i;
+		}
+	}
+	return min;
+}
+waterFull("masonry","item")
+
+

@@ -1,0 +1,24 @@
+打开新窗口window.open(url,type,style)
+
+参数：
+	url,要打开的页面
+	type：_blank新窗口打开
+	      _parent父级窗口
+	      _self当前窗口
+ 	      _top顶层窗口
+	      name也可以是设置窗口名字
+	style,设置窗口样式，样式参数如下：
+		top，left离屏幕顶部和左边的距离
+		width、height
+		menubar（yes/no）是否显示菜单
+		toolbar(yes/no)是否显示工具条
+		scrollbars（yes/no）是否显示滚动条
+		status（yes/no）是否显示状态栏
+		resizable(yes/no)是否允许改变窗口大小
+		titlebar（yes/no）是否显示标题栏
+
+window.open ("page.html", "newwindow", "height=100, width=400, toolbar =no, menubar=no, scrollbars=no, resizable=no, location=no, status=no")
+
+
+
+关闭窗口 self.close() 

@@ -1,0 +1,22 @@
+line-height
+	3中形式：
+		line-height:1.12;//文字的1.12倍计算
+		line-height:1.4em;//按1.4em计算
+		line-height:25px;//绝对
+
+
+
+
+em和px
+	em是相对值，1em=16px（通常情况下），也可以通过设置
+		body{
+			font-size:16px;
+		}
+	px是绝对值
+
+
+font-weight:
+font-style:
+
+visibility：visible/hidden/collapse/inherit
+	元素是否可见，hidden时不可见，但占空间；collapse时在表格元素中使用，可删除一行或一列，但不会影响表格布局

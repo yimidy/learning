@@ -1,0 +1,24 @@
+try{
+	//可能错误的代码段
+}catch(error){
+	//错误后该执行的正确代码
+}finally{
+	
+}
+IE7有一个bug，没有catch，finally不会执行
+
+error的属性
+	error.message
+	error.name
+
+error的类型
+	Error，基本类型，主要用来抛出错误
+	EvalError
+	RangeError，超出范围
+	ReferenceError，找不到对象
+	SyntaxError，语法错误的字符串传入evel函数
+	TypeError，类型错误
+
+使用try-catch后，浏览器会认为错误已经被处理了，不再会有错误记录和报告。
+
+一般是用来阻止浏览器以它默认方式处理错误。

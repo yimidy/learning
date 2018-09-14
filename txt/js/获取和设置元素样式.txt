@@ -1,0 +1,15 @@
+obj.style.***
+
+document.defaultView.getComputedStyle(element,伪类（null）)||window.getComputedStyle()//返回对象
+
+	除了在 IE8 浏览器中 document.defaultView === window 返回的是 false 外，其他的浏览器（包括 IE9 ）返回的都是 true。
+	
+	element.style 读取的只是元素的内联样式，即写在元素的 style 属性上的样式；而 getComputedStyle 读取的样式是最终样式，包括了内联样式、嵌入样式和外部样式。
+
+	element.style 既支持读也支持写，我们通过 element.style 即可改写元素的样式。而 getComputedStyle 仅支持读并不支持写入。我们可以通过使用 getComputedStyle 读取样式，通过 element.style 修改样式
+	
+	关于 getComputedStyle 的兼容性问题，在 Chrome 和 Firefox 是支持该属性的，同时 IE 9 10 11 也是支持相同的特性的，IE 8并不支持这个特性。 IE 8 支持的是 element.currentStyle 这个属性，这个属性返回的值和 getComputedStyle 的返回基本一致，只是在 float 的支持上，IE 8 支持的是 styleFloat,这点需要注意。
+
+obj.currentStyle//仅支持IE，float属性要携程styleFloat
+
+document.styleSheets//获取样式表

@@ -1,0 +1,79 @@
+浏览器缓存机制
+	作用：
+		1.减轻服务器的压力
+		2.减少页面加载延迟
+		3 减小网络带宽
+
+	分类：
+		http缓存：强制缓存和协商缓存
+		非thhp缓存：mata标签
+
+	流程：
+		输入网址
+		检查是否有无缓存
+			有  从本地读取
+			无  再次发送请求，询问浏览器是否修改
+					是 200 从服务器重新下载
+					否 304 从本地读取
+
+	如何检测有无缓存？
+		强制缓存概念（expirse，cache control）
+		
+			expirse(responseHead)
+				http1.0
+				由服务器设置的有效期，未来的某个时间，第一次请求返回带该响应头的话资源缓存，下次访问如果时间没过期就从本地读取，不用在去服务器请求
+				缺点就是时间由服务器设置，可能与浏览器时间不符，造成不必要错误
+
+			cache control(requestHead)
+				http1.1
+				缓存控制，由请求头携带，有下列几个常见属性值：
+					publish,任意用户和窗口都可以缓存
+					private，指定用于和服务器代理缓存
+					no-cache,可以缓存，但每次请求强制提交服务端重新下载
+					max-Age,保存时间，秒级
+					no-store，强制从服务器访问，不能缓存
+
+			cache control 的优先级比expirse高
+
+		协商缓存概念（last Modified，Etag）
+			
+			last Modified（responseHead）
+				浏览器向服务器访问资源，服务器返回响应，其中Last-Modified响应头保存着最后一次修改文件的时间;
+				浏览器再次访问，携带If-Modified-Since的请求头，里面值为Last-Modified响应头的时间值，该值如果大于缓存时间，返回200，并重新下载，否则返回304，从本地读取
+
+			Etag（responseHead）
+				浏览器向服务器访问资源，服务器返回响应，其中Etag响应头保存着该资源的唯一标识（由服务器自动生成或开发者）;
+				浏览器再次访问，携带If-None-Match的请求头，里面值为Etag响应头的标识值，该值如果与资源本身标识不一致，返回200，并重新下载，否则返回304，从本地读取
+
+			有了last Modified为什么还要Etag？
+				3点原因：
+					1）last Modified确定修改时间是秒级的，如果在1秒内反复修改和获取，浏览器就得不到最新的资源
+					2）某文件被设置为定期修改，有时内容并没有发生改变，但Last-Modified值改变了，所以还是会重新下载
+					3）服务器没有准确获取修改时间，或者与代理服务器的时间不一致
+
+			Etag的优先级比last Modified高
+
+
+		用户行为与缓存
+			用户操作      强制缓存        协商缓存
+			地址栏回车      有效            有效
+			页面链接跳转    有效            有效
+			新开窗口        有效            有效
+			F5              无效            有效
+			Ctrl+F5         无效            无效
+
+		无法缓存现象
+			1. Cache Control设置no-store、max-age为0；pragma设置为no-control
+			2. 需要根据cookie值进行身份认证的
+			3. https协议加密的
+			4. post请求
+			5. 没有设置Expirse，Cache Control,Last Modified,Etag
+
+
+
+				
+			
+
+		
+		
+			

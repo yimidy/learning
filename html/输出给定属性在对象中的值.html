@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+	<script type="text/javascript">
+var object = {
+		b:{c:4},
+		d:[{e:5},{e:6}]
+	}
+/*console.log( parse(object, ‘b.c’) == 4 ) //true
+console.log( parse(object, ‘d[0].e’) == 5 ) //true
+console.log( parse(object, ‘d.0.e’) == 5 ) //true
+console.log( parse(object, ‘d[1].e’) == 6 ) //true
+console.log( parse(object, ‘d.1.e’) == 6 ) //true
+console.log( parse(object, ‘f’) == ‘undefined’ ) //true*/
+	var s;
+	function parse(obj,str){
+		for(var key in obj){
+			if(str.indexOf(key)==0){
+				if(typeof obj[key] ==="object"){
+						if(obj[key] instanceof Array){
+							if(str.indexOf("[")!=-1){
+								var num = Number(str.slice(str.indexOf("[")+1,str.indexOf("]")));
+								parse(obj[key][num],str.slice(str.indexOf("]")+2));
+							}else{
+								var num = Number(str.slice(key.length+1,str.indexOf(".",key.length+1)));
+								parse(obj[key][num],str.slice(str.indexOf(".",key.length+1)+1));
+							}
+						}else{
+							parse(obj[key],str.slice(key.length+1));
+						}
+				}else{
+					s = obj[key];
+
+				}
+			}	
+		}
+		return s;	
+	}
+	function parse_(obj, str){
+  return new Function('obj', 'return obj.' + str.replace(/\.(\d+)/g, '\[$1\]'))(obj);
+}
+	
+	console.log(parse(object,"d.1.e"))
+	</script>	
+</body>
+</html>

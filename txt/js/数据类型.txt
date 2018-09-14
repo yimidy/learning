@@ -1,0 +1,25 @@
+基本数据类型
+	string，number、boolean，undefined，null
+
+引用数据类型
+	object（包含function，date，array，regexp但null是对象类型的）
+
+
+转换
+	num+//转成字符串
+	num-//转成数组
+	parseInt()
+	parseFloat()
+
+类型检测
+	typeof
+	instanceOf
+	Object.prototype.toString.call(this)//返回对象数据的内置类型
+	isNaN()
+
+
+RegExp
+Math
+Global
+Window（BOM）
+DOM

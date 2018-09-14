@@ -1,0 +1,54 @@
+	Id 
+	Class 
+	Element 
+	*
+	多个选择器（select1,select2）
+	$("p.intro")选取所有class="intro"的<p>元素
+	$("p#demo")选取所有id="demo"的<p>元素
+层次选择器：    后代（div p）
+		子 （div>p）
+		相邻（div+p）
+		兄弟（div~p）
+表单选择器：     :input（input/select/texteara）
+		:text
+		:password
+		:radio
+		:checkbox
+		:submit
+		:image
+		:reset
+		:button
+		:file
+简单过滤选择器： :first/first()
+		:last/last()
+		:even
+		:odd
+		:not(selector)
+		:eq(index)
+		:gt(index)
+		:lt(index)
+		:header
+		:animated
+内容过滤选择器： :contains(text)
+		:empty
+		:has(selector)
+		:parent
+可见性过滤选择器：:hidden
+		 :visible
+属性过滤选择器： [attr]
+		[attr="value"]
+		[attr!=""]
+		[attr^=""]
+		[attr$=""]
+		[attr*=""]
+		[][][]
+子元素过滤选择器：:nth-child(even/odd/index)
+		 :first-child
+		 :last-child
+		 :only-child
+表单对象过滤选择器： :enabled
+		    :disabled
+		    :checked
+		    :selected
+
+		

@@ -1,0 +1,39 @@
+!DOCTYPE作用:  意义：document type，文档类型，位于HTML文档第一行，不是html标签，为告知浏览器该以何种规则（html版本，在文档类型定义文件（dtd）中）来解析文档。
+
+模式：浏览器厂商开始创建于标准兼容浏览器时，为了保证向后兼容，把浏览器的渲染模式分为标准（严格）模式和混杂（怪异，过渡）模式。标准模式中，按w3c标准解析文档；混杂模式中，以较宽松的向后兼容方式显示，兼容老浏览器，可以使用自己的解析方式。
+两种模式区别： ！盒模型：标准，width=content
+ 混杂，width=content+padding+border
+标准情况下，使用box-sizing：border-box；变成怪异
+   ！！ 行内对齐： 标准，基线
+   混杂，底部
+  ！！！ 混杂，IE6/7/8都不认识！Important
+ ！！！！ 混杂，行内元素设置宽高有效
+！！！！！ 混杂，margin：0 auto； 不会使元素居中
+   如何触发两种模式：
+DOCTYPE不存在或形式不正确会导致HTML和XHTML文档以混杂模式呈现。
+触发严格模式:
+<!-- HTML 4.01 严格型 -->  
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"  "http://www.w3.org/TR/html4/strict.dtd">   
+ 
+<!-- XHTML 1.0 严格型 -->  
+<!DOCTYPE html PUBLIC  "-//W3C//DTD XHTML 1.0 Strict//EN"  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">  
+触发混杂模式
+<!-- HTML 4.01 过渡型 -->  
+<!DOCTYPE HTML PUBLIC  "-//W3C//DTD HTML 4.01 Transitional//EN"  "http://www.w3.org/TR/html4/loose.dtd">   
+  
+<!-- HTML 4.01 框架集型 -->  
+<!DOCTYPE HTML PUBLIC  "-//W3C//DTD HTML 4.01 Frameset//EN"  "http://www.w3.org/TR/html4/frameset.dtd">   
+ 
+<!-- XHTML 1.0 过渡型 -->  
+<!DOCTYPE html PUBLIC  "-//W3C//DTD XHTML 1.0 Transitional//EN"  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">   
+ 
+<!-- XHTML 1.0 框架集型 -->  
+<!DOCTYPE html PUBLIC  "-//W3C//DTD XHTML 1.0 Frameset//EN"  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd">  
+
+<!DOCTYPE HTML>
+ HTML5 不基于 SGML，因此不需要对DTD进行引用，但是需要doctype来规范浏览器的行为（让浏览器按照它们应该的方式来运行）；
+而HTML4.01基于SGML,所以需要对DTD进行引用，才能告知浏览器文档所使用的文档类型。 
+
+SGML 标准通用标记语言，一种用来注释文本文档，提供文档片断的类型信息的规范。该标准定义独立于平台和应用的文本文档的格式、索引和链接信息，为用户提供一种类似于语法的机制，用来定义文档的结构和指示文档结构的标签。其中“标记”的含义是指插入到文档中的标记。
+html5既然没有DTD，也就没有严格模式与宽松模式的区别，html5有相对宽松的语法，实现时，已经尽可能大的实现了向后兼容。
+

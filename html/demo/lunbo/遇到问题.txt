@@ -1,0 +1,14 @@
+触发了浏览器的 drag 操作，导致mouseup丢失。
+
+解决办法：清除mousemove时的冒泡和默认行为
+function pauseEvent(e){
+    if(e.stopPropagation) e.stopPropagation();
+    if(e.preventDefault) e.preventDefault();
+    e.cancelBubble=true;
+    e.returnValue=false;
+    return false;
+}
+ele.onmousemove = function(e){
+	e = e|event;
+	pauseEvent(e);
+}

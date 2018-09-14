@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+<script type="text/javascript">
+	function tmpl(str, obj) {
+    if (typeof str === 'string') {
+        var tm = str.replace(/<%=\s*([^%>]+)\s*%>/g, function() {
+        	console.log(arguments)
+        	//console.log(arguments[1])
+            var key = arguments[1];
+            return "' + obj." + key; // 在函数字符串中利用'包裹正常字符串
+        });
+ 
+        tm = "return '" + tm; //"'Hello' + obj.name"
+        var compile = new Function('obj', tm);
+        return compile(obj);
+    }
+}
+ 
+var str = "Hello, <%= name%>";
+var obj = {name: "Lzz"}; // Hello, Lzz
+tmpl(str,obj)
+
+
+
+var str = "Hello, <%= name%>";
+var tm = str.replace(/<%=\s*([^%>]+)\s*%>/g, function() {
+        	console.log(arguments)
+}
+</script>
+</body>
+</html>

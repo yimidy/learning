@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<style type="text/css">
+		div{
+			padding-top: 100px;
+			width: fit-content;
+			margin:0 auto;
+		}
+		ul{
+			display: inline-block;
+		}
+		li{
+			display: inline;
+		}
+		a{
+			float: left;
+			margin-right: 10px;
+			padding: 0 10px;
+			text-decoration: none;
+			border-radius: 3px;
+			border:1px solid #ccc;
+			color: #000;
+		}
+		.active {
+    		background-color: #4CAF50;
+    		color: white;
+		}
+		a:not(.active){
+			border:1px solid #ccc;
+    		color: #000;
+		}
+		#left{
+			box-shadow:0 2px #999;
+			border-right:none;
+			border-top:none;
+		}
+		#right{
+			box-shadow:0 2px #999;
+			border-left:none;
+			border-top:none;
+		}
+		#left:active,#right:active{
+			box-shadow:0 0 #999;
+			border:1px solid #ccc;
+			/* transform: translateY(2px); */
+		}
+	</style>
+</head>
+<body>
+<div>
+	<ul>
+		<li><a id="left" href="#"><</a></li>
+		<li><a class="active" href="#">1</a></li>
+		<li><a href="#">2</a></li>
+		<li><a href="#">3</a></li>
+		<li><a href="#">4</a></li>
+		<li><a href="#">5</a></li>
+		<li><a href="#">6</a></li>
+		<li><a href="#">7</a></li>
+		<li><a id="right" href="#">></a></li>
+	</ul>
+</div>
+<script type="text/javascript">
+	var page = document.getElementsByTagName("a");
+
+	for(var i=1 ;i<page.length-1;i++){
+		(function(x){
+			page[x].onclick = function() {
+				this.classList.add("active");
+				for(var j=1 ;j<page.length-1;j++){
+					if(j!=x){
+						page[j].classList.remove("active");
+					}
+				}
+			}
+		})(i)
+	}
+	
+	page[0].onclick = function(){	
+		for(var i=1;i<page.length-1;i++){
+				page[i].index = i;
+				if(page[i].classList.contains("active")){
+					var t = page[i].index;
+					if(t!=1){
+						page[t-1].classList.add("active");
+						page[t].classList.remove("active");
+					}
+				}
+		}	
+	}
+
+	page[8].onclick = function(){	
+		for(var i=page.length-1;i>0;i--){
+				page[i].index = i;
+				if(page[i].classList.contains("active")){
+					var t = page[i].index;
+					if(t!=7){
+						page[t+1].classList.add("active");
+						page[t].classList.remove("active");
+					}
+				}
+		}	
+	}
+
+
+		
+</script>
+</body>
+</html>

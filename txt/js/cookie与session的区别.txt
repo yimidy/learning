@@ -1,0 +1,30 @@
+cookie和session都是用来记录客户信息的机制。
+
+如果说Cookie机制是通过检查客户身上的“通行证”来确定客户身份的话，那么Session机制就是通过检查服务器上的“客户明细表”来确认客户身份。
+
+1. 存储位置不同
+   cookie将信息记录在客户端
+   session将信息记录在服务端
+
+2. 存储大小
+   单个cookie存储数据不超过4kb
+   session大小没有限制
+3. 存储内容
+   cookie以文本文件方式存储，为字符串类型
+   session多为json
+4. 生命周期不同
+   cookie默认会随着浏览器的关闭而结束；但可以手动设置保存时间
+   session生命周期在指定时间（如20分钟）之后结束
+5. 安全性 
+  cookie不是很安全，别人可以分析放在本地的cookie并进行cookie欺骗
+	cookie欺骗：对服务器递交给浏览器的cookie进行改写
+  session相对cookie来说安全
+	session id存储在cookie中，要攻击session首先攻击cookie
+	session id要有人登录或者启动session_start才有，所以攻击cookie也不一定有session id
+	第二次启动session_start后，第一次的session就失效了，session过期后，session id也失效了
+	session id是加密的（攻击者在短时间内攻击session很难）
+6. 应用场景
+   session会在一定时间内保存到服务器上。当访问较多是，会占用较多的服务器性能，考虑减轻服务器性能方面，cookie较好。
+	建议将登录信息放在session中
+	保存上次登录时间，保存上次查看页面，浏览计数，判断用户是否登陆过网站等用cookie
+			

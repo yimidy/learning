@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<style type="text/css">
+	
+		/* body {
+		    		background: #000;
+		  			color: #FFF;
+		}
+		.text {			
+		  			background-image: url(https://tympanus.net/codrops-playground/assets/images/posts/23145/image1.jpg);
+		  			position: absolute;
+		            top: 50%;
+		            left: 50%;
+		  			-webkit-transform: translateX(-50%) translateY(-50%);
+		  			-ms-transform: translateX(-50%) translateY(-50%);
+		  			transform: translateX(-50%) translateY(-50%);
+		 			background-repeat: repeat;
+		  			background-position: 50% 50%;
+		  			background-size: cover;
+		  			white-space: nowrap;
+		  			text-align: center;
+		  			text-transform: uppercase;
+		  			font: 26vmax/.85 Open Sans, Impact;
+		  			-webkit-text-fill-color: transparent;
+		  			-webkit-background-clip: text;
+		} */
+		
+
+.text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  white-space: nowrap;
+  text-align: center;
+  text-transform: uppercase;
+  font: bold 26vmax/.8 Open Sans, Impact;
+  transform: translateX(-50%) translateY(-50%);
+  background-image: -webkit-linear-gradient(crimson 50%, white 50%);
+  background-repeat: repeat;
+  background-position: 0 0;
+  background-size: 100% 50px;
+  -webkit-text-fill-color: transparent;
+  -webkit-background-clip: text;
+  animation: stripes 2s linear infinite;
+}
+
+@keyframes stripes {
+  100% {
+    background-position: 0 -50px;
+  }
+}
+
+body {
+ 
+  background: #000;
+  color: #FFF;
+}
+
+
+	</style>
+</head>
+<body>
+	<div class="text">Text</div>
+</body>
+</html>

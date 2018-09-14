@@ -1,0 +1,7 @@
+1. display:none;（从文档流中移除）
+	jquery中的show(),hide(),toggle()方法就是通过该方式
+2. opacity:0（依然占据位置，改变透明度，可以点击）
+3. 定位移出可视区(不占空间)
+4. visibility：hidden（占位置）
+5. .clip{position:absolute|fixed;clip:rect(0 0 0 0);}
+6. height:0;overflow:hidden;(不占空间)

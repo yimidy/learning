@@ -1,0 +1,44 @@
+1. filter
+	过滤器，筛选函数
+	接受一个回调函数，每个元素依次作用于该函数，返回true则保留，false则丢弃
+	参数函数也可以有参数，第一个为元素值，元素索引值，数组本身
+
+	var arr = ['A','B','C'];
+	var oddArr = arr.filter(function(item,index,arr){
+		console.log(arr+'['+index+']'+'='+item);
+		return index%2 ? true:false;
+	})
+
+
+2. indexOf
+	查找规定字符
+	string.indexOf("str",start)
+	str对大小写敏感
+
+3. array.sort(fn)
+	function fn(a,b){
+		return a-b;
+		// >0,b a升序
+	}
+	function fn(a,b){
+		return b-a;
+		// >0,a b降序
+	}
+
+4. insertHtml(where,el,html)
+	参数介绍：
+	where：插入位置，同上
+	el：用于参照插入位置的html元素对象
+	html：要插入的html代码
+
+
+
+
+obj.insertAdjacentHTML(where,html) //在指定对象相应位置插入html标签语句
+	参数介绍：
+	where: beforeBegin
+	       afterBegin
+ 	       beforeEnd
+	       afterEnd
+	html:  类如<br><input name="txt1">
+	

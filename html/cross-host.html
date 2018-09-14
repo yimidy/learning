@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title></title>
+</head>
+<body>
+	<input type="button" name="跳转" value="跳转" onclick="open_baidu()">
+<script type="text/javascript">
+
+	function setRequset(src){
+		var iframe = document.createElement("iframe");
+		iframe.src = src;
+		iframe.style.display = "none";
+		document.body.appendChild(iframe);
+		return iframe;
+	}
+
+
+	//window.location.href
+	function open_baidu(){
+		window.location.href="http://www.baidu.com#hash=123"
+	}
+
+
+	//iframe+location.hash
+	//domain1.com域下的a页面中
+	/*function checkHash(){
+		try{
+			var hash = location.hash?location.hash.subString(1):'';
+			console.log(hash);
+		}catch(e){}
+	}
+	setRequset("http://www.domain2.com/b.html#hash");
+	setInterval(checkHash(),3000);
+	//domain2.com域下的b页面中
+	switch(location.hash){
+		case '#hash':
+				callBack();
+				break;
+	}
+	function callBack(){
+			try {
+        		parent.location.hash = 'somedata';
+    		} 
+    		catch (e) {
+       			 // ie、chrome的安全机制无法修改parent.location.hash，
+        		 // 所以要利用一个中间的domain2.com域下的代理iframe
+        		 setRequset("http://www.domain1.com/proxy.html#back_hash");
+    		}
+	}
+	//domain1.con域下的proxy页面中
+	parent.parent.location.hash = self.location.hash.subString(1);*/
+
+
+
+	//iframe+document.domain
+	//www.domain.com域下的a页面
+	document.domain = domain.com;
+    var iframe;
+	setRequset("http://self.domain.com/b.html");
+	iframe.onload = function(){
+		var doc = iframe.contentWindow.document ||iframe.coontentDocument;
+		//操作b页面中节点元素
+	}
+	//self.domain.com域下的b页面
+	document.domain = domain.com;
+	var doc_par = parent.contentWindow.document ||parent.coontentDocument;
+	//操作a页面中节点元素
+
+/*备注：某一页面的domain默认等于window.location.hostname。同域才能改写*/
+
+
+	//动态创建scrpit
+	var script = document.createElement("script");
+	script.type = 'text/javascript';
+	//传参并指定成功时服务器的·回调函数
+	script.src = 'http://www.domain.com:8080/login?user=admin&callback=onBack';
+	//动态添加标签
+	document.head.appendChild(scipt);
+	//回调执行函数
+	function onBack(res){
+  		console.log(JSON.stringify(res));
+	}
+	//后台代码
+	<?php
+   		$callback = $_GET['callback'];//得到回调函数
+   		$data = {"user":"admin"};//得到的数据
+   		echo $callback.'(".json_encode($data).")';//输出
+   	?>
+   	//成功时服务端返回如下：
+    onBack({"user":"admin"})
+
+
+
+    //iframe+html5 CDM
+    //domain1.com域下的a页面中
+    var ifr = setRequset("http://www.domain2.com/b.html");
+	ifr.postmessage('give u a message', "http://www.domain1.com/a.html");
+	window.addEventListener('message', receiver, false);
+	function receiver(e) {
+    if (e.origin == 'http://www.domain2.com/b.html') {//origin：发送消息的文档所在的域
+        if (e.data == 'give u a message') {           //data：postMessage传递进来的值
+            e.source.postMessage('received', e.origin);  //source：发送消息文档的window对象的代理，如果是来自同一个域，则该对象就是window，可以使用其所有方法，如果是不同的域，则window只能调用postMessage()方法返回信息
+        } else {
+            alert(e.data);
+        	}
+    	}
+	}
+	//domain2.com域下的b页面中
+	window.onmessage = function(e){
+		if e = e || event;
+		console.log(e.data);//来自a页面传送的received字符
+	}
+</script>
+</body>
+</html>

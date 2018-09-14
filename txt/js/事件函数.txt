@@ -1,0 +1,46 @@
+onclick
+ondbclick
+
+onmouseover
+onmouseout
+onmousedown
+onmouseup
+onmouseenter
+onmouseleave
+onmousemove
+onmousewheel
+
+onkeydown
+onkeypress
+onkeyup
+
+onchange
+onreset
+onselect
+onsubmit
+onfocus
+onblur
+
+onresize
+onscroll
+onwheel  鼠标滚轮在元素上滚动时 或 在触摸屏滚动和放大放小时
+
+onstop
+onload   在整个页面的元素加载完毕之后发生，此方法只能写在<body>和<img>标签之中
+onunload 当前页面被改变时触发
+onbeforeunload 当前页面的内容将要被改变时触发的事件
+onabort//取消异步加载，(即图片加载被中断)
+onmove
+
+onerror  当加载文档或图片时发生错误时
+
+confirm("确定某事吗？")
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,21 @@
+内联或内联块元素中内容两端对齐
+
+{
+text-align:justify;
+text-align-last:justify;
+-moz-text-align-last:justify;//匹配firefox
+}
+
+
+由于列表元素最后一行没有办法两端对齐
+
+1. css3定义了text-align-last属性，规定文本最后一行的对齐方式
+
+2. 或加空标签
+	.p:after{
+		content:'';
+		display:inline-block;
+		width:100%;
+		height:0;
+		overflow:hidden;
+	}

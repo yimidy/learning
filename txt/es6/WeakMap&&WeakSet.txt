@@ -1,0 +1,43 @@
+WeakMap与普通Map一样，也是键值对，但必须是非空对象
+WeakMap对key仅有弱保护引用，对于key值是不计入垃圾回收机制里
+
+WeakSet与普通Set一样，也是不重复的值的集合，但必须是非空对象
+WeakSet对值仅有弱保护引用，对于值是不计入垃圾回收机制里
+
+对于DOM,BOM这些非js本地对象，在代码中很容易多次循环引用，并且浏览器对其的垃圾回收机制是引用计数清除法，所以就会造成删除掉节点还是没能彻底从内存中清除掉它。
+
+这里就用到ES6的WeakMap和WeakSet技术，因为他们设置值的引用不计入到垃圾回收机制中，而是弱引用；也就是说，对于DOM的引用计数是1，而不是2（垃圾机制不考虑WeakSet和WeakMap对该对象的引用，如果其他对象不再引用该对象，那么垃圾回收机制就会自动回收该对象所占的内存。）
+
+
+WeakSet
+	使用
+		const a = [[1,2],[3,4]];//a里面的数据必须也是对象
+
+		const ws = new WeakSet()
+		ws.add(a);
+		或者
+		const ws = new WeakSet(a);
+
+	有三个方法
+		WeakSet.add()
+		WeakSet.delete()
+		WeakSet.has()
+
+	不能遍历（size，forEach不能使用）
+
+
+WeakMap
+	使用
+		const ws = new WeakMap()
+		ws.set("a",[[1,2],[3,4]]);
+
+
+	有五个方法
+		WeakSet.set()
+		WeakMap.get()
+		WeakSet.has()
+		WeakSet.delete()
+		WeakMap.clear()
+
+
+	不能遍历（size，forEach不能使用）

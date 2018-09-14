@@ -1,0 +1,33 @@
+ajax是在不重载网页的情况下，从服务器获取数据的技术
+
+jquery中
+
+
+1. jQuery load()是简单但强大的Ajax方法。
+
+
+$(element).load(url,data,callback);
+
+callback = function(responseTxt,statusTxt,xhr){
+	if(statusTxt = "success"){
+		alert("外部内容加载成功！");
+	}
+	if(statueTxt = "error"){
+		alert("Error: "+xhr.status+": "+xhr.statusText);
+	}
+}
+
+2. jQuery Ajax
+ $.ajax({
+	url:"",
+	type:"",
+	data:"",
+	async:,
+	dataType:"",
+	contentType:"",
+	beforeSend:function(){},
+	success:function(){},
+	error:function(){}	
+ })
+	htmlobj = $.ajax({url:"",async:false});
+	$("#div1").html(htmlobj.responseText);

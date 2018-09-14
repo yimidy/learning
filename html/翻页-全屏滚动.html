@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<style type="text/css">
+		*{
+			margin:0;
+			padding: 0；
+			
+		}
+		body{
+			overflow:hidden;
+			position: relative;
+		}
+		.page{
+			width: 100%;
+			height: 100%;
+		}
+		img{
+			width: 100%;
+		}
+	</style>
+</head>
+<body>	
+<div class="page">
+	<img src="img/img1.jpeg">
+</div>
+<div class="page">
+	<img src="img/img7.jpg">
+</div>
+<div class="page">
+	<img src="img/img8.jpg">	
+</div>
+
+<script type="text/javascript" src="jquery-min.js"></script>
+<script>
+function next_page(){
+	var viewH = $(window).height();
+	var clock,page=0;
+	$("img").each(function(item,index){
+			$(index).css("height",viewH+"px");
+	})
+	function next(){
+		$(document).on("mousewheel DOMMouseEvents",function(e){
+			if(clock){
+				clearTimeout(clock);
+			}
+			clock = setTimeout(function(){
+					checkWhell(e);
+			},300)
+			})
+	}
+	function checkWhell(e){
+		var distance = (e.originalEvent.wheelDelta&&(e.originalEvent.wheelDelta>0?1:-1))||(e.detail&&(e.detail>0?-1:1));
+		if(distance<0){
+			if(page<2){
+				
+				$("body").css("top",(-viewH*++page)+"px");
+				console.log(page);
+			}
+		}else{
+			if(page>0){
+				
+				$("body").css("top",(-viewH*--page)+"px");
+				console.log(page);
+			}
+		}
+	}
+	return {
+		init:next
+	}
+}
+next_page().init();
+	
+/*3,2*height
+2.1*height
+1,0*height*/
+</script>
+</body>
+</html>

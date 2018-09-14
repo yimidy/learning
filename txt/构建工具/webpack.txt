@@ -1,0 +1,148 @@
+webpack
+	模块化打包文件，对于一个html页面，我们可以将页面依赖的js文件打包在一起，这样，html文件只需要引用一个js文件即可。
+
+	全局性，根据一个入口文件，递归分析里面的依赖，用loader处理不同格式的文件将其加入到依赖文件里，打包为一个或几个包文件，在html代码里直接引用打包好的文件即可。
+	code splitting分批打包、按需下载
+	module模块化，模块使得开发者把复杂的代码转化为小的，干净的，依赖声明明确的单元，配合优化工具，依赖管理和加载管理可以自动完成。
+		module.exports={}   
+		var xxx=require(xxx)或impory xxx from xxx,@import url(xxx)
+
+				    
+创建项目步骤
+
+	安装nodejs---->建立package.json项目配置文件---->本地安装webpack、webpack-cli包---->建立webpack.config.js配置文件---->运行webpack
+
+
+入口文件
+	entry
+
+出口文件
+	output
+
+	module.exports = {
+  
+		entry:  __dirname + "/app/main.js",//已多次提及的唯一入口文件
+  
+		output: {
+    
+			path: __dirname + "/public",//打包后的文件存放的地方
+    
+			filename: "bundle.js"//打包后输出文件的文件名
+  
+			}
+
+	}
+
+
+	__dirname”是node.js中的一个全局变量，它指向当前执行脚本所在的目录。
+
+加载器
+	loaders
+	实现对不同格式文件的处理，如将less、scss文件转换成css文件，将reaxt的jsx文件转换成js文件，或将下一代js文件（es6,7）转换为现代浏览器可以识别的js文件
+	
+		babel,编译js的平台，能够使用最新的js代码，能够基于js扩展语言
+			需要安装多个模块依赖包
+			babel-loader  babel-core  babel-preset-react(解析jsx)  babel-env-preset(解析es6)	
+			配置
+				module:{
+					rules:{
+						test:/(.\jsx|.\js)$/,
+						use:{
+							loader:"babel-loader",
+							options:{
+								preset:[env,react]
+							}
+						},
+						exclude:/node_modules/
+					}
+				}
+插件
+	plugins
+
+	常用插件
+	OccurenceOrderPlugin: 为组件分配ID,通过这个插件webpack可以分析和优先考虑使用最多 的模块，然后为他们分配最小的ID
+	UglifyJsPlugin: 压缩代码
+	ExtractTextWebpackPlugin: 它会将入口中引用css文件，都打包都独立的css文件中，而不是内嵌在js打包文件中
+	HtmlWebpackPlugin: 依据一个简单的index.html模版，生成一个自动引用你打包后的js文件的新index.html
+	HotModuleReplacementPlugin: 它允许你在修改组件代码时，自动刷新实时预览修改后的结果注意永远不要在生产环境中使用HMR。这儿说一下一般情况分为开发环境，测试环境，生产环境。
+	
+	使用
+	npm install --save-dev extract-text-webpack-plugin
+	npm install --save-dev html-webpack-plugin
+	const webpack = require('webpack');
+	const HtmlWebpackPlugin = require('html-webpack-plugin');
+	const ExtractTextPlugin = require('extract-text-webpack-plugin');
+	plugins: [
+       
+		 new webpack.BannerPlugin('版权所有，翻版必究'),
+        
+		 new HtmlWebpackPlugin({
+                                    //非内置插件，需安装         
+			template: __dirname + "/app/index.tmpl.html"
+        
+		 }),
+        
+		 new webpack.optimize.OccurrenceOrderPlugin(),              //内置插件，不需安装 
+        
+		 new webpack.optimize.UglifyJsPlugin({minimize: true}),
+      
+		 new ExtractTextPlugin({
+			 filename: './bundle.css',       // 编译后生成的css文件名
+    			 disable: false,		 
+    			 allChunks: true                  //生成前缀
+		 })
+ 
+	]
+
+调试（sources map）
+	devtool:sources map||cheap-module-source-map||eval-source-map||cheap-module-eval-source-map
+
+缓存
+	将[hash]、[id]或[name]值添加到你打包文件名的后面
+	去除不需要的打包文件
+		npm install clean-webpack-plugin --save-dev
+		const CleanWebpackPlugin = require("clean-webpack-plugin");
+		plugins: [
+    
+			...// 这里是之前配置的其它各种插件
+    
+			new CleanWebpackPlugin('build/*.*', {
+      
+				root: __dirname,
+      
+				verbose: true,
+      
+				dry: false
+  
+			})
+  
+		]
+本地服务器
+	npm install --save-dev webpack-dev-server
+
+	devserver:{
+		contentBase:"src",//文件所在目录
+		inline:true,//源文件改变时自动刷新
+		historyApiFallback:true,//不会跳转
+		port:8000//端口号
+	}
+	或者publicPath: 'http://localhost:8000/src'
+
+	"scripts":{
+		"server":webpack-dev-server --open
+	}
+	npm run server//http://localhost:8000
+
+开发和产品阶段的构建
+	产品阶段我们需要对文件进行压缩，优化，缓存，分离css和js
+	"scripts": {
+            "start": "NODE_ENV=development webpack-dev-server",
+            "build": "NODE_ENV=production webpack"
+        }
+
+
+webpack几个常用命令
+	webpack：普通打包
+	webpack -p：压缩打包
+	webpack -p -w：监听所有需要打包的代码，只要有代码被改动并保存后，就会自动进行打包
+

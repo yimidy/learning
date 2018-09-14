@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<style type="text/css">
+		#img1{
+			border-radius: 5px;
+			width: 300px;
+			height: 200px;
+			cursor: pointer;
+		}
+		#img1:hover{
+			opacity: 0.6;
+		}
+
+		#container{
+			display: none;
+			position: fixed;
+			left: 0;
+			top: 0;
+			z-index: 1;
+			width: 100%;
+			height: 100%;
+			background-color: rgba(0,0,0,0.9);
+			padding-top: 100px;
+		}
+		#close{
+			font-size: 30px;
+			padding: 10px; 
+			position: absolute;
+			top:30px;
+			right: 30px;
+			color: #ccc;
+			border-radius: 50%;
+			transition: all 0.2s ease-in;
+		}
+		#close:hover{
+			cursor: pointer;
+			color: #bbb;
+			transform: rotate(90deg); 
+		}
+		#content{
+			display: block;
+			margin:auto;
+			width: 80%;
+			max-width: 700px;
+		}
+		#caption{
+			color: #bbb;
+			margin:auto;
+			width: 80%;
+			max-width: 700px;
+			text-align: center;
+			padding: 10px 0;
+			height: 150px;
+			font-size: 14px;
+		}
+		#content, #caption { 
+			animation: zoom 0.6s;   
+		}
+		@keyframes zoom {
+    		from {transform: scale(0.1)} 
+    		to {transform: scale(1)}
+		}
+
+	</style>
+</head>
+<body>
+<img id="img1" src="http://www.runoob.com/wp-content/uploads/2016/04/img_lights.jpg" alt="This is a picture"/>
+
+<div id="container">
+	<span id="close">×</span>
+	<img id="content">
+	<div id="caption"></div>
+</div>
+<script type="text/javascript">
+	var image = document.getElementById("img1");
+
+	var container = document.getElementById("container");
+	var close = document.getElementById("close");
+	var content = document.getElementById("content");
+	var aption = document.getElementById("caption");
+
+	image.onclick = function(){
+		container.style.display = "block";
+		content.src = this.src;
+		content.alt = this.alt;
+		caption.innerHTML = this.alt;
+	}
+
+	close.onclick = function(){
+		container.style.display = "none";
+	}
+</script>
+
+</body>
+</html>

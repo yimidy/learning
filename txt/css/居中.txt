@@ -1,0 +1,79 @@
+水平居中
+
+	1. margin :0 auto;
+		必须设置width，在文档流中，只能设置盒子居中，不能里面的文字居中
+
+	2. 绝对定位居中
+		position:absolute;
+		left:50%;
+		margin-left:-(width/2)px;
+		必须设置width
+
+		position:absolute;
+		left:0;
+		right:0;
+		margin:0 auto;
+		必须设置width
+		（但会使元素脱离文档流，不推荐）
+	3. 浮动居中
+	   父级 float:left;
+		clear:both;
+		position:relation;
+		left:50%;
+	   自己 position:relative;
+		left:-50%;
+	4. 文本居中
+	   父级 text-align:center;
+	   自己 display:inline-block/inline;
+	5. flex居中
+		display:-weblit-flex;
+		display:flex;
+		justify-content:center;
+	6. css3的fit-content
+		width:fit-content;
+		margin:0 auto;
+		原理同1，fit-content是css3新给width加的属性值
+
+
+
+垂直居中
+
+	1.line-height:height
+		对于只有一行的文字垂直居中
+	2.绝对定位（2种），同上
+	3.浮动定位
+	4.table标签
+		<table>
+			<tr>
+				<td></td>
+			</tr>
+		</table>
+		td本身自带属性vertical-align:middle,故可垂直居中
+	5.单元格
+		display:table-cell;
+		vertical-align:middle;
+	6.空标签浮动
+	  父级  height:100%;
+	  父级	添加伪元素:before{content:'';display:block;}
+		或空标签
+			float:left;
+			height:50%;
+			margin-bottom:-50px;(100/2=50)
+	  自己  clear:both;
+		height:100px;
+	7.借助(内联块)空标签高度
+	  父级  必须设置高度  
+	  自己，空标签	display:inline-block;
+			vertical-align:middle;
+	  空标签	height:100%;	
+	8.借助padding
+	9.借助jquery
+		$('.container').css({
+			position:'absolute',
+			left: ($(window).width() - $('.container').outerWidth())/2,
+		        top: ($(window).height() - $('.container').outerHeight())/2
+		});
+	10.flex
+		display:flex;
+		align-items:center;
+		

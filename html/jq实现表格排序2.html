@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+<table id="tableSort">
+    <thead>
+    <tr>
+        <th onclick="$.sortTable.sort('tableSort',0);desc('desc_1','日期')" ><a id="desc_1" >日期</a></th>
+        <th onclick="$.sortTable.sort('tableSort',1);desc('desc_2','软件ID')" ><a id="desc_2" >ID</a></th>
+      <th onclick="$.sortTable.sort('tableSort',2);desc('desc_x','渠道ID')" ><a id="desc_3" >类别</a></th>
+    </tr>
+    </thead>
+    <tbody>
+     <tr>
+        <td>201870601</td>
+        <td>汇总</td>
+        <td>新闻</td>
+     </tr>
+    </tbody>
+</table>
+<script type="text/javascript" src="jquery-min.js"></script>
+<script type="text/javascript">
+	(function($){
+  //插件
+  $.extend($,{
+    //命名空间
+    sortTable:{
+      sort:function(tableId,Idx){
+        var table = document.getElementById(tableId);
+        var tbody = table.tBodies[0];
+        var tr = tbody.rows;
+        var trValue = new Array();
+        for (var i=0; i<tr.length; i++ ) {
+          trValue[i] = tr[i]; //将表格中各行的信息存储在新建的数组中
+        }
+        if (tbody.sortCol == Idx) {
+          trValue.reverse(); //如果该列已经进行排序过了，则直接对其反序排列
+        } else {
+          trValue.sort(function(tr1, tr2){
+            var value1 = tr1.cells[Idx].innerText; //列
+            var value2 = tr2.cells[Idx].innerText; //第二列
+            value1 = value1.replace("%",""); //把有%的取消掉
+            value1=value1.trim(); //去空格
+            console.log(typeof(value1));
+            if(isNaN(value1)){
+              var index1 = value1.indexOf("分");
+              var index2 = value2.indexOf("分");
+              if(index1>0){
+                var num1 =value1.substring(0,index1);
+                var num2 =value1.substring(index1+1,value1.length-1);
+                var num3 =value2.substring(0,index2);
+                var num4 =value2.substring(index2+1,value2.length-1);
+                if(parseFloat(num1)>parseFloat(num3)){
+                  return 1;
+                }
+                if(parseFloat(num1)<parseFloat(num3)){
+                  return -1;
+                }
+                if(parseFloat(num1)==parseFloat(num3)){
+                  return parseFloat(num2)-parseFloat(num4)
+                }
+              }else{
+                var a = tr1.cells[Idx].textContent;
+                var b= tr2.cells[Idx].textContent;
+                return a.localeCompare(b);
+              }
+            }else{
+              return parseFloat(value1)-parseFloat(value2);
+            }
+          });
+        }
+        var fragment = document.createDocumentFragment(); //新建一个代码片段，用于保存排序后的结果
+        //var index = 0;
+        var arrtotal =new Array();
+        for (var i=0; i<trValue.length; i++ ) {
+          var c = trValue[i].cells[0].innerHTML;
+          //console.log(c);
+          if(c.trim().indexOf("汇总")!=-1){//汇总行总是排在表格最上面
+          // index = i;
+            arrtotal.push(i);
+            }else{
+          fragment.appendChild(trValue[i]);
+         }
+        }
+        if(arrtotal.length>0){
+          for(var k=arrtotal.length; k<0; k-- ){
+             tbody.appendChild(trValue[arrtotal[k]]);
+          }
+        }
+        //tbody.appendChild(trValue[index]);
+        tbody.appendChild(fragment); //将排序的结果替换掉之前的值
+        tbody.sortCol = Idx;
+      }
+    }
+  });
+})(jQuery);
+
+function desc_change(id,str){
+   $("#desc_1").html("日期");
+   $("#desc_2").html("ID");
+   $("#desc_3").html("类别");
+   $("#"+id).html(str);
+}
+function desc(id,str){
+  var htmlstr =$("#"+id).text().trim();
+  var c =str;
+  if(htmlstr==str){
+    c=str+'↓';
+    $("#"+id).html(c);
+  }else if(htmlstr==str+'↓'){
+    c=str+'↑'
+    $("#"+id).html(c);
+  }else if(htmlstr==str+'↑'){
+    c=str+'↓'
+    $("#"+id).html(c);
+  }
+  desc_change(id,c)
+}
+</script>
+</body>
+</html>

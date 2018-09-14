@@ -1,0 +1,50 @@
+获取后台数据的方法都有哪些？
+1. XMLHttpRequest对象的ajax
+2. iframe轮询
+3. fetch
+
+--------------------------------------------------------
+
+fetch，就是XMLHttpRequest的一种替代方案。
+
+Fetch API提供一个获取资源的接口（包括跨域）
+
+---------------------------------------------------------------------
+
+技术实现：
+
+fetch('https://www.baidu.com/search/error.html')//返回一个promise对象
+	.then((res)=>{  return res.text()  //res.text()是一个promise对象  })
+	.then((res)=>{  console.log(res)  //res是最终结果，文本对象  })
+
+	参数：第一个是后台地址，第二个传递是一些初始化信息（可省略）
+
+------------------------------------------------------------------------------
+
+GET请求+url传参+请求的头信息（数据类型）+强制带Cookie
+
+fetch('https://www.baidu.com/search/error.html?id=123',{
+	method:'GET',
+	headers: new Headers({
+		'Accept':'application/json'  // 通过头指定，获取的数据类型是JSON
+	}) ,
+	credentials:'include'//q强制加入凭据头
+}) 
+	.then((res)=>{
+		return res.json()
+	})  
+	.then((res)=>{
+		console.log(res)
+	})
+
+
+
+POST请求+body传参+请求的头信息（内容类型）
+
+fetch('https://www.baidu.com/search/error.html',{
+	method:'POST'，
+	body: new URLSearchParams([['id',1],['class',2]]).toString(),//请求参数
+	headers: new Headers({
+		'Content-type':'application/x-www-form-urlencoded' // 指定提交方式为表单提交(因为POST提交过程一般为表单提交，而默认是										text/plain;charset=UTF-8)
+	})
+}) 

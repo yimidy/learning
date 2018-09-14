@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<style type="text/css">
+		html{
+			height: 1700px;
+		}
+	</style>
+</head>
+<body>
+<script type="text/javascript">
+			function debounce(fn,delay){
+			var timer = null;
+			return function(){
+				var con = this;
+				var args = arguments;
+				clearTimeout(timer);
+				timer = setTimeout(function(){
+					fn.apply(con,args);
+				},delay)
+			}	
+		}
+	
+		function foo(){ console.log("You are scrolling!");}
+		window.onscroll = debounce(foo,100);
+</script>
+</body>
+</html>

@@ -1,0 +1,33 @@
+	const PORT = 8888;
+	var http = require("http");
+	var fs = require("fs");
+	var url = require("url");
+	var path = require("path");
+
+	//req:从浏览器带来的请求信息
+	//res:从服务器返回给浏览器的信息
+
+	var server = http.creatServer(function(req,res){
+		var pathname = url.parse(req.url).pathname;   //index.html
+		var realpath = path.join("F:/nodejs/nodetest",pathname);
+		//console.log(realpath);                      //F:/nodejs/nodetest/index.html
+		fs.readFile(realpath,function(err,data){
+			if(err){
+				res.writeHead(404,{
+					'content-type':'text/plain';
+				});
+				res.write('404,页面不存在');
+				res.end();
+			}
+			else{
+				res.writeHead(200,{
+					'content-type':'text/html;charset="utf-8"';
+				});
+				res.write(data);
+				res.end();
+			}
+		})
+
+	});
+	server.listen(PORT);
+	console.log('服务成功开启！');

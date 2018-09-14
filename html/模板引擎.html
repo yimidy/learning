@@ -1,0 +1,72 @@
+<!doctype html>
+<html>
+<head>
+   <meta charset=utf-8>
+   <title>Simple Templating</title>
+</head>
+<body>
+ 
+  <div class="result"></div>
+ 
+  <script type="template" id="template">
+    <h2>
+      <a href="{{href}}">
+        {{title}}
+      </a>
+    </h2>
+    <img src="{{imgSrc}}" alt="{{title}}">
+  </script>
+  <script type="text/javascript">
+      var data = [
+    {
+      title: "Knockout应用开发指南",
+      href: "http://www.cnblogs.com/TomXu/archive/2011/11/21/2257154.html",
+      imgSrc: "http://images.cnblogs.com/cnblogs_com/TomXu/339203/o_knockout2.jpg"
+    },
+    {
+      title: "微软ASP.NET站点部署指南",
+      href: "http://www.cnblogs.com/TomXu/archive/2011/11/25/2263050.html",
+      imgSrc: "http://images.cnblogs.com/cnblogs_com/TomXu/339203/o_vs.jpg"
+    },
+    {
+      title: "HTML5学习笔记简明版",
+      href: "http://www.cnblogs.com/TomXu/archive/2011/12/06/2277499.html",
+      imgSrc: "http://images.cnblogs.com/cnblogs_com/TomXu/339203/o_LearningHtml5.png"
+    }
+  ],
+  template = document.querySelector('#template').innerHTML,
+result = document.querySelector('.result'),
+attachTemplateToData;
+ 
+// 将模板和数据作为参数，通过数据里所有的项将值替换到模板的标签上（注意不是遍历模板标签，因为标签可能不在数据里存在）。
+attachTemplateToData = function(template, data) {
+        var i = 0,
+            len = data.length,
+            fragment = '';
+ 
+        // 遍历数据集合里的每一个项，做相应的替换
+        function replace(obj) {
+            var t, key, reg;
+ 　　　　　　console.log(t)
+　　　　　　　//遍历该数据项下所有的属性，将该属性作为key值来查找标签，然后替换
+            for (key in obj) {
+                reg = new RegExp('{{' + key + '}}', 'ig');
+                t = (t || template).replace(reg, obj[key]);
+            }
+ console.log(t)
+            return t;
+            
+        }
+ 
+        for (; i < len; i++) {
+            fragment += replace(data[i]);
+        }
+ 
+        return fragment;
+    };
+ 
+result.innerHTML = attachTemplateToData(template, data);
+  </script>
+ 
+</body>
+</html>

@@ -1,0 +1,42 @@
+向上遍历
+	parent()//上一级父元素
+	parents()//上级所有父元素
+	A.parentsUntil(B)//介于A,B两者之间的所有父元素
+	offsetParent()//返回离自己最近的有定位的父元素
+
+
+
+向下遍历
+	children()//父元素的直接子元素
+	children(p.2)
+	find()//父元素的所以后代元素
+	find(span)
+
+水平遍历
+	siblings()//所有兄弟
+	next()//下一个兄弟
+	nextAll()//下面的所有兄弟
+	nextUntil()
+	prev()
+	prevAll()
+	prevUntil()
+
+过滤
+	first()
+	last()
+	eq()//首个索引值是1
+	not(".class")//选择除过该元素的其余元素
+	filter(".class")//选择匹配的
+	slice(0,2)//0表示索引从第一个元素开始，2表示2个这样的元素
+	is()
+	has()
+	end()//结束当前链中最近的一次筛选操作，并将匹配元素集合返回到前一个元素上
+	contents()
+	closest()//同parent()
+	add()
+	addSelf()
+
+each()
+map()
+
+	

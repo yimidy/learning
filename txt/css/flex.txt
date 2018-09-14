@@ -1,0 +1,27 @@
+flex：flexiable box 弹性盒模型
+
+设置：
+	{display:flex;}
+	{display:inline-flex;}//行内元素Flex布局
+	{diaplay:-webkit-flex;display:flex}//-webkit内核必须加上前缀，验证也可以不加（最新版本）
+
+注意：Flex布局后，float、clear和vertical-align均失效
+
+
+属性：
+	flex-direction:row/row-reverse/column/column-reverse//确定主轴方向
+	flex-wrap:nowrap/wrap/wrap-reverse//是否换行
+	flex-flow:flew-direction || flex-wrap//上述两个属性的简写形式
+	justify-content:flex-start/flex-end/center/space-between/space-around//主轴上项目排列方式
+	align-items:flex-start/flex-end/center/baseline/stretch//交叉轴上排列方式
+	align-content:flex-start/flex-end/center/stretch/space-between/space-around//多轴排列方式
+单个项目的属性：
+	order：number//值越小排序越靠前
+	flex-grow:number//放大倍数
+	flex-shrink:number//缩小倍数
+	flex-basis：width||auto//项目占主轴空间，是具体值或自身大小
+	flex:flex-grow || flex-shrink ||flex-basis上述三个属性的简写形式
+	align-self:auto/flex-start/flex-end/center/stretch/baseline//允许单个项目单独设置排列方式
+	
+
+	

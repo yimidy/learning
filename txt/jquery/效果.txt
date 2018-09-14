@@ -1,0 +1,36 @@
+
+显示/隐藏
+	hide(speed,callback);
+	show(speed,callback);
+	toggle(speed,callback);
+speed可取值slow、fast、毫秒值
+
+
+
+淡入淡出
+	fadeIn(speed,callback);
+	fadeOut(speed,callback);
+	fadeToggle(speed,callback);
+	fadeTo(speed,opacity,callback);
+
+滑动
+	slideUp(speed,callback);
+	slideDown(speed,callback);
+	slideToggle(speed,callback);
+
+动画
+	animate({},speed,callback);
+	默认地，所有 HTML 元素都有一个静态位置，且无法移动。如需对位置进行操作，需要把元素的 CSS position 属性设置为 relative、fixed 或 absolute！
+	必须使用 paddingLeft 而不是 padding-left
+	色彩动画并不包含在核心 jQuery 库中。如果需要生成颜色动画，您需要从 jQuery.com 下载 Color Animations 插件。
+	使用队列功能
+
+
+停止动画
+	stop(stopAll,gotoEnd)
+	可选参数：stopAll,停止所有动画，默认false
+		 gotoEnd，立即完成当前动画
+
+
+chaining链接
+	$("#p1").css("color","red").slideUp(2000).slideDown(2000);	

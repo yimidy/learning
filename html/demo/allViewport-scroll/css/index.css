@@ -1,0 +1,277 @@
+/* index.css */
+*{
+    margin: 0;
+    padding: 0;
+}
+body {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+/*大盒子*/
+.box {
+    position: absolute;
+    top: 0;
+    z-index: 1;
+}
+
+/*右边导航圆点*/
+.right-circle {
+    position: fixed;
+    right: 10px;
+    top: 50%;
+    z-index: 1000;
+    cursor: pointer;
+}
+
+.right-circle .right-circle-item {
+    width: 10px;
+    height: 10px;
+    margin: 10px 0px;
+    background-color: #EEEEEE;
+    border-radius: 50%;
+    transition: all 0.7s;
+}
+
+.right-circle .on {
+    background-color: #FF7800;
+}
+
+
+/*背景*/
+
+.bg {
+    position: absolute;
+    height: 1000px;
+    width: 2600px;
+    top: 50%;
+    left: 0;
+    margin-top: -500px;
+    z-index: -1;
+    transition: all 1.5s;
+    
+}
+
+
+/*第一行背景圆点*/
+
+.row1 {
+    position: absolute;
+    top: 50%;
+    width: 2600px;
+    left: 0;
+    margin-top: -200px;
+}
+
+/*第一行背景图*/
+
+.row1 .row1-item1 {
+    position: absolute;
+    top:45px;
+    left:114px;
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    background: linear-gradient(to bottom, #ffffff, #dedede);
+}
+
+.row1 .row1-item2 {
+    position: absolute;
+    top:0;
+    left:353px;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: linear-gradient(to left, #ffffff, #dedede);
+}
+
+.row1 .row1-item3 {
+    position: absolute;
+    top:64px;
+    left:983px;
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    background: linear-gradient(to right, #ffffff, #dedede);
+}
+
+.row1 .row1-item4 {
+    position: absolute;
+    top:35px;
+    left:660px;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: linear-gradient(to top, #ffffff, #dedede);
+}
+
+.row1 .row1-item5 {
+    position: absolute;
+    top:45px;
+    left:114px;
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    background: linear-gradient(to bottom, #ffffff, #dedede);
+}
+.row1 .row1-item6 {
+    position: absolute;
+    top:0;
+    left:353px;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: linear-gradient(to left, #ffffff, #dedede);
+}
+
+.row1 .row1-item7 {
+    position: absolute;
+    top:64px;
+    left:983px;
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    background: linear-gradient(to right, #ffffff, #dedede);
+}
+
+.row1 .row1-item8 {
+    position: absolute;
+    top:35px;
+    left:660px;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: linear-gradient(to top, #ffffff, #dedede);
+}
+
+/*第二行背景图  最大 600*/
+
+.row2{
+    position: absolute;
+    top: 50%;
+    width: 2600px;
+    left: 0;
+    margin-top: -100px;
+}
+
+.row2 .row2-item1 {
+    position: absolute;
+    top:-13px;
+    left:360px;
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    background: linear-gradient(to top, #ffffff, #dedede);
+}
+
+.row2 .row2-item2 {
+    position: absolute;
+    top:115px;
+    left:260px;
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background: linear-gradient(to right, #ffffff, #dedede);
+}
+.row2 .row2-item3 {
+    position: absolute;
+    top:99px;
+    left:757px;
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    background: linear-gradient(to left, #ffffff, #dedede);
+}
+.row2 .row2-item4 {
+    position: absolute;
+    top:-13px;
+    left:360px;
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    background: linear-gradient(to top, #ffffff, #dedede);
+}
+
+.row2 .row2-item5 {
+    position: absolute;
+    top:115px;
+    left:260px;
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background: linear-gradient(to right, #ffffff, #dedede);
+}
+.row2 .row2-item6 {
+    position: absolute;
+    top:99px;
+    left:757px;
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    background: linear-gradient(to left, #ffffff, #dedede);
+}
+
+
+/*第三行背景图  最大 600*/
+.row3{
+    position: absolute;
+    top: 50%;
+    width: 2600px;
+    left: 0;
+    margin-top: 0px;
+}
+
+.row3 .row3-item1{
+    position: absolute;
+    top:29px;
+    left:789px;
+    width: 250px;
+    height: 250px;
+    border-radius: 50%;
+    background: linear-gradient(to right, #ffffff, #dedede);
+}
+.row3 .row3-item2{
+    position: absolute;
+    top:50px;
+    left:335px;
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    background: linear-gradient(to right, #ffffff, #dedede);
+}
+.row3 .row3-item3{
+    position: absolute;
+    top:85px;
+    left:633px;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: linear-gradient(to right, #ffffff, #dedede);
+}
+.row3 .row3-item4{
+    position: absolute;
+    top:29px;
+    left:789px;
+    width: 250px;
+    height: 250px;
+    border-radius: 50%;
+    background: linear-gradient(to right, #ffffff, #dedede);
+}
+.row3 .row3-item5{
+    position: absolute;
+    top:50px;
+    left:335px;
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    background: linear-gradient(to right, #ffffff, #dedede);
+}
+.row3 .row3-item6{
+    position: absolute;
+    top:85px;
+    left:633px;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: linear-gradient(to right, #ffffff, #dedede);
+}

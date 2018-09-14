@@ -1,0 +1,83 @@
+懒加载 （Lazy Load）
+	也叫延迟加载，一般用于图片加载上，就是在图片出现在可视区内才加载，减轻服务器的压力
+
+原理
+	现将img的src设置为同一张占内存很小的图片，将真实的地址放在自己的另一个属性上，如data-src，在图片出现在可视区内是在将data-src属性值赋给src，加载图片，这就是懒加载。
+
+
+如何判断一张图片是否在可视区内？
+
+	当 “图片距离文档顶部距离   小于   可视区高度+滚动高度” 时，即图片在可视窗口内
+function isvisible(obj){
+	(js)
+	var scrollTop = document.documentElement.scrollTop ||document.body.scrollTop;
+	var wHeight = document.documentElement.clientHeight;
+	var offsetTop = obj.offsetTop;
+
+	(jq)
+	var scrollTop = $(window).scrollTop();
+	var wHeight = $(window).height();
+	var offsetTop = obj.offset().top;
+
+	if(offsetTop < scrollTop + wHeight){
+		return true;//在可视区内
+	}else{
+		return false;
+	}
+}
+
+
+给浏览器添加监听事件，滚动时判断图片是否出现在可视区？
+
+注意，需要让元素只在第一次检测到为true，被打印
+
+var hasShowed = false;
+
+$(window).on("scroll",function(){
+	if(hasShowed){
+		return ;
+	}
+	if(isvisible(obj)){
+		hasShowed = !hasShowed;
+		showImage();
+	}
+
+})
+
+-------------------------------------------------------------------------------------------------------------------------------------
+无限滚动
+
+原理
+	当页面滚动到某个位置就加载数据
+	注意：某个位置-----容器底部与屏幕底部距离小于 200 的时候
+
+第一个 api 是 window.innerHeight，它返回的是屏幕（viewport）高度。
+第二个 api 就是 Element.getBoundingClientRect ，这个方法用来计算元素边缘与屏幕（viewport）之间的距离。
+需要提醒一下，Element.getBoundingClientRect 会得到这么一个类 Object 对象：
+
+
+
+var isLoading = false;
+var isEnd = false;
+
+function fetchData(){
+	if(!isLoading && !isEnd){
+		isLoading = true;
+		var viewH = window.innerHeight || document.documentElement.clientHeight ||document.body.clientHeight;
+		var distance = contain.getBoundingClientRect().bottom - viewH ;
+		if(distance < 200){
+			fetch(path).then(res=>{
+				isLoading = false;
+				res.data.length === 0 && isEnd =true;
+				dosomething(res.data);
+			})
+		}
+		
+	}	
+}
+-----------------------------------------------------------------------------------------------------------
+回到顶部
+
+原理
+	固定定位隐藏图标，当页面滚动到一定位置显现，点击是窗口滚动高度距离为0（$(window).scrollTop(0)）
+	

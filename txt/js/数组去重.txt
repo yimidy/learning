@@ -1,0 +1,61 @@
+1. 冒泡法
+	function de_weight(_arr){
+		var obj = [];
+		for(var i=0;i<_arr.length;i++){
+			for(var j=i+1;j<_arr.length;j++){
+				if(_arr[i]==_arr[j]){
+					j=++i;
+				}
+			}
+			obj.push(_arr[i]);
+		}
+		return obj;
+	}
+
+2. 冒泡法&splice
+	function de_weight(_arr){
+		for(var i=0;i<_arr.length;i++){
+			for(var j=i+1;j<_arr.length;j++){
+				if(_arr[i]==_arr[j]){
+					_arr.splice(j,1);
+					j--;
+				}
+			}
+		}
+	}
+3. Object的属性名不能重复
+	function de_weight(_arr){
+		var arr = [];
+		var obj = new Object();
+		_arr.forEach(function(key){
+				if(!obj[key]){
+					obj[key] = 1;
+				}
+			})
+		Object.keys(obj).forEach(function(key){
+					arr.push(key*1)
+		})
+		return arr;	
+	}
+4. indexOf检测关键字下标
+	function de_weight(_arr){
+		for(var i=0;i<_arr.length;i++){
+			if(_arr.indexOf(_arr[i])!=i){
+				_arr.splice(i,1);
+				i--;
+			}
+		}
+	}
+5. filter&indexOf
+	function de_weight(_arr){
+		var arr = _arr.filter(function(ele,index,self){
+			return self.indexOf(ele)===index;
+		})
+		return arr;
+	}
+6. Set
+	function de_weight(_arr){
+		var arr =Array.from(new Set(_arr));
+		return arr;
+	}
+	Array.from() 方法从一个类似数组或可迭代对象中创建一个新的数组实例。

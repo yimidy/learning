@@ -1,0 +1,12 @@
+html5规范里增加了一个自定义data属性
+
+为前端开发者提供自定义的属性，这些属性集可以通过对象的dataset属性获取，不支持该属性的浏览器可以通过 getAttribute方法获取
+
+<div data-author="david" data-time="2011-06-20" data-comment-num="10">...</div>
+
+div.dataset.commentNum; // 可通过js获取 10
+
+data-为前端开发者提供自定义的属性，这些属性集可以通过对象的dataset属性获取，不支持该属性的浏览器可以通过 getAttribute方法获取。ppk提到过使用rel属性，lightbox库推广了rel属性，HTML5提供了data-做替代，这样可以更好 地使用自定义的属性
+
+
+需要注意的是，data-之后的以连字符分割的多个单词组成的属性，获取的时候使用驼峰风格。

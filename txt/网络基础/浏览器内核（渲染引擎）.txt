@@ -1,0 +1,18 @@
+先说一下浏览器的结构：
+①、用户界面（UI） - 包括菜单栏、工具栏、地址栏、后退/前进按钮、书签目录等，也就是能看到的除了显示页面的主窗口之外的部分；
+②、浏览器引擎（Rendering engine） - 也被称为浏览器内核、渲染引擎，主要负责取得页面内容、整理信息（应用CSS）、计算页面的显示方式，然后会输出到显示器或者打印机；
+③、JS解释器 - 也可以称为JS内核，主要负责处理javascript脚本程序，一般都会附带在浏览器之中，例如chrome的V8引擎；
+④、网络部分 - 主要用于网络调用，例如：HTTP请求，其接口与平台无关，并为所有的平台提供底层实现；
+⑤、UI后端 - 用于绘制基本的窗口部件，比如组合框和窗口等。
+⑥、数据存储 - 保存类似于cookie、storage等数据部分，HTML5新增了web database技术，一种完整的轻量级客户端存储技术。
+
+注：IE只为每个浏览器窗口启用单独的进程，而chrome浏览器却为每个tab页面单独启用进程，也就是每个tab都有独立的渲染引擎实例。
+现在的主要浏览器：
+IE、Firefox、Safari、Chrome、Opera。
+它们的浏览器内核（渲染引擎）：
+IE--Trident、
+FF(Mozilla)--Gecko、
+Safari--Webkit、
+Chrome--Blink（WebKit的分支）、
+Opera--原为Presto，现为Blink。
+因此在开发中，兼容IE、FF、Opera（Presto引擎是逐步放弃的）、Chrome和Safari中的一种即可，Safari、Chrome的引擎是相似的。

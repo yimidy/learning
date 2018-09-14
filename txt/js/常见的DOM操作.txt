@@ -1,0 +1,61 @@
+获取Dom节点：
+ getElementById()
+ getElementsByClassName()
+ getElementsByName()
+ getElementsByTagName()
+ querySelector()
+ querySelectorAll()
+ all[]
+ documentElement
+ document.doby
+
+子节点
+ ChildNodes
+ firstNode
+ lastNode
+
+兄弟节点
+ nextSibling
+ previousSibling
+
+父节点
+ parentNode
+
+节点属性
+ nodeName
+ nodeValue
+ nodeType
+ innerHTML
+
+
+创造节点
+ createElement()
+ createTextNode()//innerHTML
+ createDocumentFragment()
+ createAttribute()
+ createComment()
+
+复制节点
+ obj.cloneChild(true/false)
+
+
+添加节点
+ appendChild()
+ insertBefore()
+ setAttribute(key,value)
+ steAttributeNode()
+
+删除节点
+ removeChild()
+ removeAttribute("属性名")
+ removeAttributeNode(attrNode)
+
+修改节点
+ replaceChild(new,old)
+ setAttribute(key,value)
+ setAttribute()
+
+获取设置节点样式
+ obj.style.cssStyel = ""
+
+ 

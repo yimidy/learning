@@ -1,0 +1,63 @@
+margin塌陷
+-----------
+	标准文档流中，竖直方向的margin不叠加，以较大的为准(水平方向的margin是可以叠加的，即水平方向没有塌陷现象)。
+
+	如果不在标准流，比如盒子都浮动了，那么两个盒子之间是没有塌陷现象的。
+
+	
+*******注意：同一个BFC里的两个元素垂直距离会出现margin塌陷（重叠），不同margin或叠加
+
+	<div class="aside"></div>
+	<div class="text">
+    		<div class="main"></div>
+	</div>
+
+	<!--下面是css代码-->
+
+	.aside {
+            margin-bottom: 100px;  
+            width: 100px;
+            height: 150px;
+            background: #f66;
+        }
+        .main {
+            margin-top: 100px;
+            height: 200px;
+            background: #fcc;
+        }
+        .text{
+            /*盒子main的外面包一个div，通过改变此div的属性使两个盒子分属于两个不同的BFC，以此来阻止margin重叠*/
+            overflow: hidden;  //此时已经触发了BFC属性。
+        }
+
+盒子居中
+---------
+margin的值可以为auto，表示自动。当left、right两个方向都是auto的时候，盒子居中了：
+
+	margin-left: auto;
+	margin-right: auto;
+
+盒子居中的简写为：
+
+	margin:0 auto;
+
+注意：
+
+（1）使用margin:0 auto;的盒子，必须有width，有明确的width。（可以这样理解，如果没有明确的witdh，那么它的witdh就是霸占整行，没有意义）
+（2）只有标准流的盒子，才能使用margin:0 auto;居中。也就是说，当一个盒子浮动了、绝对定位了、固定定位了，都不能使用margin:0 auto;
+（3）margin:0 auto;是让盒子居中，不是让盒子里的文本居中。文本的居中，要使用text-align:center;
+
+
+善于使用父亲的padding，而不是儿子的margin
+--------------------------------------------
+我们来看一个奇怪的现象。现在有下面这样一个结构：（div中放一个p）
+
+    <div>
+        <p style="margin-top:50px"></p>//导致父级和儿子位置不变，但整体下移50px
+    </div>
+
+解决办法：父亲加border属性
+为什么呢？
+如果父亲没有border，那么儿子的margin实际上踹的是“流”，踹的是这“行”。所以，父亲整体也掉下来了。
+
+margin这个属性，本质上描述的是兄弟和兄弟之间的距离； 最好不要用这个marign表达父子之间的距离。

@@ -1,0 +1,176 @@
+javascript语言采用单线程，即所有任务只能在一个线程上完成，一次只能做一件事。前面任务没有完成，后面只能等着。这样是非常不便利，无法充分发挥出计算机的计算能力。
+
+Web Worker的作用，就是为js创造多线程。允许主线程创造Worker线程，在主线程运行的同时，不影响Worker线程的运行，两者互不干扰。等到Worker线程任务完成，将结果返回给主线程。可以负担主线程过于复杂密集的任务，使主线程不会阻塞或拖慢。
+
+Worker线程一但新建成功，就会始终运行，不会被主线程上活动打断。这也造成了Worker比较耗费 资源，不应过渡使用，一但使用完毕，就应该关闭。
+
+-----------------------------------------------
+
+注意使用要点：
+
+1. 同源限制，Worker线程运行的脚本必须与主线程脚本文件同源。
+
+2. DOM限制，Worker线程所在的全局对象，与主线程不一样，无法读取主线程所在网页的DOM对象，也无法使用document、window、parent这些对象，但可以使用navigator和location对象。
+
+3. 脚本限制，Worker线程不能执行alert（）和confirm（）方法，但可以使用XMLHttpRequest对象发出AJAX请求。
+
+4. 通信联系，Worlker线程与主线程不在同一上下文环境中，不能直接通信，必须通过消息完成。
+
+5. 文件限制，Worker线程无法读取本地文件，它所加载的脚本，必须来自网络。
+
+
+-------------------------------------------------
+
+基本用法：
+
+主线程中
+
+1. 主线程采用new命令，调用Worker（）构造函数，新建一个Worker线程。
+	var worker = new Worker("worker.js"，options);
+	参数一为来自网络的脚本文件，就是该线程要执行的任务。若是下载失败（404），Worker会默默失败。
+	参数二为配置对象，作用是来指定Worker的名称，用来区分多个线程。如:
+			options={name:'worker1'}
+			worker.name  //worker1
+
+2. 主线程调用worker.postMessage()方法，向Worker发消息。
+	worker.postMessage("Hello Word!!!");
+	worker.postMessage({method:"echo",args:['work']})
+	参数是主线程传给Worker线程的数据，也可以指定数据类型
+
+3.主线程通过worker.onmessage指定监听函数，接受Worker线程发回来的消息。
+	worker.onmessage = function(e){
+			console.log("message:" +e.data)
+		} 
+
+4. Worker线程任务完成后，主线程可以将它关掉。
+	worker.terminate();
+
+5. 监听Worker是否发生错误。如果错误，Worker会触发主线程error事件。
+	worker.onerror = function(e){
+		console.log('ERROR: Line',e.lineno,'in'  e.filename ':' e.message );	
+		}
+
+6. 发送的数据无法序列化成字符串时，会触发onmessageerror事件监听函数。
+	worker.onmessageerror = function(e){
+		}
+
+Worker线程中
+
+1. Worker线程内部需要一个监听函数，监听message事件。
+	self.addEventListener('message',function(e){
+		self.postMessage('Your said' + e.data)
+	},false)
+	self可以省略或变成this
+	也可以用onsessage事件来监听
+	监听函数的事件对象的data属性包含主线程发来的数据
+	postMessage方法是给主线程发消息
+
+2. Worker线程内部关闭该线程
+	self.close();
+
+3. Worker线程内部也可以监听error事件
+
+4. Worker线程内部如果要加载其他脚本，用importScripts()方法
+	importScripts('other.js')
+	也可以同时多脚本
+	pmportScripts('other1.js','other2.js')
+
+5. Worker线程中在创建Worker线程（目前只有firefox支持）
+
+6. 发送的数据无法序列化成字符串时，会触发onmessageerror事件监听函数。
+	self.onmessageerror = function(e){
+		}
+
+-----------------------------------------------------------------
+
+数据通信
+
+1. 主线程和Worker线程之间的通信内容，可以是文本，可以是对象，但浏览器内部运行机制是，通信内容要串行化
+
+2. 这种通信是拷贝关系，是传值而不是传址
+
+3. 主线程与Worker线程交换的数据也可以是二进制，比如File/Blob/ArrayBuffer等
+
+4. 拷贝方式发送二进制数据，会造成性能问题。为了解决此问题，js允许直接将二进制数据转移给子线程。采用转移数据的方法是Transfersble Objects，允许主线程将数据转移给子线程，一旦转移，主线程将不能再操作该数据。这种方法对于影像的处理、声音的处理、3D运算等非常方便，不会产生性能负担。
+	var ab = new ArrayBuffer(1);
+	worker.postMessage(ab,[ab])
+
+
+-----------------------------------------------------------------------
+
+同页面的Web Worker
+
+通常情况下，Worker载入的是单独的js脚本文件，但也可以载入与主线程在同一网页的代码。	 
+
+	<!DOCTYPE html>
+	<html>
+	<body>
+		<script id = "worker"  type = "app/worker">
+			self.onmessage = function(e){
+				var data = e.data;
+				self.postMessage("message")
+			}
+		</script>
+	</body>
+	</html>
+
+	注意：script标签的type属性是一个浏览器不认识的值
+	
+	读入一段嵌入网页的脚本，用Worker来处理。
+	var blod = new Blod([document.querySelector("#worker").textContent]);
+	var url = window.URL.creatObjectURL(blod);
+	var worker = new Worker(url);
+	worker.onmessage = function(e){
+			var data = e.data;
+		}
+
+-----------------------------------------------------------------------------
+
+Worker线程完成轮询
+	
+function createWorker(f) {
+  var blob = new Blob(['(' + f.toString() +')()']);
+  var url = window.URL.createObjectURL(blob);
+  var worker = new Worker(url);
+  return worker;
+}
+
+var pollingWorker = createWorker(function (e) {
+  var cache;
+
+  function compare(new, old) { ... };
+
+  setInterval(function () {
+    fetch('/my-api-endpoint').then(function (res) {
+      var data = res.json();
+
+      if (!compare(data, cache)) {
+        cache = data;
+        self.postMessage(data);
+      }
+    })
+  }, 1000)
+});
+
+pollingWorker.onmessage = function () {
+  // render data
+}
+
+pollingWorker.postMessage('init');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

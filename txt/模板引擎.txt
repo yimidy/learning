@@ -1,0 +1,66 @@
+应用场景
+	1. 通过ajax获取数据，生成标签集渲染到页面上
+	2. 页面布局中，共性模块和布局，提取出公共模板，减少html代码量
+
+特点：
+	数据与视图分离，前台控制数据渲染
+	减少html代码量（公用模板，html代码中用到编程思想）
+
+
+
+流程：
+	1. 创建模板
+	2. ajax获取数据
+	3. 解析模板，生成标准的字符串（"html代码"）
+	4. 渲染数据
+
+1. 创建模板
+	一般写在textarea、input标签里，或者在script里
+		<teatarea id="template">///</textarea>
+		<input id="template">///</input>
+		<script type="text/template" id="template">
+
+	获取模板：
+		var element = document.getElementById("template");
+		var str = /^(template|input)$/i.test(element.nodeName)?element.value:element.innerHTML;
+
+2. 数据
+	data = JSON.parse(data);
+	data={
+		"key1":value1,
+		"key2":value2,
+		"key3":value3,
+		"key4":value4,
+		 ...
+	}
+	
+3. 解析模板
+	function template(str){/// return template;}
+	var template = template(str);
+
+4. 渲染数据
+	function render(template,data){
+		for(var key in data){
+			reg = new RegExp('{{'+key+'}}',ig);
+			tmpl = template.replace(reg,data[key]);
+		}
+		return tmpl;
+		
+	}
+	elenemt.parentNode.innerHTML =render(template,data);
+
+常用的模板引擎对比：
+	jQuery tmpl
+	hogan.js
+	腾讯artTemplate
+
+	Jade
+	Mustache
+	Transparency
+	Underscore.js
+	Embeddedjs
+	DoTjs
+	Handlebarsjs
+	T.js
+	Dustjs
+	Nunjucks

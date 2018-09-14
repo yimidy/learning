@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+<script type="text/javascript">
+/*	function bar(){
+		return foo;
+		foo = 10;
+		//function foo(){}
+		//var foo = 11;
+	}
+	console.log(typeof bar());*/
+
+/*	function Foo(){
+		getName = function(){
+			console.log(1);
+		};
+		return this;
+	}
+	Foo.getName = function(){
+		console.log(2);
+	}
+	Foo.prototype.getName = function(){
+		console.log(3);
+	}
+	var getName = function(){
+		console.log(4);
+	}
+	function getName(){
+		console.log(5);
+	}
+	Foo.getName();
+	getName();
+	Foo().getName();
+	getName();*/
+
+	//alert(typeof(function(){}))
+
+/*	function test(){
+		var re = [];
+		for(var i = 0; i<10; i++){
+			re[i] = function(){
+				return i;
+			}
+		}
+		return re;
+	}
+	console.log(test()[1] ===test()[5])
+	console.log(test()[5]())*/
+
+	let x,{x:y=1}={x};y;
+	console.log(x);
+
+	/*	var str = "ABCaDEAAF ";
+	var s = "A"
+	var reg = new RegExp(s,"gi")
+	console.log(str.match(reg).length);*/
+
+	console.log(["1","2","3"].map(parseInt))//[1,NaN,NaN]
+/*	parseInt 需要 2 个参数 (val, radix)， 而 map 传递了 3 个参数 (element, index, array)*/
+
+var arr = [];
+console.log(typeof arr, Object.prototype.toString.call(arr));
+</script>
+</body>
+</html>

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+<script type="text/javascript">
+  var myarr1 = new Array("Hello","John","love","JavaScript"); 
+  var myarr2 = new Array("80","16","50","6","100","1");
+  document.write(myarr1.sort()+"<br/>");
+  document.write(myarr2.sort()+"<br/>");
+  function fn(a,b){
+  	return a-b;//>0  b,a升序
+  }
+  function unfn(a,b){
+  	return b-a;//>0  b,a降序
+  }
+  document.write(myarr2.sort(unfn)+"   升序"+"<br/>");
+  document.write(myarr2.sort(fn)+"   降序");
+</script>
+</body>
+</html>

@@ -1,0 +1,3 @@
+animation-fill-mode:forwards;
+
+属性默认值为none，停在初始状态

@@ -1,0 +1,86 @@
+DOM（document object model）文档对象模型
+
+内容操作
+	获取：html()、text()、val()
+	设置：html("value")/text("value")
+
+
+
+样式操作
+	获取：css('key')
+	设置：css('key','value')
+	      css({'key':'value','key','value'})
+	添加类：	addClass("classname")
+	删除类：	removeClass("classname")
+	切换类：	toggleClass("classname")
+		hasClass()
+
+
+
+属性的操作
+	获取： attr('key')
+	设置： attr('key','value')
+	       attr({'key':'value','key':'value'})
+	删除：  removeAttr()
+
+
+节点操作
+	创建节点
+		var txt1 = "<p>text1</p>";
+		var txt2 = $("<p></p>").text("text2");
+		var txt3 = document.createElement("p")；
+			txt3.innerHTML = "text3";
+	添加节点
+		append
+		appendTo
+		prepend
+		prependTo
+		after
+		before
+		insertAfter
+		insertBefore
+	删除节点
+		remove()删除被选元素和其子元素
+		empty()清空被选元素
+	克隆
+		clone()
+	替换
+		replaceWith()
+		replaceAll()
+	包裹
+		wrap()
+		wrapAll()
+		wrapInner()
+	遍历
+		each()
+
+
+尺寸
+	width() 
+	height()
+	innerWidth() 
+	innerHeight()
+	//包括内边距
+	outerWidth() 
+	outerHeight()
+	//包括内边距和边框
+	outerWidth(true)
+	outerHeught(true)
+	//包括内边距、边框和外边距
+	offset().left
+	offset().top
+	//相对于文档的位置
+	position()
+	//返回第一个匹配元素相对于父元素的位置
+	scrollLeft()
+	scrollTop()
+	//返回或设置匹配元素相对滚动条的偏移
+
+
+	文档宽度$(document).width()
+	浏览器窗口宽度$(window).width()
+
+get()//获得由选择器指定的 DOM 元素。
+index()//返回指定元素相对于其他指定元素的 index 位置。
+size()//返回被 jQuery 选择器匹配的元素的数量。
+toArray()//以数组的形式返回 jQuery 选择器匹配的元素。

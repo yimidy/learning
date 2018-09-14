@@ -1,0 +1,84 @@
+防抖动
+
+	背景
+		在频繁触发某一事件时，会连续重复做某一动作。
+		比如，输入框输入文字一直触发keydown事件，如果这时需要向后台发送某一请求，这样的话事件发生太密集，影响浏览器性能。
+		
+	思想
+		在该事件一段规定时间内没有再次触发就执行事件代码
+
+	实现
+		function debounce(fn,delay){
+			var timer = null;
+			return function(){
+				var con = this;
+				var args = arguments;
+				clearTimeout(timer);
+				timer = setTimeout(function(){
+					fn.apply(con,args);
+				},delay)
+			}	
+		}
+	
+		function foo(){ console.log("You are scrolling!");}
+		window.onscroll = debounce(foo,100);
+
+
+
+节流
+	背景
+		在频繁触发某一事件时，会连续重复做某一动作。
+		无限下拉页面动态获取新信息（滚轮下滑每隔一定时间发送一次ajax请求，不用等到停止滑动的一定时间才请求）
+	
+	思想
+		每隔一定的时间触发一次
+
+	实现
+		1. 时间戳
+		function throttle(fn,delay){
+			var start = Date.now();
+			return function(){
+				var con = this;
+				var args = arguments;
+				var now =Date.now();
+				if(now-start>=delay){
+					fn.apply(con,args);
+					start = Date.now();
+				}
+			}
+		}
+		2. 定时器
+		function throttle(fn,delay){
+			var timer = null;
+			return function(){
+				var con = this;
+				var args = arguments;
+				if(!timer){
+					timer = setTimeout(function(){
+						fn.apply(con,args);
+						timer = null;
+					},delay)
+				}
+			}
+		}
+		3. 时间戳&定时器（规定时间内一定触发一次，触发完成后可能再执行一次节流事件）
+		function throttle(fn,delay){
+			var start = Date.now();
+			var timer = null;
+			return function(){
+				var now = Date.now();
+				var remaining = delay-(now-start);
+				var con = this;
+				var args = arguments;
+				clearTimeout(timer);
+				if(remaining<=0){
+						fn.apply(con,args);
+						start = Date.now();
+				}else{
+						timer = setTimeout(function(){
+							fn.apply(con,args);
+						},remaining)
+					}
+			}
+		}
+		

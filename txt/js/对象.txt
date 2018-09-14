@@ -1,0 +1,4 @@
+obj.hasOwnProperty(prop)//所以继承了Object的对象都会继承到hasOwnProperty的方法；判断对象obj是否含有某个特定的自身属性
+
+
+obj.in()//判断对象是否含有某个特定属性，不论是自身的还是从原型上继承来的

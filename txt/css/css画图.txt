@@ -1,0 +1,29 @@
+1. »­Èý½ÇÐÎ
+
+	{
+		width:0;
+		height:0;
+		border:50px solid transparent;
+		border-top-color:red;
+	}
+2. »­Ô²½Ç
+	.radius1,.radius3{		
+		width:300px;
+		height:1px;
+		border:3px solid transparent;
+		}
+	.radius1{
+		border-bottom-color:red;
+		}
+	.radius3{
+		border-top-color:red;
+		}
+	.radius2{
+			width: 306px;
+			height: 10px;
+			background-color: red;
+		}
+
+	<div class="radius1"></div>
+	<div class="radius2"></div>
+	<div class="radius3"></div>

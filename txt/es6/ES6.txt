@@ -1,0 +1,108 @@
+let
+const
+字符串扩展（unicode、方法、模板字符串）
+数组的扩展（扩展运算符...、方法）
+对象的扩展（声明、方法）
+函数（含参函数的调用、默认参数、箭头函数）
+proxy代理（set、get、apply、construct）
+promise异步（promise.then(success()).catch(error()).finally(function(){});）
+Set没有重复元素的集合
+Map键值对
+symbol函数？
+Reflect反射？
+Iterator接口？
+Generator？
+async函数？
+calss？
+模块化？
+
+
+1. let
+	声明变量
+	块级作用域（花括号区域内）
+	没有变量提升（暂时性死区）：变量在声明前不可用 ，即is not defined
+	不能重复声明 has already been declared
+
+2. const
+	声明常量，被声明后立即赋值
+	块级作用域
+	不能修改地址值（即若是对象格式数据，用obj.key可以改值，但不能直接改obj；若想避免这种情况，用Object.freeze(obj)冻结对象obj，使之不能增删改数据）
+	没有变量提升
+
+let和const声明的变量不挂在window上
+
+3. class类
+	es6之前，定义一个类，都用function来模拟
+	function Person(){ this.name = person;}
+	Person.prototype.say = function(){}
+	var per = new Person();
+
+	但将属性放在原型中怎样？
+	若数据是普通类型，没问题；但如果是引用类型，对一个对象的修改会影响继承该类的所有对象
+
+	clsaa Person{
+		constructor(name){
+			this.name = name;
+		}
+		say(){
+			console.log(this.name);
+		}
+		static fun(){
+			return 'xxx';
+		}
+	}
+	var person = new Person();
+	person.say();
+
+	class Man extends Person{
+		constructor(){
+			super();
+		}
+	}
+
+4. Set集合
+	set是一个不能有重复元素的集合，重复添加无效
+	WeakSet：类似于Set，只是它的成员只能是对象，没有size，不能遍历
+5. Map键值对
+
+6. 解析构造（模式匹配）
+
+7. 字符串
+	Unicode表示法'\u{}'
+8. 模板字符串
+	反引号(`),空格、换行将保留
+	${表达式、运算、对象属性、函数}
+9. 含参函数的调用
+	fun`参数`===fun(参数)
+10. 函数的默认参数
+11. 箭头函数
+	()=>{}
+	this的指向在当前函数块中
+12. 数组的扩展
+	扩展运算符(...)
+	传参时不能确定参数个数时fun(...arg)
+13. 数组的方法
+	Array.from(数组，改动的规则)-----Array.from([1,2,3],x=>x*x)
+	Array.of(数据1，数据2，数据3)-----Array.of(1,2,3);//[1,2,3]
+	copyWithin(被覆盖的起始位置，选取数据的起始位置，选取数据的结束位置的下一点)-----[1,2,3,4,5].copyWithin(0,2,4);//[3,4,3,4,5]
+	find(规则)，findIndex(规则)---------[1,2,3,4,5].find(x=>x>4);//5
+	fill(被填充数据，起始位置，结束位置下一点)------[1,2,3,4,5].fill(0,2,4);//[1,2,0,0,5]
+	for---of(keys/values/entries)
+13. 对象
+	对象里可以直接写变量和函数
+	方法有name属性
+	Object.is(值1，值2)//比较两个值是否相等，返回布尔值
+	object.assign(目标对象，对象1，对象2)//浅复制
+	对象的属性描述：Object.getOwnPropertyDescriptors(obj)
+	对象的继承相关：
+	Object,setPrototypeOf(obj,proto)                    //为obj对象设置一个原型对象，那么obj继承了proto对象的所有属性
+	Object.getPrototypeOf(obj)                             //不难看出，这是读取一个对象的原型对象
+	super                                                               //指向当前对象的原型对象，相当于java中的超类
+14.Symbol函数
+	为了防止不同人员书写代码造成变量名/方法名的冲突
+	let a = Symbol();
+	let b = Symbol();
+	//函数可以添加带有描述性语言的字符串参数
+	a === b ;          
+	//false
+		

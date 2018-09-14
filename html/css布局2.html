@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<style type="text/css">
+			.header{
+				position: relative;
+				width: auto;
+				height: 80px;
+				border: 1px solid green;
+				padding: 8px;
+			}
+			.logo{
+				width: 80px;
+				height: 80px;
+				border: 1px solid red;
+			}
+			input{
+				position: absolute;
+				right: 8px;
+				bottom: 8px;
+				width: 15%;
+				height: 25px;
+				border: 1px solid #000;
+			}
+			.contain{
+				display: flex;
+				justify-content: space-between;
+				margin:10px 0;
+			}
+			.left{
+				flex:1 1  auto;
+				margin-right: 10px;
+				height:300px;
+				border: 1px solid blue;
+			}
+			.right{
+				flex:0 0  auto;
+				width: 200px;
+				height:200px;
+				border: 1px solid red;
+			}
+			.footer{
+				height: 50px;
+				border: 1px solid #000;
+			}
+		</style>
+</head>
+<body>
+<div class="header">
+	<div class="logo">
+		LOGO
+	</div>
+	<input type="text" name=""  value="用户名"/>
+</div>
+<div class="contain">
+	<div class="left"></div>
+	<div class="right"></div>
+</div>
+<div class="footer">footer</div>
+</body>
+</html>

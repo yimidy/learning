@@ -1,0 +1,65 @@
+jQuery名称冲突
+	jQuery使用$作为它的简写，但在js的prototype库中会冲突，解决办法是
+	var jq = jQuery.noConflict();
+	jq("#div1")...
+
+载入事件
+	$(document).ready(function(){})
+	$(function(){})
+
+加载
+	load(function(){})
+
+	
+绑定
+	bind（type,data,function(){}）
+
+解绑
+	unbind(type,function(){})
+	
+一次
+	one(function(){})
+
+触发
+	triggle(function(){})
+
+改变
+	change(function(){})
+
+调整浏览器窗口大小
+	resize(functon(){})
+
+焦点
+	focus(function(){})
+	blur(function(){})
+	
+鼠标
+	click(function(){})
+	dbclick(function(){})
+	mousedown(function(){})
+	mouseup(function(){})
+	mouseover()(function(){})
+	mouseout(function(){})
+	//移入移出的目标元素（taggle）触发
+	mouseenter(function(){})
+	mouseleave(function(){})
+	//移入移出的那个选择元素触发
+	mousemove(function(){})
+	hover(fn1,fn2)
+	//鼠标移入执行fn1，移出执行fn2
+	toggle(function(){})
+
+	event.pageX
+	event.pageY
+	event.type
+	event.target
+	event.preventDefault()
+键盘
+	keydown()
+	keyup()
+	keypress()
+	
+	
+
+
+	

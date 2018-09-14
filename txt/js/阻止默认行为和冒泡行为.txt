@@ -1,0 +1,6 @@
+event.stopPropagation()|| event.cancelBubble()阻止冒泡事件
+
+event.preventDefault()阻止默认行为
+
+return false;即阻止冒泡，也阻止默认行为
+

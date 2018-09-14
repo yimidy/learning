@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style type="text/css">
+		table {
+			
+			width: 1000px;
+			margin: 20px auto;
+			border-collapse: collapse; 
+			text-align: center;
+		}
+
+		td,th {
+			border: 2px solid #ccc;
+		}
+	</style>
+</head>
+<body>
+	<table class="tab">
+		<tr><th>name</th><th>age</th></tr>
+		<tbody class="tbody">
+			<tr><td>name1</td><td>12</td></tr>
+			<tr><td>name2</td><td>15</td></tr>
+			<tr><td>name3</td><td>1</td></tr>
+			<tr><td>name4</td><td>16</td></tr>
+			<tr><td>name5</td><td>5</td></tr>
+	    </tbody>
+	</table>
+	<p class="display"></p>
+	<script type="text/javascript" src="jquery-min.js"></script>
+	<script type="text/javascript">
+		$(function(){
+			var $tr = $(".tbody").find('tr');
+			var array =[];//[{index:0,age:12},{index:1,age:15}~~~]
+			$tr.each(function(){
+				var obj ={};
+				obj["index"] = $(this).index();
+				obj["age"] = $(this).children('td').last().html();
+				obj["name"] = $(this).children('td').first().html();
+				array.push(obj);
+			});
+            //排序
+            array.sort(sortBy);
+            function sortBy(a,b){
+            	return a.age-b.age;
+            }
+            //删除旧数组生成新数组
+            $('.tbody').empty();
+            for(var i =0 ;i<array.length;i++){
+            	$('.tbody').append($tr.eq(array[i].index));
+            }
+ 
+		});
+	</script>
+</body>
+</html>

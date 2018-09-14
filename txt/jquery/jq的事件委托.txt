@@ -1,0 +1,11 @@
+bind(type,data,fun)
+live(type,data,fun)
+on(type,childSelector,data,fun)
+delegate(childdSelector,type,data,fun)
+
+bind,最早，1.7之前
+live,次之，1.7-1.9,1.9版本就已经删除
+on，1.7+，代替bind和live
+delegate，1.4.2
+
+bind只能针对已经存在的元素，后三者可以针对未来添加的节点

@@ -1,0 +1,43 @@
+javascript object nations
+
+JSON是一种用于数据交换的文本格式，目的是为了取代繁琐复杂的XML格式数据。利于阅读和编写
+
+语法规则：
+	数组[]
+	对象{}
+	名称""
+	值[]或{},number,string,boolean,null
+	并列数据之间用，
+
+{
+    "name": "Geoff Lui",
+    "age": 26,
+    "isChinese": true,
+    "friends":["Lucy", "Lily", "Gwen"],
+    "Mother": {
+        "name": "Mary Lui",
+        "age": 54
+    }
+}
+
+JSON.stringify()//将json格式数据转化为字符串
+JSON.parse()//将json转过来的字符串还原成json格式数据
+
+JSON.stringify({ name: "张三" })
+// '{"name":"张三"}'
+
+JSON.parse('{ name: "张三" }')
+// {"name":"张三"}
+
+JSON.stringify方法还可以接受一个数组，作为第二个参数，指定需要转成字符串的属性。
+var obj = {
+ 2   'prop1': 'value1',
+ 3   'prop2': 'value2',
+ 4   'prop3': 'value3'
+ 5 };
+ 6 
+ 7 var selectedProperties = ['prop1', 'prop2'];
+ 8 
+ 9 JSON.stringify(obj, selectedProperties)
+10 // "{"prop1":"value1","prop2":"value2"}"
+

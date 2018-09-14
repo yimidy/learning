@@ -1,0 +1,445 @@
+新特性：
+1. 增加了绘画的canvas元素
+2. 用于媒介回放的video和audio元素
+3. 对本地离线存储有更好的支持
+4. 新的特殊内容元素，比如article、footer、header、aside、nav、section
+5. 新的表单控件，比如calendar、date、time、email、url、search
+6. 拖放
+7. 地理位置
+8. app缓存
+9. webworker
+10. svg
+11. 服务器发送事件（server-sent event
+
+
+
+新属性：
+	（iframe标签）sandbox沙箱，值""/allow-forms/allow-same-orgin/allow-scripts/allow-top-navigation/allow-popups/allow-pointer-lock，对行内框架内容的额外限制
+	（iframe标签）seamless，值seamless，使行内框架看上去是包含文档的一部分
+	（iframe标签）srcdoc，值HTML_code,规定在框架中显示页面html内容
+
+
+移除的元素：
+1. 纯表现的元素：<basefont> <big> <center> <font> <s> <strike> <tt> <u>。
+2. 对可用性产生负面影响的元素：<frame> <frameset> <noframes>。
+
+
+处理HTML5新标签的浏览器兼容问题： 
+当在页面中使用HTML5新标签时，可能会得到三种不同的结果：
+1)结果1：新标签被当作错误处理并被忽略，在DOM构建时会当作这个标签不存在。
+2)结果2：新标签被当作错误处理，并在DOM构建时，这个新标签会被构造成行内元素。
+3)结果3：新标签被识别为HTML5标签，然后用DOM节点对其进行替换。
+不能识别HTML5新标签而不能使用，解决办法有两种：
+1)方法1：实现标签被识别
+	通过document.createElement（tagName）方法即可让浏览器识别新标签，浏览器支持新标签后，还可以为新标签添加CSS样式。
+2)方法2：JavaScript解决方案
+	a)使用html5shim：
+		在<head>中调用以下代码：
+		<!--[if lt IE 9]>
+			<script> src="http://html5shim.googlecode.com/svn/trunk/html5.js"</script>
+		<![endif]-->
+	b)使用kill IE6
+		在</body>之前调用以下代码：		
+		<!--if lte IE 6]>
+			<script src="http://letskillie6.googlecode.com/svn/trunk/letskillie6.zh_CN.pack.js"></script> 
+		<![endif]-->
+
+区分HTML和HTML5：
+1)DOCTYPE声明
+2)新增的元素
+
+简述一下你对HTML语义化的理解:
+  用正确的标签做正确的事情。
+  html语义化让页面的内容结构化，结构更清晰，便于对浏览器、搜索引擎解析;
+  即使在没有样式CSS情况下也以一种文档格式显示，并且是容易阅读的;
+  搜索引擎的爬虫也依赖于HTML标记来确定上下文和各个关键字的权重，利于SEO;
+  使阅读源代码的人对网站更容易将网站分块，便于阅读维护理解。
+
+视频：
+
+<video width="" height="" src="movie.ogg" controls="controls" >
+</video>
+
+controls 属性供添加播放、暂停和音量控件。
+包含宽度和高度属性也是不错的主意。
+其他属性autoplay="autoplay"（视频加载完成后立即播放） loop="loop"（循环播放） preload="preload"（加载完成后预备播放）。
+<video> 与 </video> 之间插入的内容是供不支持 video 元素的浏览器显示的
+
+因为ogg格式视频只适合在firefox、chrome、opera里播放，MPEG4格式的适合在IE和safari里（IE9以下不支持video），故有下面的书写格式：
+
+<video width="320" height="240" controls="controls">
+  <source src="movie.ogg" type="video/ogg">
+  <source src="movie.mp4" type="video/mp4">
+  Your browser does not support the video tag.
+</video>
+
+使用DOM控制video元素：
+var myVideo=document.getElementById("video1");
+myVideo.paused 判断视频是否暂停
+myVideo.play() 播放
+myVideo.pause() 暂停
+myVideo.load() 加载
+myVideo.width===videoWidth
+
+音频：
+
+和视频类似
+<audio src="music.ogg" controls="controls">
+</audio>
+
+同理
+<audio controls="controls">
+  <source src="song.ogg" type="audio/ogg">
+  <source src="song.mp3" type="audio/mpeg">
+Your browser does not support the audio tag.
+</audio>
+
+属性：autoplay、preload、controls、loop、src
+
+
+拖放（drag&&drop）：
+
+被拖拽元素：
+		draggable="true"             //设置元素为可拖放
+		ondragstart="drag(event)"   //拖动什么
+		function drag(ev){
+			ev.dataTransfer.setData("Div"，ev.target.id)
+		}
+			Div为被拖拽元素的数据类型（自拟）
+容器（放置被拖拽元素的地方）：
+		ondrop="drop(event)"           //进行放置
+		ondragover="allowDrop(event)"   //放到何处(默认地，无法将数据/元素放置到其他元素中。如果需要设置允许放置，我们必须阻止对元素的默认	处理方式)
+		function drop(ev){
+			ev.preventDefault();
+			var data=ev.dataTransfer.getData("Div");
+			ev.target.appendChild(document.getElementById(data));
+		}
+		function allowDrop(ev){
+			ev.preventDefault();
+		}
+
+
+canvas绘图：
+
+<canvas id="drawing" width="" height="">A drawing of something.</canvas>
+先定义一片区域（宽高设置）的画布，并设置其id，标签内内容为浏览器不支持该功能时显现的内容，也可以添加其他样式，要不然在显示器上看不到这篇区域
+
+var drawing = document.getElementById("drawing");
+
+1.要在这篇区域上绘图，需要取得绘图上下文（2d上下文和名为WebGL的3d上下文）
+	if(drawing.getContext){
+		var context = drawing.getContext("2d");
+	}
+2.导出在canvas上绘制的图像
+	var imgURI = drawing.toDataURI("imge/png"); //默认情况下，浏览器会将图片编码为PNG 格式
+	var image = document.createElement(img");
+	image.src = imgURI;
+	document.body.appendChild(image);
+3. 填充和描边
+	fillStyle = "#000";
+	strokeStyle = "#000";
+4.矩形
+        //实心矩形
+	context.fillStyle = "raba(0,0,255,0.5)";
+	context.fillRect(10,10,50,20);
+        //边框矩形
+        context.strokeStyle = "red";
+	context.lineWidth=10;
+	context.strokeRect(160,130,150,120);
+		描边线条的宽度可以有lineWidth属性控制，任意整数   
+		线条末端形状可以用lineCap控制，平头、圆头和方头（"butt"/"round"/"square"）
+		线条相交方式可以用lineJoin控制，圆交、斜交和斜接（"round"/"bevel"/"miter"）
+	//清除指定位置
+	context.clearRect(110,110,10,10);
+5.绘制路径
+	
+	context.beginPath(); //开始绘制路径
+	context.closePath(); //关闭当前绘制路径，游标回到最近子路经起始
+
+	context.arc(100,100,99,0,2*Math.PI,false); //画圆
+	context.arcTo(100,100,400,500,60);//画弧线
+	context.moveTo(200,200);//将绘图游标移到当前坐标并不做图
+	context.lineTo(200,110);//从游标位置画线段到指定坐标
+	context.rect(300,400,100,100);//画矩形
+
+	context.fill();
+	context.stroke();
+
+	context.isPointInPath(20,50);//判断坐标是否在当前路径上，是返回true
+
+6.绘制文本
+	context.font="样式blod 大小14px 字体Arial"
+	context.textAlign = "center/start/end/left/right"
+	context.textBaseline="middle/top/hanging/alphabetic/ideographic/bottom"
+	context.fillText("文本"，X，Y，最大像素（可省略）)
+
+	context.measureText("文本").width //返回当前文本所占宽度
+7.变换
+	context.rotate(angle) //围绕原点旋转图像
+	context.scale(scaleX,scaleY)//缩放
+	context.translate(x,y)//将原点变换到（x，y）处
+	context.transform（a,b,c,d,x,y）;
+	context.setTransform(a,b,c,d,x,y);context.transform();
+
+	context.save();
+	context.restore();
+8.绘制图像
+	var image = document.images[0];
+	context.drawImage(image,x,y);//大小与原图一致
+	context.drawImage(image,x,y,width,height);//自定义大小
+	context.drawImage(image,sx,sy,swidth,sheight,x,y,width,height);//剪切指定目标
+		sx，sy ：开始剪切位置坐标
+		swidth，sheight ：剪切范围
+		x，y ：放置位置坐标
+		width，height ：设置最终图片大小
+9.阴影
+	context.shodowColor = "";
+	context.shodowOffsetX = 5;
+	context.shodowOffsetY = 5;
+	context.shadowBlur = 4;
+10.渐变
+	var gradient = context.createLinearGradient(400,300,500,500);//线性
+
+        var gradient = context.createRadialGradient(400,100,50,400,400,100);//放射性
+
+	gradient.addColorStop(0,"white");
+	gradient.addColorStop(1,"black"); //渐变色
+	context.fillStyle = gradient;
+	context.fillRect(410,300,500,400);
+11.模式
+	var image = document.images[0];
+	var pattern = context.createPattern(image,"repeat/repeat-x/repeat-y/no-repeat");
+	context.fillStyle = pattern;
+	context.fillRect(x,y,width,height);
+12.图像数据
+	var imageData = context.getImageData(x,y,width,height);  
+	imageData.width
+	imageData.height
+	imageData.data   //是一个数组，保存图像中每一个像素的数据；一个像素用4个元素来保存（R,G,B,A）
+			var data = imageData.data;
+			var red = data[0];
+			var green = data[1];
+			var blue = data[2];
+			var alpha = data[3];
+	context.putImageData(imageData,0,0);//若是改变图片数据，可用putImageData（）将信息放回图片中
+13.WebGL
+
+
+SVG
+https://www.jianshu.com/p/2ea0ec6800d7
+https://www.jianshu.com/p/ae87e188b44b
+http://www.w3cplus.com/animation/create-animated-text-fills.html
+https://www.zhangxinxu.com/wordpress/2017/12/canvas-getimagedata-letter-shape-animation/
+
+什么是SVG？
+
+SVG 指可伸缩矢量图形 (Scalable Vector Graphics)
+SVG 用来定义用于网络的基于矢量的图形
+SVG 使用 XML 格式定义图形
+SVG 图像在放大或改变尺寸的情况下其图形质量不会有所损失
+SVG 是万维网联盟的标准
+SVG 与诸如 DOM 和 XSL 之类的 W3C 标准是一个整体
+
+
+
+使用 SVG 的优势在于：
+
+SVG 可被非常多的工具读取和修改（比如记事本）
+SVG 与 JPEG 和 GIF 图像比起来，尺寸更小，且可压缩性更强。
+SVG 是可伸缩的
+SVG 图像可在任何的分辨率下被高质量地打印
+SVG 可在图像质量不下降的情况下被放大
+SVG 图像中的文本是可选的，同时也是可搜索的（很适合制作地图）
+SVG 可以与 Java 技术一起运行
+SVG 是开放的标准
+SVG 文件是纯粹的 XML
+SVG 的主要竞争者是 Flash。
+与 Flash 相比，SVG 最大的优势是与其他标准（比如 XSL 和 DOM）相兼容。而 Flash 则是未开源的私有技术。
+
+
+
+SVG 实例
+
+下面的例子是一个简单的 SVG 文件的例子。SVG 文件必须使用 .svg 后缀来保存：
+
+<?xml version="1.0" standalone="no"?>
+ 
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="100%" height="100%" version="1.1" xmlns="http://www.w3.org/2000/svg">
+     <circle cx="200" cy="100" r="50" stroke="red" stroke-width="2" fill="green"/>
+</svg>
+
+
+
+地理位置geolocation
+
+	function getLocation(){
+		if(navigator.geolocation){
+			navigator.geolocation.getCurrentPosition(showPosition,showError);
+		}else{
+			alert("Your browser is not supported in Geolocation");
+		}
+	}
+	
+	function showPosition(position){
+		var latlon = position.coords.latitude+","+position.coords.longitude;
+		var img_url="http://maps.googleapis.com/maps/api/staticmap?center="+latlon+"&zoom=14&size=400x300&sensor=false";
+		document.getElementById("mapholder").innerHTML="<img src='"+img_url+"' />";
+
+	}
+		
+	function showError(error){
+		switch(error.code){
+			 case error.PERMISSION_DENIED:
+      			 x.innerHTML="User denied the request for Geolocation.";    break;
+    			 case error.POSITION_UNAVAILABLE:
+      			 x.innerHTML="Location information is unavailable.";        break;
+    			 case error.TIMEOUT:
+      			 x.innerHTML="The request to get user location timed out."; break;
+    			 case error.UNKNOWN_ERROR:
+      			 x.innerHTML="An unknown error occurred.";                  break;
+		}
+	}
+
+webStorage  
+
+克服cookie的一些缺陷
+	存储空间更大：cookie为4KB，而WebStorage是5MB；
+	节省网络流量：WebStorage不会传送到服务器，存储在本地的数据可以直接获取，也不会像cookie一样每次请求都会传送到服务器，所以减少了客户端和服务器端的交互，节省了网络流量；
+	快速显示：有的数据存储在WebStorage上，再加上浏览器本身的缓存。获取数据时可以从本地获取会比从服务器端获取快得多，所以速度更快；
+	安全性：WebStorage不会随着HTTP header发送到服务器端，所以安全性相对于cookie来说比较高一些，不会担心截获，但是仍然存在伪造问题；
+
+数据保存到客户端，存储字符串类型（对于复杂的对象可以使用ECMAScript提供的JSON对象的stringify和parse来处理）
+
+webStorage的两个目标：
+	1. 提供一种在cookie之外的存储会话数据的路径
+	2. 提供一种存储大量的可以跨会话存在的数据机制
+
+两种API：（都是在window对象下的属性）
+	localStorage（本地存储）
+	sessionStorage（会话存储）
+storage实例(localStorage/sessionStorage/globalStorage)的方法：
+	setItem(name,value)
+	getItem(name)
+	key(index)
+	remove(name)
+	clear()
+storage实例的属性：
+	length
+	pagecount访问次数localStorage.pagecount=Number(localStorage.pagecount) +1;
+
+localStorage
+	持久化存储方式，不手动清除，数据永远不会过期
+	存储大小，普通浏览器设置都是5MB，但在chrome和safair是2.5MB
+	应用场景，常用于长期登录（+判断用户是否已登录），适合长期保存在本地的数据
+
+
+sessionStorage
+
+	存储某个特定会话的数据，该数据只会保存到浏览器关闭。类似于cookie。
+	sessionStorage引入了一个“浏览器窗口”的概念，sessionStorage是在同源的窗口中始终存在的数据。只要这个浏览器窗口没有关闭，即使刷新页面或者进入同源另一个页面，数据依然存在。
+	存储大小，有些没有限制，但chrome和safair是2.5MB，IE8+和opera是5MB
+	应用场景，敏感账号一次性登录
+
+对于磁盘的写入，同步/异步
+	解决办法：sessionStorage.begin();
+		 ///
+		 sessionStorage.commit();
+
+
+
+离线缓存application cache
+
+离线检测：
+
+	if(navigator.onLine){
+		//online
+	}
+	else{
+		//offline
+	}
+
+	html5还定义了两个事件：online和offline，即从离线状态变为在线状态和从在线状态变为离线状态时，分别触发这两个事件，在window对象上触发
+		eventUtil.addHandler(window,online,function(){})
+		eventUtil.addHandler(window,offline,function(){})
+
+	当开发离线应用时，通过 navigator.onLine 获取网络状态通常是不够的。开发者还需要在网络状态发生变化时立刻得到通知，因此 HTML5 还提供了 online/offline 事件。当在线 / 离线状态切换时，online/offline 事件将触发在 body 元素上，并且沿着 document.body，document 和 window 的顺序冒泡。因此，开发者可以通过监听它们的 online/offline 事件来获悉网络状态。
+
+
+
+
+思路：
+	通过把需要离线缓存的本地文件列在一个manifest配置文件中，这样在离线的情况下也能正常使用App
+
+
+应用：
+	1. 使用方法：
+	   <!DOCTYPE html>
+	   <html manifest="cache.appcache">
+		   ///
+	   </html>
+	2. 配置文件（可以用.appcache文件，也可以用.manifest文件）
+	   CACHE MANIFEST
+
+	   CACHE:
+	   js/app.js
+	   css/style.css
+
+	   NETWORK:
+	   resourse/logo.png
+
+	   FALLBACK:
+	   / /404.html
+
+	CACHE表示离线缓存资源列表，包含manifest文件的页面江北自动缓存，故不需要把自身html文件列出
+	NETWORK表示需要联网才能访问的文件列表，不会被离线存储。若在CACHE和NETWORK有相同文件，则该文件还是会被缓存，因为CACHE的优先级更高
+	FALLBACK表示访问第一个资源失败，就是用第二个资源替代它
+
+浏览器怎么解析manifest
+	1. 在线情况下，第一次访问app，浏览器会根据manifest文件缓存相应内容；若已经访问过了并资源离线存储了，浏览器会使用离线资源加载页面，然后浏览器会对比新的manifest文件与旧的，如果文件没有改变，不做任何操作，若改变了，重新下载并离线存储。
+	2. 离线情况下，直接使用离线资源
+
+	注意一下几点：
+		1. 如果离线资源进行了更新，那么必须更新manifest文件浏览器才能重新下载资源；如果只更新资源没有更新manifet文件，浏览器并不会重新下载资源。
+		2.可能出现一种情况就是你对manifest文件进行了更新，但是http的缓存规则告诉浏览器本地缓存的manifest文件还没过期，这个情况下浏览器还是使用原来的manifest文件，所以对于manifest文件最好不要设置缓存。
+		3. 浏览器在下载manifest文件中的资源的时候，它会一次性下载所有资源，如果某个资源由于某种原因下载失败，那么这次的所有更新就算是失败的，浏览器还是会使用原来的资源。 
+		4. 在更新了资源之后，新的资源需要到下次再打开app才会生效，如果需要资源马上就能生效，那么可以使用window.applicationCache.swapCache()方法来使之生效，出现这种现象的原因是浏览器会先使用离线资源加载页面，然后再去检查manifest是否有更新，所以需要到下次打开页面才能生效。
+		5. 浏览器对缓存数据的容量限制可能不太一样（某些浏览器设置的限制是每个站点 5MB）
+		6. 引用manifest的html必须与manifest文件同源，在同一个域下；FALLBACK中的资源必须和manifest文件同源
+
+效果：
+如果需要看到离线存储的效果，那么你需要把你的网页部署到服务器上，不管是本地还是生产环境服务器中，通过本地文件打开网页是无法体验到离线存储的。
+
+
+核心是applicationCache对象，有个status属性，表示应用缓存的当前状态：
+
+	0（UNCACHED） :  无缓存， 即没有与页面相关的应用缓存
+	1（IDLE） : 闲置，即应用缓存未得到更新
+	2 （CHECKING） : 检查中，即正在下载描述文件并检查更新
+	3 （DOWNLOADING） : 下载中，即应用缓存正在下载描述文件中指定的资源
+	4 （UPDATEREADY） : 更新完成，所有资源都已下载完毕
+	5 （IDLE） :  废弃，即应用缓存的描述文件已经不存在了，因此页面无法再访问应用缓存
+
+
+相关的事件：
+表示应用缓存状态的改变：
+
+	checking : 在浏览器为应用缓存查找更新时触发
+	error : 在检查更新或下载资源期间发送错误时触发
+	noupdate : 在检查描述文件发现文件无变化时触发
+	downloading : 在开始下载应用缓存资源时触发
+	progress：在文件下载应用缓存的过程中持续不断地下载地触发
+	updateready : 在页面新的应用缓存下载完毕触发
+	cached : 在应用缓存完整可用时触发
+
+Application Cache的三个优势：
+
+	① 离线浏览
+	② 提升页面载入速度
+	③ 降低服务器压力
+
+离线缓存与传统浏览器缓存区别：
+
+	1. 离线缓存是针对整个应用，浏览器缓存是单个文件
+	2. 离线缓存断网了还是可以打开页面，浏览器缓存不行
+	3. 离线缓存可以主动通知浏览器更新资源

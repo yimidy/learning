@@ -1,0 +1,17 @@
+<style>
+    *{margin:0;padding:0;}
+        #parent{ position: relative; padding: 10px; margin:30px; background-color:#CCC; border: solid 10px #fbc;}
+        #child{ height: 200px; width: 200px; padding: 10px; margin: 30px;border: solid 10px #fbc;background-color:#afb;}
+    </style>
+    <body>
+        <div id="parent"> 
+            <div id="child">
+            </div>
+           </div>
+           <script src="jquery-min.js"></script>
+        <script>
+
+        var child = $("#child").get(0)
+        console.log( child.offsetLeft);//40      parent.padding+child.margin(border-box)
+        console.log( $("#child").position().left);//10   parend.padding(margin-box)
+        </script>

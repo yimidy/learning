@@ -1,0 +1,106 @@
+优化动画，启动GPU硬件加速
+60fps每秒屏幕刷新60次
+
+CSS3硬件加速就是让GPU渲染，解放CPU
+
+
+
+GPU是什么？
+
+	GPU(Graphics Processing Unit)是图像处理器。GPU硬件加速是指应用GPU的图形性能对浏览器中的一些图像操作交给GPU来完成，因为GPU是专门且处理图像而设计的，所以它在速度和能耗上更有效。
+
+
+
+CSS3硬件加速是什么？
+
+	CSS3硬件加速，它可以存储一定数量的纹理并且高效的操作这些纹理。
+
+	浏览器不会在动画的每一帧都绘制一次，而是生成 DOM元素快照，并作为GPU纹理（也叫做层）存储起来。之后浏览器只需要告诉GPU去转换指定的纹理来实现DOM元素的动画效果。这叫做GPU合成，也被称为硬件加速。
+
+
+
+硬件加速的工作原理是什么？
+
+	浏览器接受页面文档后，解析html文件，生成DOM树；解析css文件，和DOM数一起生成渲染树。渲染树中包含你大量的元素，每一个渲染元素会被分配到一个图层中，每个图层又被加载到GPU形成渲染纹理（一个矩形的像素点集合），通过连接CPU显示在屏幕上。而这只是硬件加速的第一步，然后需要开启硬件加速（对特定需要优化的元素），会创建一个图层，称为复合图层（composited layer），该图层不会repaint，由独立合成器处理。
+
+
+生成复合层的标准是什么？
+
+	3D或透视变换（prespective transform）css属性
+	使用加速视频解码的元素<video>
+	拥有3D（WebGL）上下文或加速的2D上下文元素
+	混合插件（flash）
+	对自己的opacity做css动画或使用一个动画webkit变换元素
+	拥有加速的css过滤器元素
+	元素包含复合层的后代节点
+	元素有一个z-index较低且包含一个复合层兄弟元素
+
+
+
+如何启动硬件加速？
+
+	transform（常用）
+	opacity
+	filter
+	will-change//告知浏览器哪一个属性即将发生变化，从而告知浏览器对改属性优化提供时间
+	WebGL
+	video
+举例：
+1. 3D变换
+	{
+		-webkit-transform:translate3d(250px,250px,250px)
+		rotate3d(250px,250px,250px,-120deg)
+		scale3d(0.5,0.5,0.5);
+	}
+2. 欺骗浏览器
+	{
+		-webkit-transform: translateZ(0);
+		-moz-transform: translateZ(0);
+		-ms-transform: translateZ(0);
+		-o-transform: translateZ(0);
+		transform: translateZ(0);
+	}
+
+	在chrome和safair上使用transform和animation会出现闪烁显现，这样来解决
+	{
+		-webkit-backface-visibility:hidden; 
+		-moz-backface-visibility:hidden;
+		-ms-backface-visibility:hidden;
+		backface-visibility:hidden;                           /* 是用来隐藏被旋转元素的背面，translateZ 导致的 */
+
+		-webkit-perspective:1000;
+		-moz-perspective:1000;
+		-ms-perspective:1000;
+		perspective:1000;                    /* 而当为元素定义 perspective 属性时，其子元素会获得透视效果*/
+	}
+3. 在webkit内核中，可以使用下列方式开启
+	{
+		-webkit-transform:translate3d(0,0,0);
+		-moz-transform: translate3d(0, 0, 0);
+    		-ms-transform: translate3d(0, 0, 0);
+    		transform: translate3d(0, 0, 0);
+	} 
+
+	3D 和 2D transform 的区别就在于，浏览器在页面渲染前为3D动画创建独立的复合图层，而在运行期间为2D动画创建。动画开始时，生成新的复合图层并加载为GPU的纹理用于初始化 repaint。然后由GPU的复合器操纵整个动画的执行。最后当动画结束时，再次执行 repaint 操作删除复合图层。
+
+	提问：为什么这样加速后动画流畅多了？
+	
+	这是因为设置transform属性后会生成新图层，相当于脱离当前文档流，不会触发reflow，而在元文档流中动画会一直改变元素位置，则会一直触发repflow；	并且，transform由GPU控制，支持硬件加速，不需要软件方面渲染。
+
+
+
+需要关注的要点有哪些？
+
+	连接CPU和GPU的总线带宽不是无限的，要关注数据在CPU与GPU之间的传输，尽量避免通道拥挤。
+
+	了解创建复合层的数量。因为每一个层对应一个GPU纹理，太多的层会消耗内存。一定不要让页面的每个元素都使用硬件加速。
+
+	使用GPU渲染会影响字体的抗锯齿效果。这是因为GPU和CPU具有不同的渲染机制。即使最终硬件加速停止了，文本还是会在动画期间显示得很模糊。
+
+	优化动画开启硬件加速，这会导致该动画元素后面所有相对定位和绝对定位的元素都被放置到复合层中渲染，使页面十分卡顿
+		解决办法：给该动画元素加相对定位并且设置z-index为1或更大值，提升层排序，就避免将其他元素也加到这个复合层中
+
+
+
+
+

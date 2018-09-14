@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+<form>
+	<table>
+		<thead>
+			<tr>
+				<th>序号</th>
+				<th>排名</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td>1</td>
+				<td>13</td>
+			</tr>
+			<tr>
+				<td>2</td>
+				<td>3</td>
+			</tr>
+			<tr>
+				<td>3</td>
+				<td>10</td>
+			</tr>
+			<tr>
+				<td>4</td>
+				<td>1</td>
+			</tr>
+		</tbody>
+	</table>
+</form>
+<script type="text/javascript">
+	var tBody = document.getElementsByTagName('tbody')[0];
+	var tR = tBody.getElementsByTagName("tr");
+	var arr = [];
+	for(var i=0;i<tR.length;i++){
+		arr.push(tR[i]);
+	}
+	sortUp(arr);
+	for (var i = 0; i < arr.length; i++){
+            tBody.append(arr[i]);
+    }
+
+	function sortUp(arr){
+		for(var i=0;i<arr.length;i++){
+			for(var j=i+1;j<arr.length;j++){
+				if(arr[j] === undefined){
+					continue;
+				}
+				var num1 = Number(arr[i].getElementsByTagName("td")[1].innerText);
+				var num2 = Number(arr[j].getElementsByTagName("td")[1].innerText);
+				if(num1>num2){
+					var t = arr[i];
+					arr[i] = arr[j];
+					arr[j] =t;
+				}
+			}
+	    }
+    }
+
+	function sortDown(arr){
+		for(var i=0;i<arr.length;i++){
+			for(var j=i+1;j<arr.length;j++){
+				if(arr[j] === undefined){
+					continue;
+				}
+				var num1 = Number(arr[i].getElementsByTagName("td")[1].innerText);
+				var num2 = Number(arr[j].getElementsByTagName("td")[1].innerText);
+				if(num1<num2){
+					var t = arr[i];
+					arr[i] = arr[j];
+					arr[j] =t;
+				}
+			}
+	    }
+    }
+
+</script>
+</body>
+</html>

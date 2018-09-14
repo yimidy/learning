@@ -1,0 +1,13 @@
+方法：
+	1. 回调
+	2. 事件监听：代码的执行不是按照代码顺序，而是事件的发生
+	3. 发布/订阅模式
+		jQuery.subscribe("done",fn2);
+		//fn1执行时
+			jQuery.publish("done")
+		jQuery.unsubscribe("done",fn2)
+	4. promise
+		//fn1执行时
+		new promise((res,rej)=>{
+
+		}).then(fn2).then(fn3)

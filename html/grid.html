@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<style type="text/css">
+		.container{
+			height: 500px;
+			display: grid;/* inline-grid/subgrid本身是网格项，继承父容器的行高和列宽 */
+			/* grid-template-columns: [col1 col-start] 150px [col2] 1fr [col3] 2fr [col4]; */
+			/* grid-template-columns: 1fr 1fr 1fr; */
+			grid-template-columns: repeat(3,1fr);
+			grid-template-rows: [row1] 100px [roe2] 20% [row3] 50px [row4] auto [row5];
+			/* grid-auto-flow: row/column/dense从左到右/从上到下/先后顺序; */
+			 grid-template-areas: "header header header"
+								 "aside container container"
+								 "aside container ."
+								 "footer footer footer" 
+			/* grid-column-gap:10px; 出错，找不到该属性*/
+			grid-row-gap:15px;
+			grid-gap: 10px 15px;
+			/* align-items: start/end/center/stretch; */
+			/* justify-items:;  出错，没有该属性*/
+			/* justify-content: start/end/center/stretch/space-around/space-between/space-evenly; 出错，找不到space-evenly属性*/
+			/* align-content:  start/end/center/stretch/space-around/space-between/space-evenly;出错，找不到space-evenly属性 */
+			/* grid-auto-columns: 60px;*/
+			/* grid-auto-rows: 60px;  */
+			/* grid:none/[grid-template-columns] [grid-template-rows] [grid-auto-flow] [grid-auto-columns] [grid-auto-rows]; */
+		}
+		.item{
+			border: 1px solid;
+		}
+		.item4{
+			/* grid-column-start: 2;
+			grid-column-end:4;
+			grid-row-start: 2;
+			grid-row-end:span row4; */
+			/* grid-column:2/span 2;
+			grid-row:2/auto; */
+			grid-area: 2/2/4/4;/* row-start/column-start/row-end-column-end */
+			/* 属性值默认有4种：number、span number、span name、auto */
+			
+			/* grid:name; */
+			/* justify-self:; 没有该属性*/
+			/* align-self: start/end/center/stretch; */
+		}
+	</style>
+</head>
+<body>
+<div class="container">
+	<div class="item item1">item1</div>
+	<div class="item item2">item2</div>
+	<div class="item item3">item3</div>
+	<div class="item item4">item4</div>
+	<div class="item item5">item5</div>
+	<div class="item item6">item6</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,21 @@
+Currying（柯里化）
+	定义：将多参数的函数转换成接受单一参数的函数，且返回接受其余参数并返回结果的函数。
+
+function add(a,b){
+	return a+b;
+}
+柯里化
+function addCurrying(a){
+	return function(b){
+		return a+b;
+	}
+}
+
+
+函数柯里化
+const curry = fn => {
+  const _c = (restNum, argsList) => restNum === 0 ?
+    fn(...argsList) : x => _c(restNum - 1, [...argsList, x]);
+
+  return _c(fn.length, []);
+}
